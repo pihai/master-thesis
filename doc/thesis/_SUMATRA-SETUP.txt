@@ -1,0 +1,3 @@
+Viewer with Sumatra
+
+C:\Program Files\Sumatra\SumatraPDF-TeX.exe -inverse-search "\"C:\Program Files\TeXnicCenter\TEXCNTR.EXE\" /ddecmd \"[goto('%f','%l')]'\""

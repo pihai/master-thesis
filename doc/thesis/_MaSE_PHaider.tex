@@ -1,0 +1,42 @@
+%%% Einfaches Template für den Praktikumsbericht (2. Bachelorarbeit)
+
+\documentclass[master,german]{hgbthesis}
+
+\graphicspath{{images/}}    % wo liegen die Bilder? 
+\bibliography{literatur}  	% Angabe der BibTeX-Datei (bei Bedarf)
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+\title{Verteilte und Serverlose Softwarearchitektur}
+\author{Philipp Haider}
+\studiengang{Software Engineering}
+\studienort{Hagenberg}
+\abgabedatum{2017}{08}{07}
+\nummer{1510454013}    % XXXXXXXXXX = Stud-ID, z.B. 0310238045-B  (B = 2. Bachelorarbeit)
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+
+%%%----------------------------------------------------------
+
+%%%\include{kurzfassung}
+\tableofcontents
+
+%%%----------------------------------------------------------
+\mainmatter           %Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+%%%\include{einleitung}
+\include{chapters/microservices}
+
+%%%----------------------------------------------------------
+\MakeBibliography	% Quellenverzeichnis (sofern notwendig, sonst weglassen)
+%%%----------------------------------------------------------
+
+%%% Messbox zur Druckkontrolle
+\input{messbox.tex}
+
+\end{document}
