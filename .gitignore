@@ -327,3 +327,5 @@ $RECYCLE.BIN/
 *.out
 *.synctex.gz
 *.synctex
+*.run.xml
+*.bcf
