@@ -1,13 +1,21 @@
+%% File encoding: ASCII
 %% hgbthesis.cls
 %% Autor: Wilhelm Burger (wilhelm.burger@fh-hagenberg.at)
 %% Diese Datei ist Teil des hagenberg-Package zur Erstellung von 
 %% Bachelor- und Diplomarbeiten.
 
 \NeedsTeXFormat{LaTeX2e}
-\newcommand{\hgbthesisDate}{2013/05/17} %Versionsdatum
+\newcommand{\hgbthesisDate}{2015/09/19} %Versionsdatum
 \ProvidesClass{hgbthesis}[\hgbthesisDate\space LaTeX-Vorlage fuer Diplomarbeiten, Masterarbeiten, Bachelorarbeiten etc.]
 
+
+
 \RequirePackage{ifthen}
+
+\RequirePackage{ifpdf}	% for checking PDF mode 
+\ifpdf{}% \typeout{hgbthesis: *** LaTeX in PDF mode ***}
+\else{\errmessage{hgbthesis: *** LaTeX NOT running in PDF mode ***}}
+\fi
 
 \newcommand{\hgb@MainLanguage}{german}	% also referenced in hgb.sty
 \newcommand{\@matitelseiten}{}
@@ -33,7 +41,7 @@
 \RequirePackage{hgb}	% load associated style file hgb.sty
 
 
-%-------------- Setup für Seiten im Front-Teil --------------------
+%-------------- Setup fuer Seiten im Front-Teil --------------------
 
 \newcommand{\@studiengang}{\@MissingArg{Studiengang??}}
 \newcommand{\studiengang}[1]{%
@@ -70,6 +78,17 @@
 \newcommand{\@semester}{\@MissingArg{Semester??}}
 \newcommand{\semester}[1]{%
 	\renewcommand{\@semester}{#1}
+}
+
+\newcommand{\@logofile}[0]{}
+\newcommand{\logofile}[1]{%
+	\renewcommand{\@logofile}{#1}
+}
+
+\newcommand{\makelogo}[0]{%
+\ifthenelse{\equal{\@logofile}{}}%
+	{\vspace*{30mm}}%
+	{\includegraphics[height=30mm]{\@logofile}}%
 }
 
 %% -------------------------------------------------
@@ -120,44 +139,51 @@
 \renewcommand{\@license}{#1}
 }
 
-
 %------------------ Titelseiten -------------------
 
 %% deprecated - use \maketitle instead!
 \newcommand{\titelseite}{ 
   \ClassWarning{hgbthesis}{\noexpand\titelseite is deprecated - use \noexpand\maketitle instead}
   \maketitle
-} 
+}
+
+%% adds blank space after each letter (http://stackoverflow.com/a/3951837)
+\newcommand{\@addspaces}[1]{%  
+  \@tfor\letter:=#1\do{%
+    \letter\thinspace%	%\space
+  }%
+}
 
 \newcommand{\@batitel}{%
 \begin{titlepage}%
+\begin{german}
 \rule{0mm}{1mm}
-\vspace*{20mm}
-%\noindent Left side \hfill right side\\
+\vspace*{0mm}
 \begin{center}%
+	\normalfont
   \setlength{\unitlength}{1cm}
-  \begin{picture}(12,4)
-  %\thinlines\put(0,0){\framebox(12,4){}}
-  \put(0,1.8){\parbox{12cm}{\centering\LARGE\bf%
-    \setlength{\baselineskip}{20pt}%
-    \@title}}
-  \end{picture}
-    \vskip 10mm%
-    {\large\sc\@author}
-    \vskip 40mm%
-    {\Large B\,A\,C\,H\,E\,L\,O\,R\,A\,R\,B\,E\,I\,T}%
-    \vskip 8mm%
-    {\large\sf Nr.~\@nummer}
-    \vskip 8mm%
-    {\large eingereicht am} \vskip 1mm {Fachhochschul-Bachelorstudiengang}%
-    \vskip 4mm%
-    {\large\sc\@studiengang}%
-    \vskip 4mm%
-    {\large in \@studienort}%
-    \vskip 16mm%
-    {\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
-\end{center}\par
-  \vfil\null
+	\parbox[c][5cm][c]{12cm}{\centering\LARGE\bfseries%
+    \setlength{\baselineskip}{25pt}%
+    \@title}
+	\vskip 15mm%
+	{\large\scshape\@author}%
+	\vskip 15mm%
+	\makelogo%
+	\vskip 15mm%
+	{\Large\uppercase{\@addspaces{Bachelorarbeit}}}%
+	\vskip 4mm%
+  {\large Nr.~\@nummer}
+	\vskip 4mm%
+	{\large eingereicht am} \vskip 1mm {Fachhochschul-Bachelorstudiengang}%
+	\vskip 4mm%
+	{\large\@studiengang}%
+	\vskip 4mm%
+	{\large in \@studienort}%
+	\vskip 16mm%
+	{\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
+\end{center}%
+  \vfil%
+\end{german}
 \end{titlepage}%
 }
 
@@ -165,96 +191,97 @@
 \begin{titlepage}%
 \begin{german}
 \rule{0mm}{1mm}
-\vspace*{20mm}
-%\noindent Left side \hfill right side\\
+\vspace*{0mm}
 \begin{center}%
+	\normalfont
   \setlength{\unitlength}{1cm}
-  \begin{picture}(12,4)
-  %\thinlines\put(0,0){\framebox(12,4){}}
-  \put(0,1.8){\parbox{12cm}{\centering\LARGE\bf%
-    \setlength{\baselineskip}{20pt}%
-    \@title}}
-  \end{picture}
-    \vskip 10mm%
-    {\large\sc\@author}
-    \vskip 40mm%
-    {\Large M\,A\,S\,T\,E\,R\,A\,R\,B\,E\,I\,T}%
-    \vskip 20mm%
-    {\large eingereicht am} \vskip 1mm {Fachhochschul-Masterstudiengang}%
-    \vskip 4mm%
-    {\large\sc\@studiengang}%
-    \vskip 4mm%
-    {\large in \@studienort}%
-    \vskip 16mm%
-    {\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
-%   {\large im \@abgabemonat\ \@abgabejahr}%
-\end{center}\par
-  \vfil\null
+	\parbox[c][5cm][c]{12cm}{\centering\LARGE\bfseries%%
+    \setlength{\baselineskip}{25pt}%
+    \@title}
+	\vskip 15mm%
+	{\large\scshape\@author}%
+	\vskip 15mm%
+	\makelogo%
+	\vskip 15mm%
+	{\Large\uppercase{\@addspaces{Masterarbeit}}}%
+	\vskip 4mm%
+	{\large eingereicht am} \vskip 1mm {Fachhochschul-Masterstudiengang}%
+	\vskip 4mm%
+	{\large\@studiengang}%
+	\vskip 4mm%
+	{\large in \@studienort}%
+	\vskip 16mm%
+	{\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
+\end{center}%
+  \vfil%
 \end{german}
 \end{titlepage}%
 }
 
 \newcommand{\@datitel}{%
 \begin{titlepage}%
+\begin{german}
 \rule{0mm}{1mm}
-\vspace*{20mm}
-%\noindent Left side \hfill right side\\
+\vspace*{0mm}
 \begin{center}%
+	\normalfont
   \setlength{\unitlength}{1cm}
-  \begin{picture}(12,4)
-  %\thinlines\put(0,0){\framebox(12,4){}}
-  \put(0,1.8){\parbox{12cm}{\centering\LARGE\bf%
-    \setlength{\baselineskip}{20pt}%
-    \@title}}
-  \end{picture}
-    \vskip 10mm%
-    {\large\sc\@author}
-    \vskip 40mm%
-    {\Large D\,I\,P\,L\,O\,M\,A\,R\,B\,E\,I\,T}%
-    \vskip 20mm%
-    {\large eingereicht am} \vskip 1mm {Fachhochschul-Masterstudiengang}%
-    \vskip 4mm%
-    {\large\sc\@studiengang}%
-    \vskip 4mm%
-    {\large in \@studienort}%
-    \vskip 16mm%
-    {\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
-\end{center}\par
-  \vfil\null
+	\parbox[c][5cm][c]{12cm}{\centering\LARGE\bfseries%
+    \setlength{\baselineskip}{25pt}%
+    \@title}
+	\vskip 15mm%
+	{\large\scshape\@author}%
+	\vskip 15mm%
+	\makelogo%
+	\vskip 15mm%
+	{\Large\uppercase{\@addspaces{Diplomarbeit}}}%
+	\vskip 4mm%
+	{\large eingereicht am} \vskip 1mm {Fachhochschul-Diplomstudiengang}%
+	\vskip 4mm%
+	{\large\@studiengang}%
+	\vskip 4mm%
+	{\large in \@studienort}%
+	\vskip 16mm%
+	{\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
+\end{center}%
+  \vfil%
+\end{german}
 \end{titlepage}%
 }
 
 \newcommand{\@prtitel}{%
 \begin{titlepage}%
+\begin{german}
 \rule{0mm}{1mm}
-\vspace*{20mm}
-%\noindent Left side \hfill right side\\
+\vspace*{0mm}
 \begin{center}%
+	\normalfont
   \setlength{\unitlength}{1cm}
-  \begin{picture}(12,4)
-  %\thinlines\put(0,0){\framebox(12,4){}}
-  \put(0,1.8){\parbox{12cm}{\centering\LARGE\bf%
-    \setlength{\baselineskip}{20pt}%
-    Sichere und skalierbare Kommunikationsarchitekturen im Internet der Dinge (M4)}}
-  \end{picture}
-    \vskip 10mm%
-    {\large\sc\@author}
-    \vskip 40mm%
-    {\Large B\,A\,C\,H\,E\,L\,O\,R\,A\,R\,B\,E\,I\,T}%
-    \vskip 8mm%
-    {\large\sf Nr.~\@nummer}
-    \vskip 8mm%
-    {\large eingereicht am} \vskip 1mm {Fachhochschul-Bachelorstudiengang}%
-    \vskip 4mm%
-    {\large\sc\@studiengang}%
-    \vskip 4mm%
-    {\large in \@studienort}%
-    \vskip 16mm%
-    {\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
-\end{center}\par
-  \vfil\null
+	\parbox[c][5cm][c]{12cm}{\centering\LARGE\bfseries%
+    \setlength{\baselineskip}{25pt}%
+    Endbericht zum Berufspraktikum}
+	\vskip 15mm%
+	{\large\scshape\@author}%
+	\vskip 15mm%
+	\makelogo%
+	\vskip 15mm%
+	{\Large\uppercase{\@addspaces{Bachelorarbeit}}}%
+	\vskip 4mm%
+  {\large Nr.~\@nummer}
+	\vskip 4mm%
+	{\large eingereicht am} \vskip 1mm {Fachhochschul-Bachelorstudiengang}%
+	\vskip 4mm%
+	{\large\@studiengang}%
+	\vskip 4mm%
+	{\large in \@studienort}%
+	\vskip 16mm%
+	{\large im \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
+\end{center}%
+  \vfil%
+\end{german}
 \end{titlepage}%
 }
+
 
 %------------------ Copyright-Seite -------------------
 
@@ -266,8 +293,8 @@
 
 \newcommand{\@ccLicenseAt}{%
 Diese Arbeit wird unter den Bedingungen der \textsl{Creative Commons Lizenz} 
-\emph{Namens\-nennung--NichtKommerziell--Keine\-Bearbeitung Österreich} 
-(CC BY-NC-ND) veröffentlicht --
+\emph{Namens\-nennung--NichtKommerziell--Keine\-Bearbeitung \"Osterreich} 
+(CC BY-NC-ND) ver\"offentlicht --
 siehe \url{http://creativecommons.org/licenses/by-nc-nd/3.0/at/}.}
 
 \newcommand{\@ccLicenseEn}{%
@@ -362,17 +389,17 @@ im\\
 \end{center}
 }
 
-%% -------------- Erklärung / Declaration ---------
+%% -------------- Erklaerung / Declaration ---------
 
 \newcommand{\@erklaerungsseiteDe}{%
 \begin{german}
-\chapter{Erklärung}
+\chapter{Erkl\"arung}
 \noindent
-%Standardfassung der FH-OÖ ab 04.04.2012:
-Ich erkläre eidesstattlich, dass ich die vorliegende Arbeit selbstständig und ohne fremde Hilfe verfasst, 
+%Standardfassung der FH-OOe ab 04.04.2012:
+Ich erkl\"are eidesstattlich, dass ich die vorliegende Arbeit selbstst\"andig und ohne fremde Hilfe verfasst, 
 andere als die angegebenen Quellen nicht benutzt und die den benutzten Quellen entnommenen Stellen als 
-solche gekennzeichnet habe. Die Arbeit wurde bisher in gleicher oder ähnlicher Form keiner anderen 
-Prüfungsbehörde vorgelegt.
+solche gekennzeichnet habe. Die Arbeit wurde bisher in gleicher oder \"ahnlicher Form keiner anderen 
+Pr\"ufungsbeh\"orde vorgelegt.
 \par
 \vspace{10mm}
 \noindent
@@ -434,8 +461,8 @@ acknowledged. I further declare that this or similar work has not been submitted
 
 \renewcommand{\@prtitelseiten}{
 \@prtitel
-%\@firmenseite
-%\@erklaerungsseite
+\@firmenseite
+\@erklaerungsseite
 }
 
 %------------ Automatischer Eintrag der PDF Metadaten ------------
@@ -455,6 +482,8 @@ acknowledged. I further declare that this or similar work has not been submitted
 %%-------------------------------------------------------------
 
 \usepackage{hgbheadings}
+\usepackage{hgbabbrev}
+\usepackage{hgblistings}
 \usepackage{hgbbib}
 
 %%-------------------------------------------------------------
