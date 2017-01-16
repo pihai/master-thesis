@@ -1,0 +1,112 @@
+\chapter{Serverlose Softwarearchitektur}
+
+Jede zentral zur Verfügung gestellte Software Applikation bedeutet gleichzeitig auch nicht zu unterschätzenden Wartungsaufwand der Infrastruktur auf der sie läuft. Obwohl viele Technologien der vergangenen Jahre, wie etwa Hardware-Virtualisierung, Cloud-Computing und Software-Container die Arbeit bereits wesentlich erleichtern, ist für den Betrieb noch immer ein IT-Administrator oder sogar ein Entwickler notwendig.
+
+Für den Betrieb einer monolithischen Software hält sich der Aufwand für die Verwaltung der Infrastruktur in Grenzen, da die Software lediglich aus einer großen Applikation besteht und dementsprechend wenig Hardware-Ressourcen benötigt. Die Verwendung des Mircoservice-Architekturmuster verändertet diese Situation völlig. Denn in diesem Szenario besteht ein einzelnes System aus einer Vielzahl von kleinen Diensten, die möglichst isoliert voneinander ausgeführt werden. Dazu ist eine sehr flexible und agile Bereitstellung der erforderlichen Ressourcen notwendig.
+
+Cloud-Computing Anbieter bieten mit \textit{Infrastructure-as-a-Service} eine Möglichkeit, Server in wenigen Minuten bereitzustellen. Der Verwaltungsaufwand bleibt trotzdem relativ hoch, weil Betriebssystem-Updates, Sicherheit, Netzwerk, \usw in der Verantwortung des Verwenders liegen.
+
+Viele Standard-Applikationen benötigen kaum Kontrolle über die Umgebung in der sie ausgeführt werden. Für diesen Fall ist die Verwendung eines \textit{Platform-as-a-Service} Dienstes meistens sinnvoller als die von \textit{Infrastructure-as-a-Service}. Hier übernimmt also der \textit{PaaS}-Betreiber die vollständige Verwaltung auf Hardware und Betriebsystemebene, sodass der Verwender lediglich seine Anwendung im richtigen Format bereitstellen muss. Er hat nur noch aus einer abstrakten Sichtweise die Möglichkeit, die Kapazität und Skalierbarkeitseigenschaften seiner Anwendung zu beeinflussen. Die genaue Umsetzung übernimmt der Dienst-Anbieter als Dienstleistung.
+
+Die Grundidee die sich hinter \textit{Serverless Computing} verbirgt ist dem Anwendungsentwickler Möglichkeiten bereitzustellen, mit denen er Programme ausführen kann, ohne sich über Hardware oder Server Gedanken machen zu müssen. Bei \textit{IaaS} und \textit{PaaS} ist das nicht gegeben.
+
+Wie viele Konzepte im Microservice-Umfeld lässt sich auch Serverlose Softwarearchitektur nur schwer abgrenzen. Im nächsten Abschnitt werden die zwei zur Zeit häufigsten Ausprägungsformen näher definiert.
+
+\section{Arten Serverloser Softwarearchitektur}
+
+Serverlose Softwarearchitektur ist ein sehr junges Konzept, dessen weitere Zukunft noch offen ist. Derzeit haben sich aber schon zwei unterschiedliche Sichtweisen auf dieses Themengebiet herauskristallisiert \cite{ServerlessArchitectures}.
+
+In der älteren Sichtweise beschreibt der Begriff \textit{Serverlos} Applikationen die sehr stark auf vollständig verwaltete Dienste von Cloud Anbietern zurückgreifen. Darunter fallen beispielsweise Datenbanken, Authentifizierungs- oder Benachrichtigungssdienste. Dieser Ansatz ersetzt also einen Großteil der Logik auf der Serverseite durch derartige Dienste. Daher hat sich auch die Bezeichnung \textit{Backend-as-a-Service} dafür etabliert. Ein Teil der Logik muss aber dadurch vom Client übernommen werden. Aufgrund der großen Beliebtheit von JavaScript und den damit verbundenen Applikationsbibliotheken, sind die dafür benötigten \textit{Rich-Applications} relativ komfortabel umzusehen.
+
+Seit etwa 2014 hat sich die Sichtweise durch die Einführung des Dienstes \textit{AWS Lambda} von \textit{Amazon} etwas geändert. Dieser Dienst erlaubt es, einfache Ereignis-gesteuerte Funktionen zu schreiben, die in der Cloud in einer zustandslosen Ausführungsumgebung vollständig verwaltet laufen. Die Artefakte die der Entwickler erstellen muss sind einfache Funktionen wie sie in den meisten Programmiersprachen bekannt sind. Aus diesem Grund ist dieser Ansatz unter dem Namen \textit{Functions-as-a-Service} bekannt. Der folgenden Abschnitt beschäftigt sich intensiv mit dieser neuen Sichtweise auf Serverlose Softwarearchitektur.
+
+\section{Functions-as-a-Service}
+
+Im Grunde erlaubt es \textit{Functions-as-a-Service} kleine Aufgaben in Form von Funktionen zu programmieren und skalierbar ohne weiteren Aufwand in der Cloud zu betreiben. Der Entwickler kann sich voll auf die Kernfunktionalität seiner zu entwickelnden Software konzentrieren und muss sich nicht um Infrastrukturbelange kümmern.
+
+Wie in den allermeisten Programmiersprachen auch, sind Funktionen in diesem Kontext eine relativ kleine Code-Einheit die nach einer Aktivierung mit bestimmten Eingaben, Ausgaben produziert. Die Aktivierung erfolgt bei Programmiersprachen durch einen Funktionsaufruf. In \textit{FaaS} hingegen durch das auftreten bestimmter Ereignisse die der Entwickler festlegen kann. Beispiele für derartige Ereignisse sind:
+
+\begin{itemize}
+	\item Hinzufügen eines Eintrags in einer Datenbank oder Warteschlange
+	\item HTTP-Anfrage
+	\item Eine neue Nachricht in einem Messaging-System
+	\item Zeitgesteuerte Ereignisse
+\end{itemize}
+
+Eine Funktion ist nur dann sinnvoll, wenn sie auch Ausgaben oder zumindest Seiteneffekte produziert. Im Falle von \textit{FaaS} können diese wieder sehr vielfältig sein. Häufig aber ist das Ergebnis eine Interaktion mit einem anderen Cloud-Dienst:
+
+\begin{itemize}
+	\item Hinzufügen oder manipulieren von Daten in einer Datenbank
+	\item HTTP-Antwort
+	\item Versenden von Benachrichtigungen oder E-Mails
+\end{itemize}
+
+In den folgenden Abschnitten wird näher darauf eingegangen, in welchen Anwendungsgebieten der Einsatz von \textit{FaaS} sinnvoll ist und wie er sich von \textit{PaaS} unterscheidet.
+
+
+\subsection{Anwendungsgebiete}
+
+Für \textit{FaaS} gibt es in den verschiedensten Bereichen sinnvoll Anwendungsgebiete. Hauptsächlich werden sie aber für kleine und abgeschlossene Funktionalitäten herangezogen. Beispielsweise für die Konvertierung und Validierung von Daten. Eine Funktion kann dabei auf ein bestimmtes Ereignis, \zB dem Hinzufügen eines Elements in einer Warteschlange warten, und danach die gewünschte Funktionalität ausführen. Das Ergebnis der Funktion kann \zB automatisch in eine Datenbank gespeichert oder an ein anderes System gesendet werden.
+
+Microservice Architektur oder allgemeiner Cloud-Architekturen sind aufgrund ihrer großen Anzahl an Komponenten, wie verschiedenen Datenspeichern, Warteschlangen und Diensten, meist sehr komplex. Damit alle Einzelkomponenten in Summe ein funktionstüchtiges Gesamtsystem bilden, ist viel Logik notwendig, die die Komponenten verbindet und administriert. Im Englischen wird diese Art von Logik gerne als \textit{Glue-Clode} bezeichnet. Die Interaktion mit Cloud-Komponenten ist also ein essentieller Bestandteil von \textit{FaaS}. Darum ist das Programmiermodell sehr stark für diese Szenarien ausgelegt.
+
+Der Erfolg der Microservice Architektur und \textit{FaaS} führte bereits zur Entstehung eines möglicherweise neuen Paradigmas: \textit{Nanoservices} \cite{infoqFaaS}. Bei Microservices stehen einzelne Geschäftsanforderungen im Vordergrund. Mit Nanoservice werden einzelne Geschäftsanforderungen noch weiter auf Funktionsebene heruntergebrochen. Ein Beispiel für einen Microservice könnte die Abwicklung von Bestellungen sein, mit dem es möglich ist Bestellungen anzulegen, zu ändern oder zu verfolgen. Mit Nanoservices wäre jede einzelne dieser Funktionen ein eigener Dienst. Derzeit hat dieser Ansatz aber noch keine große Verbreitung.
+
+Amazon beschreibt in ihrem Whitepaper zu AWS Lambda wie klassische Drei-Schicht-Architektur, z.B. Web- oder Mobile-Anwendungen, mit Serverlosen Technologie umgesetzt werden können \cite{AwsMultiTier}. Darüber hinaus eignet sich \textit{FaaS} aber genau so gut für Microservice Architekturen. Die Einsatzgebiete sind daher sehr breit, was \textit{FaaS} zu einem mächtigen Werkzeug macht.
+
+Viel Potential besteht in neuen Domänen wie \textit{Internet of Things}, \textit{Chat-Bots} oder \textit{DevOps} \cite{NewStackAzurePreview}. In diesen Bereichen ist die Nachfrage nach kleinen skalierbaren Programmen, die sich einfach entwickeln lassen, sehr hoch. Durch die Einfachheit von \textit{FaaS} eignet es sich sehr gut für den Prototypenbau.
+
+\subsection{Beziehung zu Platform-as-a-Service}
+
+In vielen Bereichen überschneiden sich die Möglichkeiten von \textit{FaaS} mit anderen Konzepten wie \zB \textit{PaaS}. Dieser Umstand ist nicht weiter verwunderlich, da \textit{FaaS} auf der Basis von \textit{PaaS} aufbaut. Der signifikanteste Unterschied ist aber die Ereignis-gesteuerte Funktionsweise von \textit{FaaS}. Funktionen werden nach dem Auftreten eines bestimmten Ereignis nur für die Dauer einer Aktivierung ausgeführt. Daher bezahlt der Verwender auch nur die Anzahl der Aufrufe und die Dauer der Ausführungszeit. Bei \textit{PaaS} ist jedoch meistens zumindest eine Virtuelle-Maschine dauerhaft erforderlich, die auf Ereignisse warten kann. Der Verwender trägt also auch die Kosten dieser Maschine, wenn sie untätig ist.
+
+Skalierbarkeit ist in Cloud-Computing ein essentieller Faktor. \textit{PaaS} bietet dafür die Möglichkeit, abhängig von Metriken wie Prozessorlast, die Anzahl der Instanzen auf denen die Anwendung ausgeführt wird, dynamisch zu erhöhen oder zu verringern. Dieser Ansatz erfordert bereits sehr wenig manuelles Zutun. Aber \textit{FaaS} geht hier noch einen Schritt weiter und erfordert praktisch keine manuellen Handlungen um die Funktion skalierbar zu machen. Es ist die Aufgabe des Cloud Anbieters die Funktion automatisch skalierbar zu machen. Weil die Funktionen zustandslos sind, kann man sie einfach beliebig oft parallel ausführen.
+
+Die Verwendung von \textit{PaaS} schränkt Technologieentscheidungen sehr stark ein, weil man sich auf eine konkrete Platform bindet. Bei \textit{FaaS} hingegen ist die Auswahl an möglichen Programmiersprachen sehr breit. Laufen fügen Cloud Anbieter neue Sprachen hinzu. Damit ist die Technologieabhängigkeit durch die Verwendung von \textit{FaaS} sehr viel geringer.
+
+\subsection{Markt}
+
+Es gibt bereits einige Cloud Anbieter, die \textit{FaaS} anbieten. Darunter befinden sind alle namhaften Anbieter wie Amazon, Microsoft, IBM und Google. Die nachfolgenden Abschnitte zeigen die Funktionsweise und Prinzipien anhand von Microsoft Azure Functions, da diese Implementierung Open-Source verfügbar ist und somit tiefe Einblicke in die Umsetzung bietet. 
+
+Amazon AWS Lambda ist von allen Diensten am längesten am Markt und somit auch vom gebotenen Funktionsumfang am größten. Jedoch haben auch die anderen Anbieter das Potential und die Nachfrage von \textit{FaaS} erkannt und versuchen seither den Technologierückstand zu schließen.
+
+Derzeit befindet sich dieses doch recht neue Thema noch sehr stark im Wandel. Es ist sehr wahrscheinlich, dass sich einige Dinge in naher Zukunft ändern werden. Die Grundideen haben aber alle Anbieter ähnlich umgesetzt. Trotzdem unterscheiden sie sich in einzelnen Punkten:
+
+\begin{itemize}
+	\item Obwohl alle Anbieter die Zahl der unterstützten Programmiersprachen laufend nach oben schrauben, unterscheiden sich die einzelnen Anbieter hier doch sehr.
+	\item Auch wie das konkrete Skalierbarkeitsverhalten aussieht, muss beim jeweiligen Anbieter getestet werden.
+	\item Meistens sind nur andere Dienste innerhalb des selben Cloud Anbieters mit \textit{FaaS} integriert. Dadurch kann sehr leicht eine starke Abhängigkeit zum gewählten Anbieter entstehen.
+	\item Natürlich unterscheiden sie die einzelnen Angebote auch im Preis.
+\end{itemize}
+
+Schlusssatz
+
+\section{Azure Functions}
+
+% Irgendwo soll der unterschied zu containern klar werden
+
+
+% INDEX
+
+\iffalse
+Serverless
+- Intro
+  - What
+	- Why
+	- Amazn
+	- OSS
+	- Competitors
+- App Service Plan
+- Kudu (Jobs, Deploy, Kinds, Scripts)
+- Web Jobs SDK
+  - Glue code
+	- Locally / Dashboard
+	- Core Arch
+- Functions
+  - Script Host Architecture
+	- Dynamic Plan
+	- Scaling
+	- Threading
+- Perf Benchmarks
+- Pricing Comparison
+\fi
