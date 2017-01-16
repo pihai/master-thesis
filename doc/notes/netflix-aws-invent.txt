@@ -1,0 +1,6 @@
+Netflix lambda (https://aws.amazon.com/de/solutions/case-studies/netflix-and-aws-lambda/)
+
+Quotes: Computing technology is built with layers of abstraction. Many years ago we stopped using assembly language and wire protocols in favor of high level languages. Operating systems abstracted away the management of the hardware.
+
+- We use high-level languages and operating systems to abstract from low levels details.
+- The same is with serverless. We abstract from the underlying system and details

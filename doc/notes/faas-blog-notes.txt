@@ -1,0 +1,35 @@
+amazon serverless multitier architecture (https://d0.awsstatic.com/whitepapers/AWS_Serverless_Multi-Tier_Architectures.pdf)
+- FaaS is about triggered function which can be written in a variety of languages
+- Architectures suited for serverless computing
+  - Mobile backends
+  - Web Applications
+  - Microservices
+- Problems with Microservices (page 20 on german edition)
+  - Lot of code duplication and boilerplate code
+- Lambda resolves some issues of microservices through providing an easy to deploy functionality
+- Lambda is suited for Microservices as well as n-tier architectures
+
+the new stack (http://thenewstack.io/azure-functions-serverless-computing-handling-iot-devices/)
+- despite PaaS serverless gives language choice
+- processing IoT-Data, Chat bots, DevOps
+- dynamic Hosting plan - Truly pay what you use
+- Azure functions is the combination of web jobs sdk (bindings) and dynamic hosting plans
+- For example for CRUD in DocumentDb
+- Functions can be run/debugged locally
+- Functions is not tied to azure but can be run locally or on other environments
+- Functions is on a higher level than services
+- Functions can be seen as light weight processes
+- Serverless offerings differ in:
+  - language support
+  - time limits
+  - concurrency
+  - ease of integration
+
+Infoq FaaS, PaaS, and the ... (https://www.infoq.com/news/2016/06/faas-serverless-architecture)
+Originally, serverless meant that backend functionality was consumes through services such as authentication, database, messaging, ...
+No costs for waiting on http requests, only for the execution
+Cloud provider scales up when necessary
+List of providers
+nanoservices
+difference between paas and faas is that with paas the user still needs to think about scalability
+its hard to structure and maintain the big web of functions

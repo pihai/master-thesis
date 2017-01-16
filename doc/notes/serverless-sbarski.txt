@@ -1,0 +1,38 @@
+It frees you from the traditional cost of doing business such as provisioning servers, looking after infrastructure, patching software, or paying for unused computing resources. 
+
+Someone else manages the hardware
+
+Containers have their own problems. Not as easy as FaaS
+
+Focus on code instead of infrastructure
+
+Serverless doesn't dictate anything. It could be used for Microservices, REST Gateway, Compute Platform, DevOps, ...
+
+Having a lot of tiers can make applications very complex. Often Lambda can reduce a lot of these layers and make the system simpler.
+
+Rich clients are necessary for those things. Little application logic on the server.
+
+Als Entwickler ist es meistens nicht nötig das Rad neu zu erfinden. Die allermeisten wiederkehrenden Probleme sind bereits ausreichend gut gelöst. Stattdessen sollten sich Entwickler auf die für ihr Unternehmen einzigartigen Geschäftsprobleme kümmern.
+
+Refactor monolithic applications continuously to functions.
+
+Vendor lock in is a problem. Maybe use something like the serverless framework
+
+When to use serverless and when not? (page 12)
+- Startups can innovate quickly
+
+Not always benefitial to replace a whole backend system wie serverless. But in cases where it fits it's very scalable and easy to deploy.
+
+Lot of things are changing, compared to multi-layered applications, with relational databases and OR mappers. There is again a shift into thicker client applications which for example talk directly to a database as a servce. Of course this is not a silver bullet and maybe in a view years we discover that the way it was done in the past wasn't terrible at all.
+
+Maybe we are currently missing the right patterns to use serverless in a "safe"/"maintainable" way
+
+Use serverless for the parts where it fits, because this are the part you haven't to worry about then. This sould make the rest of the complicated backend system easier. 
+
+Cloud vendors want to push their serverless products. Nevertheless it's a gread product for certain things.
+
+Cloud vendors can operate serverless very cost effective.
+
+Functions: Security
+SF: Upgrade
+

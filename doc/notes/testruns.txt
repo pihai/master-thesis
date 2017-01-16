@@ -1,0 +1,18 @@
+for i in `seq 1 10`;
+do
+	echo Testing perf $i ...
+	wrk -t8 -c800 -d30s --timeout 5s https://hpfun.azurewebsites.net/api/AsyncHttpTrigger2?code=pqmq8egnw5ofgom4saa8gds4il2wcu0z9wler98jwi2j4i59815g9zihi7a4ewt8h1moyldi > results$i.txt
+	echo Sleeping ...
+	sleep 30s
+done
+
+
+
+chmod +x script-name-here.sh
+grep -i 'Requests/sec' *.txt
+
+run 1: 800 connections .. saturated at 500 req/sec
+run 2: only 10 seconds load and 20 s wait at 1000 connections, saturated much more quickly
+run 3: only 100 connections. didn't scale at all. saturated at 80 req/sec
+run 4: 1000 connections
+run 5: increase connections at each iteration of 100. Worked well until 5 minutes to 300 req/sec. than even decreased

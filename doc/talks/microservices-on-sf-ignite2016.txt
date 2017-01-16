@@ -1,0 +1,25 @@
+https://www.youtube.com/watch?v=sXZvbqkPu14
+
+Microservices ist alles bullshit (5:00):
+- Modularisierung auch mit OOP (Libs) möglich
+- Scaling auch möglich (einfach mehr instanszen)
+
+Wirkliche Vorteile von Mircroservices (10:00):
+- Scale Independently: Services unabhängig voneinander skalieren
+- Different Technology: Verschiedene Technologien einsetzen (Node, c#, ...)
+- Independent Deployments: Verschiedene Versionen ausrollen
+- Conflicting dependencies: Kann mit shared libs zum problem werden wenn dependencies verschiedene versionen einer shared lib inkludieren
+
+DefaultServices:
+- Sind die Services die automatisch mit der Applikation gestartet werden
+- Können auch leer sein
+- Service Instanzen können nämlich auch zur Laufzeit hinzugefügt werden
+- Registrierte Services können über die Management konsole oder über Powershell einfach gestartet werden
+
+Upgrade-Arten (27:00):
+- Delete and Upload
+- Rolling Upgrade
+- VIP Swap
+- Controlled Migration
+
+Service Endpoint Discover ist schwierig. Daher wird es von SF gemacht.
