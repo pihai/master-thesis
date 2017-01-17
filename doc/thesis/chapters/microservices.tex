@@ -1,23 +1,23 @@
 \chapter{Microservices}
 
-Der Begriff Microservices stifte derzeit noch große Verwirrung. Nicht nur weil er relativ neu ist, sondern auch weil er sehr breit gefächert ist und eine klare Abgrenzung kaum möglich ist. Im nachfolgenden Kapitel wird der Begriff Microservice ausführlich definiert, beschrieben und zu anderen Konzepten abgegrenzt.
+Der Begriff Microservices stiftet derzeit noch große Verwirrung. Nicht nur weil er relativ neu ist, sondern auch weil er sehr breit gefächert ist und eine klare Abgrenzung kaum möglich ist. Im nachfolgenden Kapitel wird der Begriff Microservice ausführlich definiert, beschrieben und zu anderen Konzepten abgegrenzt.
 
 \section{Was ist ein Microservice}
 
 Hinter Microservices verbirgt sich keine konkrete Technologie oder ein Konzept das aktiv entwickelt wurde. Vielmehr ist es ein Sammelbegriff der nachträglich für über die Jahre entstandener Praktiken, Methoden und Technologien, im Umfeld von komplexen Softwaresystemen, eingeführt wurde. Am häufigsten ist mit Microservices die sogenannte Microservice Architektur gemeint. Charakteristisch für dieses Softwarearchitekturmuster ist die Zerlegung eines Softwaresystems in kleine, autonome Dienste, die über ein leichtgewichtiges Kommunikationsprotokoll miteinander kommunizieren. Die Fähigkeiten eines einzelnen Dienstes ist genau auf die Geschäftsanforderungen eines bestimmten Unternehmens oder Einsatzgebietes zugeschnitten \cite{FowlerMS}. Die Verwendung dieses Muster bringt aber neben technischen Einflüssen, meistens auch organisatorische Einflüsse mit sich. Beispielsweise auf die Teamstruktur, Verantwortung, Continuous Integration und Testen, um nur einige davon zu nennen. Daher können mit dem Begriff Microservices viele verschiedene Aspekte gemeint sein.
 
-Um zu verstehen warum sich Microservices derart großer Beliebtheit erfreuen, ist es notwendig zu verstehen, wie die Architektur derartiger Systeme vor diesem Paradigmenwechsel ausgesehen hat. Dazu beschreibt der nächste Abschnitt den sogenannten monolithischen Ansatz und welche Probleme damit verbunden sind, die durch Microservices gelöst werden.
+Um den rasanten Verbreitung der Microservice Architektur zu verstehen, ist es notwendig die klassische Architektur derartiger Systeme zu kennen. Dazu beschreibt der nächste Abschnitt den sogenannten monolithischen Ansatz und welche Probleme damit verbunden sind, die durch Microservices gelöst werden.
 
-\subsection{Monolithische Ansatz}
+\subsection{Monolithischer Ansatz}
 
-Mittlerweile haftet der monolithischen Softwarearchitektur, zu unrecht, ein negativer Ruf an. Obwohl dieser Ansatz seit Jahrzehnten  in vielen Bereichen der Softwareindustrie sehr gut funktioniert. Im Java und .NET Umfeld war \bzw ist dieser Ansatz noch immer gängige Praxis. Dennoch wird er vielerorts von der Microservice Architektur abgelöst. Doch was macht eine Anwendung überhaupt zu einem monolithischen Anwendung?
+Mittlerweile haftet der monolithischen Softwarearchitektur ein negativer Ruf an. Jedoch zu unrecht, da dieser Ansatz seit Jahrzehnten  in vielen Bereichen der Softwareentwicklung sehr gut funktioniert. Im Java und .NET Umfeld war \bzw ist dieser Ansatz noch immer gängige Praxis. Dennoch wird er vielerorts von der Microservice Architektur abgelöst. Doch was macht eine Anwendung überhaupt zu einer monolithischen Anwendung?
 
 Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, in der verschiedene Geschäftsbereiche oder Funktionalitäten als eine einzige Anwendung zusammengeschlossen sind \cite{FowlerMS}. Intern kann die Applikation beispielsweise als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei-Schicht-Architektur mit folgenden Bestandteilen \cite{FowlerPEA}:
 
 \begin{itemize}
 	\item \textbf{Präsentationsschicht:} Hier ist jener Quelltext angesiedelt, der sich mit der Darstellung der Benutzerschnittstelle, \zB als Web- oder Desktop-Anwendung auseinandersetzt.
-	\item \textbf{Geschäftslogikschicht:} Diese Schicht stellt den Kern der Anwendung dar. Sie enthält alle Geschäfts-relevanten Funktionen.
-	\item \textbf{Datenzugriffsschicht}: In dieser Schicht befindet sich die Funktionalität die zum Zugriff auf externen Datenquellen, wie \zB einer relationalen Datenbank, notwendig ist.
+	\item \textbf{Geschäftslogikschicht:} Diese Schicht stellt den Kern der Anwendung dar. Sie enthält alle geschäftsrelevanten Funktionen.
+	\item \textbf{Datenzugriffsschicht}: In dieser Schicht befindet sich die Funktionalität, die zum Zugriff auf externe Datenquellen, wie \zB einer relationalen Datenbank, notwendig ist.
 \end{itemize}
 
 
@@ -41,25 +41,25 @@ In Abbildung \ref{fig:layered-architecture} ist der Aufbau einer monolithischen 
 
 \subsubsection{Nachteile und Schwierigkeiten}
 
-Mit steigender Komplexität der Software, kommen nach und nach Probleme zum Vorschein, der diesen Ansatz aufwändig oder sogar unpraktikabel machen. Eines der Hauptprobleme ist bei Internetweiten Anwendungen die Skalierbarkeit. Die einzige Möglichkeit eine monolithischen Anwendung zu skalieren ist auf mehreren Servern jeweils eine Instanz des Monolithen zu installieren und über einen Load-Blancer zu verbinden. Abbildung \ref{fig:monolith-scale} zeigt wie ein solcher Aufbau aussehen kann. In vielen Einsatzgebieten ist dieser Ansatz aber nicht feingranular genug. Oft ist es sinnvoller nur bestimmte Teile es Gesamtsystems zu skalieren.
+Mit steigender Komplexität der Software kommen nach und nach Probleme zum Vorschein, die diesen Ansatz aufwändig oder sogar unpraktikabel machen. Eine der größten Herausforderungen bei der Entwicklung von Anwendungen mit globaler Reichweite ist die Skalierbarkeit. Die einzige Möglichkeit eine monolithische Anwendung zu skalieren, ist auf mehreren Servern jeweils eine Instanz der Anwendung zu installieren und über einen Load-Balancer zu verbinden. Abbildung \ref{fig:monolith-scale} zeigt wie ein solcher Aufbau aussehen kann. In vielen Einsatzgebieten ist dieser Ansatz aber nicht feingranular genug. Oft ist es sinnvoller, nur bestimmte Teile des Gesamtsystems zu skalieren.
 
-Ein Monolith stößt aber nicht nur aus technischer Sicht auf Skalierbarkeitsprobleme, sondern auch aus organisatorischer Sicht. Alle Entwickler arbeiten zwangsläufig an der gleichen Codebasis, die dadurch enorme Größe annehmen kann. Kein einzelner Entwickler ist mehr in der Lage die ganze Codebasis zu überblicken und zu beurteilten welche Auswirkung eine Änderung haben kann. Das führt über kurz oder lang zur Verlangsamung der Entwicklungsgeschwindigkeit oder sogar zu völligem Stillstand.
+Ein Monolith stößt aber nicht nur aus technischer Sicht auf Skalierbarkeitsprobleme, sondern auch aus organisatorischer Sicht. Alle Entwickler arbeiten zwangsläufig an der gleichen Codebasis, die dadurch enorme Größe annehmen kann. Kein einzelner Entwickler ist mehr in der Lage, die ganze Codebasis zu überblicken und zu beurteilen, welche Auswirkung eine Änderung haben kann. Das führt über kurz oder lang zur Verlangsamung der Entwicklungsgeschwindigkeit oder sogar zu völligem Stillstand.
 
-Anforderungen an eine Software ändern sich häufig sehr rasch. Agile Softwareprozesse unterstützen dabei, die geänderten Anforderung zeitnahe in die Software einfließen zu lassen. Für den Kunden \bzw Endbenutzer zählt nur die schnellstmögliche Umsetzung seiner neuen Anforderungen. In einer monolithischen Anwendung sind mehrere Geschäftsbereiche zusammengefasst. Somit muss die Anwendung immer als ganzes getestet und ausgerollt werden. Dadurch verlangsamt sich der gesamte Releasezyklus auf den langsamsten Teilbereich, obwohl vielleicht der geänderte Teilbereich schon längst fertiggestellt ist.
+Anforderungen an eine Software ändern sich häufig sehr rasch. Agile Softwareprozesse unterstützen dabei, die geänderten Anforderungen zeitnahe in die Software einfließen zu lassen. Für den Kunden \bzw Endbenutzer zählt nur die schnellstmögliche Umsetzung seiner neuen Anforderungen. In einer monolithischen Anwendung sind mehrere Geschäftsbereiche zusammengefasst. Somit muss die Anwendung immer als ganzes getestet und ausgerollt werden. Dadurch verlangsamt sich der gesamte Releasezyklus auf den langsamsten Teilbereich, obwohl vielleicht der geänderte Teilbereich schon längst fertiggestellt ist.
 
 Hinter einer monolithischen Anwendung steht immer eine bestimmte Technologie oder eine Sammlung von mehreren Technologien, wie \zB Java EE oder ASP.NET. Somit müssen alle Teilbereiche der Anwendung auf die selben Technologien zurückgreifen. Für manche Teilbereiche könnte aber möglicherweise die Verwendung von alternativen Technologien und Speichersystemen große Vorteile bringen.
 
 In diesem Abschnitt wurden einige der Hauptkritikpunkte am monolithischen Architekturmuster angeführt. Es mag den Anschein vermittelt haben, dass dieser Ansatz nicht mehr verwendet werden soll oder veraltet ist. Aber das ist so nicht der Fall. Viele Experten sind der Meinung, dass gerade am Anfang eines Projekts der monolithische Ansatz zu bevorzugen ist \cite{FowlerMolithFist}. Erst nachdem das Verständnis für die Domäne vorhanden ist und Anforderungen klarer sind, ist der fließende Übergang zu einer Microservice Architektur einfacher und sinnvoll. 
 
-\section{Charakteristiken eines Microservice}
+\section{Charakteristiken von Microservices}
 
-Dieser Abschnitt beschreibt einige charakteristische Merkmale eines Microservice. Wie bereits erwähnt, gibt es keine eindeutige Definition eines Microservice. Daher ist es sinnvoller, allgemeine anerkannte Charakteristiken der Microservice Architektur zu betrachten.
+Dieser Abschnitt beschreibt einige charakteristische Merkmale eines Microservices. Wie bereits erwähnt, gibt es keine eindeutige Definition eines Microservices. Daher ist es sinnvoller, allgemeine anerkannte Charakteristiken der Microservice Architektur zu betrachten.
  
 \citeauthor{FowlerMS} identifizierte in \cite{FowlerMS} neun Charakteristiken von Microservices. Obwohl diese Liste bereits sehr exhaustiv ist, sind immer wieder sinnvolle Ergänzungen, wie in \cite{HorsdalMS} zu finden. Die nachfolgenden Abschnitte beschreiben eine repräsentative Auswahl dieser Charakteristiken.
 
 \subsection{Organisation um Geschäftskompetenzen}
 
-Normalerweise sind Softwareentwicklungsteams anhand ihrer technologischen Spezialisierung in Teams eingeteilt:
+Normalerweise sind Softwareentwicklungsteams anhand ihrer technologischen Spezialisierung \zB in folgende Teams eingeteilt:
 
 \begin{itemize}
 	\item Front-End Entwickler
@@ -78,28 +78,28 @@ Was aber dennoch eine große Herausforderung bleibt, ist die Definition des Aufg
 \end{quote}
 \end{english}
 
-Das aus der objektorientierten Programmierung bekannte Entwurfsprinzip kann auch im Kontext von Microservices angewandt werden. Es erweitert diesen Grundsatz von der Klassen-Ebenen auf die Dienst-Ebene. Das heißt jeder Dienst soll genau eine Fähigkeit realisieren. Damit ist sichergestellt, dass geänderte Geschäftsanforderungen so wenig Microservices wie notwendig beeinflussen.
+Das aus der objektorientierten Programmierung bekannte Entwurfsprinzip kann auch im Kontext von Microservices angewandt werden. Es erweitert diesen Grundsatz von der Klassen-Ebene auf die Dienst-Ebene. Das heißt, jeder Dienst soll genau eine Fähigkeit realisieren. Damit ist sichergestellt, dass geänderte Geschäftsanforderungen so wenig wie möglich andere Microservices beeinflussen.
 
 \subsection{Modularisierung durch Dienste}
 \label{subsec:Componentization}
 
-Seit Jahrzehnten strebt die Softwareentwicklungsbranche danach, komplexe Softwaresysteme einfach durch die Integration verschiedener Komponenten realisieren zu können. Durch dieses jahrelange bestreben und unterschiedlichste Ansätze ist leider auch der Begriff Komponente sehr überstrapaziert und hat dementsprechend viele unterschiedliche Bedeutungen. Beispielsweise in der objektorientierten Programmierung kann eine Klasse als Komponente betrachtet werden. Darüber hinaus gibt es noch viele weitere Bedeutungen.
+Seit Jahrzehnten strebt die Softwareentwicklungsbranche danach, komplexe Softwaresysteme einfach durch die Integration verschiedener Komponenten realisieren zu können. Durch dieses jahrelange bestreben und unterschiedlichste Ansätze ist leider auch der Begriff Komponente sehr überstrapaziert und hat dementsprechend viele unterschiedliche Bedeutungen. Beispielsweise in der objektorientierten Programmierung, kann eine Klasse als Komponente betrachtet werden. Darüber hinaus gibt es noch viele weitere Bedeutungen.
 
 Auch wenn die konkrete Umsetzung einer Komponente sehr vielfältig sein kann, haben alle Arten die selben Ziele:
 
 \begin{itemize}
-	\item \textbf{Austauschbarkeit:} Es soll möglich sein, eine Komponenten durch eine andere zu ersetzen. 
-	\item \textbf{Wiederverwendbarkeit:} Eine entwickelte Komponenten sollen auch in anderen Systemen wiederverwendet werden können.
+	\item \textbf{Austauschbarkeit:} Es soll möglich sein, eine Komponente durch eine andere zu ersetzen. 
+	\item \textbf{Wiederverwendbarkeit:} Eine entwickelte Komponente soll auch in anderen Systemen wiederverwendet werden können.
 	\item \textbf{Aktualisierbarkeit:} Durch die Austauschbarkeit ist es automatisch möglich, eine Komponente durch eine neuere Version zu ersetzen, ohne den Rest der Anwendung zu beeinflussen.
 \end{itemize}
 
-Im Kontext der monolithischen Softwarearchitektur sind am häufigsten die Begriffe Modul oder Software-Bibliothek stellvertretend für den Begriff Komponente. Eine Anwendung besteht somit aus einer Menge von Modulen die miteinander verbunden sind. Leider erfüllt dieser Ansatz die zuvor beschriebenen gewünschten Eigenschaften der Komponenten-Orientierung nicht ganz zufriedenstellend. Abhängigkeiten zwischen den einzelnen Modulen oder bestimmte Voraussetzungen an das Laufzeitsystem der monolithischen Anwendung können es schnell verhindert, ein Modul zu aktualisieren. Somit sind die verwendeten Komponenten nicht völlig voneinander unabhängig, sondern haben versteckte Abhängigkeiten.
+Im Kontext der monolithischen Softwarearchitektur sind am häufigsten die Begriffe Modul oder Software-Bibliothek stellvertretend für den Begriff Komponente. Eine Anwendung besteht somit aus einer Menge von Modulen, die miteinander verbunden sind. Leider erfüllt dieser Ansatz die zuvor beschriebenen gewünschten Eigenschaften der Komponenten-Orientierung nicht ganz zufriedenstellend. Abhängigkeiten zwischen den einzelnen Modulen oder bestimmte Voraussetzungen an das Laufzeitsystem der monolithischen Anwendung können es schnell verhindern, ein Modul zu aktualisieren. Somit sind die verwendeten Komponenten nicht völlig voneinander unabhängig, sondern haben versteckte Abhängigkeiten.
 
 In einer Microservice-Architektur ist mit Komponente ein einzelner Dienst gemeint. Damit ist jede Komponente ein eigener Prozess, der über ein Kommunikationsprotokoll mit anderen Komponenten interagiert. Mit diesem Ansatz lassen sich die gewünschten Eigenschaften viel leichter realisieren.
 
 \subsection{Dezentrale Datenverwaltung}
 
-Eine monolithische Anwendung legt sehr häufig alle persistenten Daten in einer einzigen, \zB relationalen, Datenbank ab. In einer Microservice Architektur ist dieser Ansatz nicht mehr empfehlenswert. Jede Datenart sollen nur von einem Dienst verwaltet werden und nicht einfach direkt von einem anderen Dienst aus der Datenbank gelesen werden. Dadurch werden die Abhängigkeiten auf ein Minimum reduziert, denn andere Dienste können nur über die Schnittstelle des bereitstellenden Dienstes Daten abfragen und manipulieren. Dieses Anti-Pattern ist noch einmal in Abbildung \ref{fig:central-datastore} verdeutlicht.
+Eine monolithische Anwendung legt sehr häufig alle persistenten Daten in einer einzigen relationalen Datenbank ab. Jeder Programmteil greift einfach auf die benötigten Daten direkt zu. Dieser Ansatz ist in Abbildung \ref{fig:central-datastore} dargestellt. In einer Microservice Architektur ist dieser Ansatz nicht mehr empfehlenswert. Persistente Daten eines bestimmten Geschäftsbereichs sollen nur von einem einzigen Dienst verwaltet werden. Direkter Zugriff auf diese Daten durch andere Dienste führt zu unerwünschten Abhängigkeiten. Andere Dienste müssen Daten über die öffentliche Schnittstelle des zuständigen Microservices abfragen oder verändern.
 
 \begin{figure}[h]
   \centering
@@ -108,7 +108,7 @@ Eine monolithische Anwendung legt sehr häufig alle persistenten Daten in einer 
 	\label{fig:central-datastore}
 \end{figure}
 
-Wenn jeder Dienst, wie in Abbildung \ref{fig:polyglot-persistnace}, seinen eigenen Datenspeicher besitzt, kann für die Erfüllung seiner Aufgabe der optimale Speichermechanismus ausgewählt werden. Beispielsweise können Daten mit komplexen Beziehung in einer Graph-Datenbank abgelegt werden. Jedoch einfache Daten in einem schnellen Key-Value-Speicher.
+Wenn jeder Dienst wie in Abbildung \ref{fig:polyglot-persistnace} seinen eigenen Datenspeicher besitzt, kann für die Erfüllung seiner Aufgabe der optimale Speichermechanismus ausgewählt werden. Beispielsweise können Daten mit komplexen Beziehung in einer Graph-Datenbank abgelegt werden. Jedoch einfache Daten in einem schnellen Key-Value-Speicher.
 
 \begin{figure}[h]
   \centering
