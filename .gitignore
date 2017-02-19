@@ -330,3 +330,4 @@ $RECYCLE.BIN/
 *.run.xml
 *.bcf
 *.tps
+*.vscodeLog

@@ -1,0 +1,20 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.bcf": true,
+    "**/*.blg": true,
+    "**/*.synctex": true,
+    "**/*.tps": true,
+    "**/*.toc": true,
+    "**/*.log": true,
+    "**/*.run.xml": true,
+    "**/*.out": true
+  },
+  "latexCompile.mainFile": "_thesis.tex"
+}
