@@ -443,7 +443,7 @@ acknowledged. I further declare that this or similar work has not been submitted
 
 \renewcommand{\@matitelseiten}{
 \@matitel
-\@copyrightseite
+%\@copyrightseite
 \@erklaerungsseite
 }
      
