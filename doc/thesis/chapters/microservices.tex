@@ -17,11 +17,10 @@ Mittlerweile haftet der monolithischen Softwarearchitektur ein negativer Ruf an.
 Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, in der verschiedene Geschäftsbereiche oder Funktionalitäten als eine einzige Anwendung zusammengeschlossen sind \cite{FowlerMS}. Intern kann die Applikation beispielsweise als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei-Schicht-Architektur mit folgenden Bestandteilen \cite[19]{FowlerPEA}:
 
 \begin{itemize}
-	\item \textbf{Präsentationsschicht:} Hier ist jener Quelltext angesiedelt, der sich mit der Darstellung der Benutzerschnittstelle, \zB als Web- oder Desktop-Anwendung auseinandersetzt.
+	\item \textbf{Präsentationsschicht:} Hier ist jener Quelltext angesiedelt, der sich mit der Darstellung der Benutzerschnittstelle, \zB in Form einer Web- oder Desktop"=Anwendung auseinandersetzt.
 	\item \textbf{Geschäftslogikschicht:} Diese Schicht stellt den Kern der Anwendung dar. Sie enthält alle geschäftsrelevanten Funktionen.
 	\item \textbf{Datenzugriffsschicht}: In dieser Schicht befindet sich die Funktionalität, die zum Zugriff auf externe Datenquellen, wie \zB einer relationalen Datenbank, notwendig ist.
 \end{itemize}
-
 
 In Abbildung \ref{fig:layered-architecture} ist der Aufbau einer monolithischen Anwendung mit Drei-Schicht-Architektur skizziert. Der Zugriff darf jeweils nur auf die direkt darunterliegende Schicht erfolgen. Innerhalb jeder Schicht ist eine Modularisierung in verschiedene Bereiche, die auf die Geschäftsfunktionen abgestimmt sind, sinnvoll.
 
@@ -95,9 +94,9 @@ Auch wenn die konkrete Umsetzung einer Komponente sehr vielfältig sein kann, ha
 	\item \textbf{Aktualisierbarkeit:} Durch die Austauschbarkeit ist es automatisch möglich, eine Komponente durch eine neuere Version zu ersetzen, ohne den Rest der Anwendung zu beeinflussen.
 \end{itemize}
 
-Im Kontext der monolithischen Softwarearchitektur sind am häufigsten die Begriffe Modul oder Software-Bibliothek ein Synonym für den Begriff Komponente. Eine Anwendung besteht somit aus einer Menge von Modulen, die miteinander verbunden sind. Leider erfüllt dieser Ansatz die zuvor beschriebenen gewünschten Eigenschaften der Komponenten-Orientierung nicht ganz zufriedenstellend. Abhängigkeiten zwischen den einzelnen Modulen oder bestimmte Voraussetzungen an das Laufzeitsystem der monolithischen Anwendung können das Aktualisieren eines Moduls wesentlich erschweren. Somit sind die verwendeten Komponenten nicht völlig voneinander unabhängig, sondern haben versteckte Abhängigkeiten.
+Im Kontext der monolithischen Softwarearchitektur sind am häufigsten die Begriffe Modul oder Software-Bibliothek ein Synonym für den Begriff Komponente. Eine Anwendung besteht somit aus einer Menge von Modulen, die miteinander verbunden sind. Leider erfüllt dieser Ansatz die zuvor beschriebenen gewünschten Eigenschaften der Komponenten"=Orientierung nicht ganz zufriedenstellend. Abhängigkeiten zwischen den einzelnen Modulen oder bestimmte Voraussetzungen an das Laufzeitsystem der monolithischen Anwendung können das Aktualisieren eines Moduls wesentlich erschweren. Somit sind die verwendeten Komponenten nicht völlig voneinander unabhängig, sondern haben versteckte Abhängigkeiten.
 
-In einer Microservice"=Architektur ist mit Komponente ein einzelner Dienst gemeint. Damit ist jede Komponente ein eigener Prozess, der über ein Kommunikationsprotokoll mit anderen Komponenten interagiert. Mit diesem Ansatz lassen sich die gewünschten Eigenschaften viel leichter realisieren.
+In einer Microservice"=Architektur wird die Modularisierung eines Softwaresystems, durch die Zerlegung in mehrere Services erreicht. Im Unterschied zu einer Komponente, stehen bei einem Service die Bedürfnisse des Service"=Konsumenten im Vordergrund. Jeder Service ist ein eigener Prozess, der über ein Kommunikationsprotokoll mit anderen Services und seinen Konsumenten interagiert. Mit diesem Ansatz lassen sich die gewünschten Eigenschaften viel leichter realisieren.
 
 \subsection{Dezentrale Datenverwaltung}
 
@@ -119,7 +118,7 @@ Wenn jeder Dienst wie in Abbildung \ref{fig:polyglot-persistnace} seinen eigenen
 	\label{fig:polyglot-persistnace}
 \end{figure}
 
-Auch eine monolithische Anwendung könnte Gebrauch von mehreren Datenbanken machen. Dieser Ansatz ist unter dem Namen Polyglot Persistence bekannt \cite{FowlerPP}. Aus teilweise sehr vielfältigen Gründen ist er aber selten anzutreffen. Dazu zählen beispielsweise folgende:
+Auch eine monolithische Anwendung könnte Gebrauch von mehreren Datenbanken machen. Dieser Ansatz ist unter dem Namen \textit{Polyglot Persistence} bekannt \cite{FowlerPP}. Aus teilweise sehr vielfältigen Gründen ist er aber selten anzutreffen. Dazu zählen beispielsweise folgende:
 
 \begin{itemize}
   \item Die IT-Strategie einiger Unternehmen sehen nur die Verwendung ganz bestimmter Datenbanken vor.
