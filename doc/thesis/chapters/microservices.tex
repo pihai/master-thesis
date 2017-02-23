@@ -4,16 +4,17 @@ Der Begriff Microservices stiftet derzeit noch große Verwirrung. Nicht nur weil
 
 \section{Was ist ein Microservice}
 
+Der Begriff \textit{Microservice} ist aus den Wörtern "`Micro"' -- also klein -- und "`Service"' zusammengesetzt. Ein Service, oder gleichbedeutend auch Dienst,  Bezeichnet in der Softwareentwicklung einen Mechanismus zum Bereitstellen von Ressourcen und Funktionen \cite[12]{Brown06referencemodel}. Der sogenannte Service"=Anbieter stellt den Service beliebigen, teilweise unbekannten, Service"=Konsumenten zur Verfügung. Die Schnittstelle des Service ist in der Service"=Beschreibung eindeutig festgelegt und den Service-Konsumenten bekannt.
 
-Hinter Microservices verbirgt sich keine konkrete Technologie oder ein Konzept, das aktiv entwickelt wurde. Vielmehr ist es ein Sammelbegriff, der nachträglich für über die Jahre entstandener Praktiken, Methoden und Technologien im Umfeld von komplexen Softwaresystemen eingeführt wurde. Am häufigsten ist mit Microservices die sogenannte Microservice-Architektur gemeint. Charakteristisch für dieses Softwarearchitekturmuster ist die Zerlegung eines Softwaresystems in kleine, autonome Dienste, die über ein leichtgewichtiges Kommunikationsprotokoll miteinander kommunizieren. Die Fähigkeiten eines einzelnen Dienstes ist genau auf die Geschäftsanforderungen eines bestimmten Unternehmens oder Einsatzgebietes zugeschnitten \cite{FowlerMS}. Die Verwendung dieses Muster bringt aber neben technischen Einflüssen meistens auch organisatorische Einflüsse mit sich. Die Microservice-Architektur hat Auswirkungen auf die Teamstruktur, Verantwortung, Continuous Integration, Testen und viele andere Bereiche. Daher können mit dem Begriff Microservices viele verschiedene Aspekte gemeint sein.
+Hinter Microservices verbirgt sich keine konkrete Technologie oder ein Konzept, das aktiv entwickelt wurde. Vielmehr ist es ein Sammelbegriff, der nachträglich für über die Jahre entstandener Praktiken, Methoden und Technologien im Umfeld von komplexen Softwaresystemen eingeführt wurde. Am häufigsten ist mit Microservices die sogenannte Microservice"=Architektur gemeint. Charakteristisch für dieses Softwarearchitekturmuster ist die Zerlegung eines Softwaresystems in kleine, autonome Dienste, die über ein leichtgewichtiges Kommunikationsprotokoll miteinander kommunizieren. Die Fähigkeiten eines einzelnen Dienstes ist genau auf die Geschäftsanforderungen eines bestimmten Unternehmens oder Einsatzgebietes zugeschnitten \cite{FowlerMS}. Die Verwendung dieses Muster bringt aber neben technischen Einflüssen meistens auch organisatorische Einflüsse mit sich. Die Microservice"=Architektur hat Auswirkungen auf die Teamstruktur, Verantwortung, Continuous Integration, Testen und viele andere Bereiche. Daher können mit dem Begriff Microservices viele verschiedene Aspekte gemeint sein.
 
 Um den rasanten Verbreitung der Microservice Architektur zu verstehen, ist es notwendig die klassische Architektur derartiger Systeme zu kennen. Dazu beschreibt der nächste Abschnitt den sogenannten monolithischen Ansatz, die damit verbundenen Probleme und Herausforderungen.
 
 \subsection{Monolithischer Ansatz}
 
-Mittlerweile haftet der monolithischen Softwarearchitektur ein negativer Ruf an. Jedoch zu Unrecht, da dieser Ansatz seit Jahrzehnten  in vielen Bereichen der Softwareentwicklung sehr gut funktioniert. Im Java- und .NET-Umfeld war \bzw ist dieser Ansatz noch immer gängige Praxis. Dennoch wird er vielerorts von der Microservice-Architektur abgelöst. Doch was macht eine Anwendung überhaupt zu einer monolithischen Anwendung?
+Mittlerweile haftet der monolithischen Softwarearchitektur ein negativer Ruf an. Jedoch zu Unrecht, da dieser Ansatz seit Jahrzehnten  in vielen Bereichen der Softwareentwicklung sehr gut funktioniert. Im Java- und .NET-Umfeld war \bzw ist dieser Ansatz noch immer gängige Praxis. Dennoch wird er vielerorts von der Microservice"=Architektur abgelöst. Doch was macht eine Anwendung überhaupt zu einer monolithischen Anwendung?
 
-Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, in der verschiedene Geschäftsbereiche oder Funktionalitäten als eine einzige Anwendung zusammengeschlossen sind \cite{FowlerMS}. Intern kann die Applikation beispielsweise als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei-Schicht-Architektur mit folgenden Bestandteilen \cite{FowlerPEA}:
+Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, in der verschiedene Geschäftsbereiche oder Funktionalitäten als eine einzige Anwendung zusammengeschlossen sind \cite{FowlerMS}. Intern kann die Applikation beispielsweise als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei-Schicht-Architektur mit folgenden Bestandteilen \cite[19]{FowlerPEA}:
 
 \begin{itemize}
 	\item \textbf{Präsentationsschicht:} Hier ist jener Quelltext angesiedelt, der sich mit der Darstellung der Benutzerschnittstelle, \zB als Web- oder Desktop-Anwendung auseinandersetzt.
@@ -54,9 +55,9 @@ In diesem Abschnitt wurden einige der Hauptkritikpunkte am monolithischen Archit
 
 \section{Charakteristiken von Microservices}
 
-Dieser Abschnitt beschreibt einige charakteristische Merkmale eines Microservice. Wie bereits erwähnt, gibt es keine eindeutige Definition eines Microservice. Daher ist es sinnvoller, allgemeine anerkannte Charakteristiken der Microservice-Architektur zu betrachten.
+Dieser Abschnitt beschreibt einige charakteristische Merkmale eines Microservice. Wie bereits erwähnt, gibt es keine eindeutige Definition eines Microservice. Daher ist es sinnvoller, allgemeine anerkannte Charakteristiken der Microservice"=Architektur zu betrachten.
  
-\citeauthor{FowlerMS} identifizierte in \cite{FowlerMS} neun Charakteristiken von Microservices. Obwohl diese Liste bereits sehr umfangreich ist, sind immer wieder sinnvolle Ergänzungen, wie in \cite{HorsdalMS} zu finden. Die nachfolgenden Abschnitte beschreiben eine repräsentative Auswahl dieser Charakteristiken.
+\citeauthor{FowlerMS} identifizierte in \cite{FowlerMS} neun Charakteristiken von Microservices. Obwohl diese Liste bereits sehr umfangreich ist, sind immer wieder sinnvolle Ergänzungen, wie in \cite[3-9]{HorsdalMS} zu finden. Die nachfolgenden Abschnitte beschreiben eine repräsentative Auswahl dieser Charakteristiken.
 
 \subsection{Organisation um Geschäftskompetenzen}
 
@@ -71,7 +72,7 @@ Normalerweise sind Softwareentwicklungsteams anhand ihrer technologischen Spezia
 
 Durch die Microservice-Kultur hat sich aber eine andere Art der Teamstrukturierung etabliert. Für jede Geschäftskompetenz ist genau ein Team, welches intern aus einer kleinen Anzahl an den eingangs genannten Technologieexperten besteht, verantwortlich. Damit soll die Identifizierung und das Verantwortungsbewusstsein jedes einzelnen Teammitglieds für den von ihm entwickelten und betriebenen Dienst gestärkt werden.
 
-Was aber dennoch eine große Herausforderung bleibt, ist die Definition des Aufgabenbereichs eines einzelnen Teams. Die Identifikation und Abgrenzung der Geschäftskompetenzen eines Unternehmens ist eine sehr komplexe Aufgabe. Als Hilfsmittel lässt sich hier das \begin{english} Single-Responsibility-Principle\end{english} heranziehen \cite{MartinAgile}: 
+Was aber dennoch eine große Herausforderung bleibt, ist die Definition des Aufgabenbereichs eines einzelnen Teams. Die Identifikation und Abgrenzung der Geschäftskompetenzen eines Unternehmens ist eine sehr komplexe Aufgabe. Als Hilfsmittel lässt sich hier das \begin{english} Single-Responsibility-Principle\end{english} heranziehen \cite[116]{MartinAgile}: 
 
 \begin{english}
 \begin{quote}
@@ -96,11 +97,11 @@ Auch wenn die konkrete Umsetzung einer Komponente sehr vielfältig sein kann, ha
 
 Im Kontext der monolithischen Softwarearchitektur sind am häufigsten die Begriffe Modul oder Software-Bibliothek ein Synonym für den Begriff Komponente. Eine Anwendung besteht somit aus einer Menge von Modulen, die miteinander verbunden sind. Leider erfüllt dieser Ansatz die zuvor beschriebenen gewünschten Eigenschaften der Komponenten-Orientierung nicht ganz zufriedenstellend. Abhängigkeiten zwischen den einzelnen Modulen oder bestimmte Voraussetzungen an das Laufzeitsystem der monolithischen Anwendung können das Aktualisieren eines Moduls wesentlich erschweren. Somit sind die verwendeten Komponenten nicht völlig voneinander unabhängig, sondern haben versteckte Abhängigkeiten.
 
-In einer Microservice-Architektur ist mit Komponente ein einzelner Dienst gemeint. Damit ist jede Komponente ein eigener Prozess, der über ein Kommunikationsprotokoll mit anderen Komponenten interagiert. Mit diesem Ansatz lassen sich die gewünschten Eigenschaften viel leichter realisieren.
+In einer Microservice"=Architektur ist mit Komponente ein einzelner Dienst gemeint. Damit ist jede Komponente ein eigener Prozess, der über ein Kommunikationsprotokoll mit anderen Komponenten interagiert. Mit diesem Ansatz lassen sich die gewünschten Eigenschaften viel leichter realisieren.
 
 \subsection{Dezentrale Datenverwaltung}
 
-Eine monolithische Anwendung legt sehr häufig alle persistenten Daten in einer einzigen relationalen Datenbank ab. Jeder Programmteil greift einfach auf die benötigten Daten direkt zu. Dieser Ansatz ist in Abbildung \ref{fig:central-datastore} dargestellt. In einer Microservice-Architektur ist dieser Ansatz nicht mehr empfehlenswert. Persistente Daten eines bestimmten Geschäftsbereichs sollen nur von einem einzigen Dienst verwaltet werden. Direkter Zugriff auf diese Daten durch andere Dienste führt zu unerwünschten Abhängigkeiten. Andere Dienste müssen Daten über die öffentliche Schnittstelle des zuständigen Microservices abfragen oder verändern.
+Eine monolithische Anwendung legt sehr häufig alle persistenten Daten in einer einzigen relationalen Datenbank ab. Jeder Programmteil greift einfach auf die benötigten Daten direkt zu. Dieser Ansatz ist in Abbildung \ref{fig:central-datastore} dargestellt. In einer Microservice"=Architektur ist dieser Ansatz nicht mehr empfehlenswert. Persistente Daten eines bestimmten Geschäftsbereichs sollen nur von einem einzigen Dienst verwaltet werden. Direkter Zugriff auf diese Daten durch andere Dienste führt zu unerwünschten Abhängigkeiten. Andere Dienste müssen Daten über die öffentliche Schnittstelle des zuständigen Microservices abfragen oder verändern.
 
 \begin{figure}[h]
   \centering
@@ -134,7 +135,7 @@ Eine zentrale Datenbank ist aber keinesfalls ein Antimuster, sondern in vielen F
 
 Für ein erfolgreiches System, das aus Microservices besteht, ist ein hoher Grad an Automatisierung erforderlich. Durch die große Anzahl an Komponenten im System, muss die Anzahl an manuell erforderlichen Schritten sehr gering sein. Ansonsten ist der Aufwand für das Aktualisieren, Ausrollen, Testen und Überwachen viel zu groß.
 
-Um von den Vorteilen der Microservice-Architektur gegenüber einer monolithischen profitieren zu können, ist es unabdingbar, dass jeder Dienst einzeln ausgerollt werden kann. Denn nur damit sind die Entwicklungs- und Releasezyklen der einzelnen Dienste im Gesamtsystem voneinander unabhängig.
+Um von den Vorteilen der Microservice"=Architektur gegenüber einer monolithischen profitieren zu können, ist es unabdingbar, dass jeder Dienst einzeln ausgerollt werden kann. Denn nur damit sind die Entwicklungs- und Releasezyklen der einzelnen Dienste im Gesamtsystem voneinander unabhängig.
 
 Wenn jeder Dienst einzeln ausgerollt werden kann, ist es auch möglich, unterschiedliche Versionen gleichzeitig zu betreiben. Somit kann eine neue Version getestet werden und erst wenn diese Testphase erfolgreich abgeschlossen ist, der gesamte Datenverkehr auf diesen Dienst umgeleitet werden. Bei Problemen kann schnell der ursprüngliche Zustand wiederhergestellt werden. Insgesamt mindert ein derartiges Vorgehen das Risiko eines großen Big-Bang-Deployments.
 
@@ -150,9 +151,9 @@ Neben quantitativen Kennzahlen sind oft subjektive Kriterien erforderlich. Eine 
 
 \section{Vorteile}
 
-Ein neuer Softwareentwicklungsansatz setzt sich nur dann durch, wenn er auch einen erkennbaren Mehrwert bietet. Dieser Abschnitt zeigt einige der Vorteile, die durch den intelligenten Einsatz einer Microservice-Architektur entstehen können \cite{fowlerMSTradeOffs,newman2015building}.
+Ein neuer Softwareentwicklungsansatz setzt sich nur dann durch, wenn er auch einen erkennbaren Mehrwert bietet. Dieser Abschnitt zeigt einige der Vorteile, die durch den intelligenten Einsatz einer Microservice"=Architektur entstehen können \cite{fowlerMSTradeOffs,newman2015building}.
 
-Es ist wichtig zu verstehen, dass die Vorteile, die durch Microservices entstehen, erst ab einer gewissen Größe \bzw Komplexität des Gesamtsystems zum Tragen kommen. In einfachen Softwaresystemen steht die Komplexität der Microservice-Architektur in keinem angemessenen Verhältnis zu deren Vorteilen \cite{fowlerMSPremium}.
+Es ist wichtig zu verstehen, dass die Vorteile, die durch Microservices entstehen, erst ab einer gewissen Größe \bzw Komplexität des Gesamtsystems zum Tragen kommen. In einfachen Softwaresystemen steht die Komplexität der Microservice"=Architektur in keinem angemessenen Verhältnis zu deren Vorteilen \cite{fowlerMSPremium}.
 
 \subsection{Heterogener Technologieeinsatz}
 
@@ -164,7 +165,7 @@ Die Macht der freien Technologieauswahl ist aber mit Bedacht einzusetzen. Es kan
 
 \subsection{Robustheit}
 
-Durch den hohen Modularisierungsgrad in einer Microservice-Architektur herrscht ein ganz anderes Verständnis bezüglich der Verfügbarkeit von einzelnen Komponenten, wie in einer monolithischen Architektur. In einer monolithischen Anwendung befinden sind nämlich alle Komponenten in einem einzelnen Prozess. Daher kann ein Entwickler davon ausgehen, dass alle Komponenten immer verfügbar sind. Nicht so in einer Microservice-Architektur. Hier muss jederzeit davon ausgegangen werden, dass Dienste nur eingeschränkt oder gar nicht verfügbar sind.
+Durch den hohen Modularisierungsgrad in einer Microservice"=Architektur herrscht ein ganz anderes Verständnis bezüglich der Verfügbarkeit von einzelnen Komponenten, wie in einer monolithischen Architektur. In einer monolithischen Anwendung befinden sind nämlich alle Komponenten in einem einzelnen Prozess. Daher kann ein Entwickler davon ausgehen, dass alle Komponenten immer verfügbar sind. Nicht so in einer Microservice"=Architektur. Hier muss jederzeit davon ausgegangen werden, dass Dienste nur eingeschränkt oder gar nicht verfügbar sind.
 
 Wenn eine monolithische Anwendung ausfällt, ist das ganze System nicht mehr verwendbar. Im Gegensatz dazu kann das Gesamtsystem trotz des Ausfalls eines oder mehrere Microservices, zumindest eingeschränkt, weiterlaufen.
 
@@ -184,7 +185,7 @@ Ein kontrovers diskutiertes Thema im Bezug auf Microservices ist die Beziehung z
 
 Auch bei SOA ist es schwer, eine genaue Definition zu geben. Grundsätzlich handelt es sich dabei um eine lose gekoppelte Softwarearchitektur, in der die Komponenten der Software in Form von autonomen Diensten, um die Geschäftsprozesse gestaltet werden \cite{soaRW}. Neben dieser einfachen informellen Definition hafteten sich über die Jahre immer neue Konzepte an den Begriff an. Mittlerweile verbinden viele Architekten konkrete Technologien mit dem eigentlich abstrakten Konzept. Sehr häufig zählen dazu Technologien, wie SOAP, WSDL, WS-* Protokolle oder auch Nachrichten-orientierte Middleware Lösungen, wie ESB \cite{fowlerGoTo}. Aus diesem Grund stößt dieses Muster oft auf Ablehnung, da fälschlicherweise viele komplexe Technologien damit in Verbindung gebracht werden.
 
-\citeauthor{newman2015building} beschreibt in \cite{newman2015building}, dass Microservices und SOA so wie Scrum und agile Softwareentwicklung miteinander in Beziehung stehen. Scrum ist eine konkrete Form von agiler Softwareentwicklung. So sind auch Microservices ein bestimmter Stil SOA umzusetzen. Da alle Konzepte einer Microservice Architektur auch in SOA enthalten sind, können Microservices als Teilmenge und Konkretisierung von SOA verstanden werden.
+\citeauthor{newman2015building} beschreibt in \cite[8]{newman2015building}, dass Microservices und SOA so wie Scrum und agile Softwareentwicklung miteinander in Beziehung stehen. Scrum ist eine konkrete Form von agiler Softwareentwicklung. So sind auch Microservices ein bestimmter Stil SOA umzusetzen. Da alle Konzepte einer Microservice Architektur auch in SOA enthalten sind, können Microservices als Teilmenge und Konkretisierung von SOA verstanden werden.
 
 Oft wird SOA dafür kritisiert, viel zu abstrakt und breit gefächert zu sein. Es gibt viel zu wenig konkrete Hilfestellungen, beispielsweise für den Entwurf von Service-Grenzen oder die Bestimmung der Service-Größe. Das Konzept der Microservices hingegen wurde für einen bereits existierenden Stil der Anwendungsentwicklung nachträglich geprägt. Bei SOA hingegen wurde zuerst das Konzept definiert.
 
@@ -192,8 +193,8 @@ Oft wird SOA dafür kritisiert, viel zu abstrakt und breit gefächert zu sein. E
 
 In diesem Abschnitt wurden Microservices als um Geschäftskompetenzen entworfene, lose gekoppelte und autonome Dienste in einer service-orientierten Architektur, definiert. Der Begriff Microservices dient als Sammelbegriff für viele Konzepte, die sich um dieses Architekturmuster scharen. Im Gegensatz zu SOA ist die Vorstellung, was Microservices sind, viel konkreter, obwohl auch Microservices immer noch viel Interpretationsspielraum offenlassen.
 
-Monolithischen Anwendung bündeln sämtliche Funktionalität eines Systems in einem einzigen großen ausführbaren Prozess. Bei der Microservice-Architektur stehen wichtige Funktionalitäten als eigenständiger Dienst zur Verfügung. Das ermöglicht großen Teams die Arbeit an komplexen Aufgaben, ohne sich gegenseitig zu stören. Damit ist es jedem Team selbst überlassen, die optimalen Technologieentscheidungen zu treffen, den Releasezyklus des Dienstes zu bestimmen und den Dienst in robuster Art und Weise zu implementieren.
+Monolithischen Anwendung bündeln sämtliche Funktionalität eines Systems in einem einzigen großen ausführbaren Prozess. Bei der Microservice"=Architektur stehen wichtige Funktionalitäten als eigenständiger Dienst zur Verfügung. Das ermöglicht großen Teams die Arbeit an komplexen Aufgaben, ohne sich gegenseitig zu stören. Damit ist es jedem Team selbst überlassen, die optimalen Technologieentscheidungen zu treffen, den Releasezyklus des Dienstes zu bestimmen und den Dienst in robuster Art und Weise zu implementieren.
 
-Den Vorteilen der Microservice-Architektur steht aber eine nicht zu unterschätzende Komplexität gegenüber. Beispielsweise die Orchestrierung aller einzelnen Dienste zu einer Einheit stellt eine große Herausforderung dar. Außerdem fließt viel Arbeit in die saubere Definition der Schnittstellen zwischen den Diensten ein. Einfache Anpassungen können schnell ausarten, da sie mehrere Dienste betreffen können. 
+Den Vorteilen der Microservice"=Architektur steht aber eine nicht zu unterschätzende Komplexität gegenüber. Beispielsweise die Orchestrierung aller einzelnen Dienste zu einer Einheit stellt eine große Herausforderung dar. Außerdem fließt viel Arbeit in die saubere Definition der Schnittstellen zwischen den Diensten ein. Einfache Anpassungen können schnell ausarten, da sie mehrere Dienste betreffen können. 
 
-Nichtsdestotrotz hat das Microservice-Architekturmuster in vielen Einsatzgebieten seine Vorzüge. Am Beginn einer Microservice-Architektur sollte eine ausführliche Aneignung des erforderlichen Domänenwissens stehen. Oft funktioniert das nur durch den Start der Entwicklung mit einer monolithischen Architektur. Das Ziel sollte eine evolutionäre Architektur sein. Eine monolithische Architektur kann mit steigenden Verständnis für die Servicegrenzen leicht in eine Microservice-Architektur überführt werden.
+Nichtsdestotrotz hat das Microservice"=Architekturmuster in vielen Einsatzgebieten seine Vorzüge. Am Beginn einer Microservice"=Architektur sollte eine ausführliche Aneignung des erforderlichen Domänenwissens stehen. Oft funktioniert das nur durch den Start der Entwicklung mit einer monolithischen Architektur. Das Ziel sollte eine evolutionäre Architektur sein. Eine monolithische Architektur kann mit steigenden Verständnis für die Servicegrenzen leicht in eine Microservice"=Architektur überführt werden.
