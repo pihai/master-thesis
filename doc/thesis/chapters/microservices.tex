@@ -1,6 +1,6 @@
 \chapter{Microservices}
 
-Der Begriff Microservices stiftet derzeit noch große Verwirrung. Nicht nur weil er relativ neu ist, sondern auch weil er sehr breit gefächert ist und eine klare Abgrenzung kaum möglich ist. Im nachfolgenden Kapitel wird der Begriff Microservice ausführlich definiert, beschrieben und zu anderen Konzepten abgegrenzt.
+Der Begriff \textit{Microservices} stiftet derzeit noch große Verwirrung. Nicht nur weil er relativ neu ist, sondern auch weil er sehr breit gefächert ist und eine klare Abgrenzung kaum möglich ist. Im nachfolgenden Kapitel wird der Begriff Microservice ausführlich definiert, beschrieben und zu anderen Konzepten abgegrenzt.
 
 \section{Was ist ein Microservice}
 
@@ -14,7 +14,7 @@ Um den rasanten Verbreitung der Microservice Architektur zu verstehen, ist es no
 
 Mittlerweile haftet der monolithischen Softwarearchitektur ein negativer Ruf an. Jedoch zu Unrecht, da dieser Ansatz seit Jahrzehnten  in vielen Bereichen der Softwareentwicklung sehr gut funktioniert. Im Java- und .NET-Umfeld war \bzw ist dieser Ansatz noch immer gängige Praxis. Dennoch wird er vielerorts von der Microservice"=Architektur abgelöst. Doch was macht eine Anwendung überhaupt zu einer monolithischen Anwendung?
 
-Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, in der verschiedene Geschäftsbereiche oder Funktionalitäten als eine einzige Anwendung zusammengeschlossen sind \cite{FowlerMS}. Intern kann die Applikation beispielsweise als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei-Schicht-Architektur mit folgenden Bestandteilen \cite[19]{FowlerPEA}:
+Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung eine Anwendung, die verschiedene Geschäftsbereiche oder Funktionalitäten vereint \cite{FowlerMS}. Intern kann die Applikation \zB als Mehrschicht-Architektur organisiert sein. Üblich ist eine Drei"=Schicht"=Architektur mit folgenden Bestandteilen \cite[19]{FowlerPEA}:
 
 \begin{itemize}
 	\item \textbf{Präsentationsschicht:} Hier ist jener Quelltext angesiedelt, der sich mit der Darstellung der Benutzerschnittstelle, \zB in Form einer Web- oder Desktop"=Anwendung auseinandersetzt.
@@ -22,19 +22,19 @@ Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung ein
 	\item \textbf{Datenzugriffsschicht}: In dieser Schicht befindet sich die Funktionalität, die zum Zugriff auf externe Datenquellen, wie \zB einer relationalen Datenbank, notwendig ist.
 \end{itemize}
 
-In Abbildung \ref{fig:layered-architecture} ist der Aufbau einer monolithischen Anwendung mit Drei-Schicht-Architektur skizziert. Der Zugriff darf jeweils nur auf die direkt darunterliegende Schicht erfolgen. Innerhalb jeder Schicht ist eine Modularisierung in verschiedene Bereiche, die auf die Geschäftsfunktionen abgestimmt sind, sinnvoll.
+Abbildung \ref{fig:layered-architecture} zeigt den Aufbau einer monolithischen Anwendung mit Drei"=Schicht"=Architektur, in der jede Schicht nur auf die nächst tiefere Schicht zugreifen darf. Innerhalb jeder Schicht ist eine Modularisierung in verschiedene Bereiche, die auf die Geschäftsfunktionen abgestimmt sind, sinnvoll.
 
 \begin{figure}[!htb]
 \centering
 \minipage{0.5\textwidth}
   \centering
-	\includegraphics[width=0.8\linewidth]{layered-architecture}
+	\includegraphics[width=0.62\linewidth]{layered-architecture}
 	\caption{Drei-Schicht-Architektur}
 	\label{fig:layered-architecture}
 \endminipage
 \minipage{0.5\textwidth}
   \centering
-	\includegraphics[width=0.76\linewidth]{monolith-scale}
+	\includegraphics[width=0.59\linewidth]{monolith-scale}
 	\caption{Skalieren einer monolithischen Anwendung}
 	\label{fig:monolith-scale}
 \endminipage
@@ -134,7 +134,7 @@ Eine zentrale Datenbank ist aber keinesfalls ein Antimuster, sondern in vielen F
 
 Für ein erfolgreiches System, das aus Microservices besteht, ist ein hoher Grad an Automatisierung erforderlich. Durch die große Anzahl an Komponenten im System, muss die Anzahl an manuell erforderlichen Schritten sehr gering sein. Ansonsten ist der Aufwand für das Aktualisieren, Ausrollen, Testen und Überwachen viel zu groß.
 
-Um von den Vorteilen der Microservice"=Architektur gegenüber einer monolithischen profitieren zu können, ist es unabdingbar, dass jeder Dienst einzeln ausgerollt werden kann. Denn nur damit sind die Entwicklungs- und Releasezyklen der einzelnen Dienste im Gesamtsystem voneinander unabhängig.
+Um von den Vorteilen der Microservice"=Architektur gegenüber einer monolithischen zu profitieren, ist es erforderlich, jeden Dienst einzeln ausrollen zu können. Denn nur so sind die Entwicklungs- und Release\-zyklen der einzelnen Dienste einer Applikation voneinander unabhängig.
 
 Wenn jeder Dienst einzeln ausgerollt werden kann, ist es auch möglich, unterschiedliche Versionen gleichzeitig zu betreiben. Somit kann eine neue Version getestet werden und erst wenn diese Testphase erfolgreich abgeschlossen ist, der gesamte Datenverkehr auf diesen Dienst umgeleitet werden. Bei Problemen kann schnell der ursprüngliche Zustand wiederhergestellt werden. Insgesamt mindert ein derartiges Vorgehen das Risiko eines großen Big-Bang-Deployments.
 
