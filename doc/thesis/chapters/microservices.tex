@@ -127,6 +127,8 @@ Auch eine monolithische Anwendung könnte Gebrauch von mehreren Datenbanken mach
 
 Für Systeme mit hohen Anforderungen an die Verfügbarkeit ist die Verwendung einer einzigen Datenbank nicht ausreichend. Denn eine einzige Datenbank stellt einen kritischen \textit{Single Point of Failure} dar.
 
+Eine zentrale Datenbank ist aber keinesfalls ein Antimuster, sondern in vielen Fällen die richtige Entscheidung. In verteilten Szenarien wird meistens die Konsistenz zugunsten der besseren Verfügbarkeit und Skalierbarkeit eingeschränkt. Aber diese Einschränkung ist nicht in jedem Szenario akzeptabel. Das \textit{CAP-Theorem} von \citeauthor{Brewer:2000:TRD:343477.343502} besagt, dass in einem verteilten System nur zwei der drei Eigenschaften Verfügbarkeit, Konsistenz und Ausfalltoleranz gleichzeitig erreicht werden können \cite{Brewer:2000:TRD:343477.343502}. Somit ist eine zentrale Datenbank, für Anwendungen in denen es besonders auf Konsistenz und Verfügbarkeit ankommt, immer noch eine gute Wahl.
+
 \subsection{Automatisierung}
 
 Für ein erfolgreiches System, das aus Microservices besteht, ist ein hoher Grad an Automatisierung erforderlich. Durch die große Anzahl an Komponenten im System, muss die Anzahl an manuell erforderlichen Schritten sehr gering sein. Ansonsten ist der Aufwand für das Aktualisieren, Ausrollen, Testen und Überwachen viel zu groß.
