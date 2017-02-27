@@ -22,7 +22,7 @@ Unter einer monolithischen Anwendung versteht man in der Softwareentwicklung ein
 	\item \textbf{Datenzugriffsschicht}: In dieser Schicht befindet sich die Funktionalität, die zum Zugriff auf externe Datenquellen, wie \zB einer relationalen Datenbank, notwendig ist.
 \end{itemize}
 
-Abbildung \ref{fig:layered-architecture} zeigt den Aufbau einer monolithischen Anwendung mit Drei"=Schicht"=Architektur, in der jede Schicht nur auf die nächst tiefere Schicht zugreifen darf. Innerhalb jeder Schicht ist eine Modularisierung in verschiedene Bereiche, die auf die Geschäftsfunktionen abgestimmt sind, sinnvoll.
+Abbildung \ref{fig:layered-architecture} zeigt den Aufbau einer monolithischen Anwendung mit Drei"=Schicht"=Architektur, in der jede Schicht nur auf die nächst tiefere zugreifen darf. Innerhalb jeder Schicht ist eine Modularisierung in verschiedene Bereiche, die auf die Geschäftsfunktionen abgestimmt sind, sinnvoll.
 
 \begin{figure}[!htb]
 \centering
@@ -61,13 +61,13 @@ Dieser Abschnitt beschreibt einige charakteristische Merkmale eines Microservice
 \subsection{Organisation um Geschäftskompetenzen}
 \label{sec:business-capabilities}
 
-Normalerweise sind Softwareentwicklungsteams anhand ihrer technologischen Spezialisierung \zB in folgende Teams eingeteilt:
+Softwareentwickler sind normalerweise anhand ihrer technologischen Spezialisierung \zB in folgende Teams eingeteilt:
 
 \begin{itemize}
 	\item Front-End-Entwickler
 	\item Backend-End-Entwickler
-	\item Datenbank-Administratoren
-	\item IT-Administratoren
+	\item Datenbank-Spezialisten
+	\item Infrastruktur-Spezialisten
 \end{itemize}
 
 Durch die Microservice-Kultur hat sich aber eine andere Art der Teamstrukturierung etabliert. Für jede Geschäftskompetenz ist genau ein Team, welches intern aus einer kleinen Anzahl an den eingangs genannten Technologieexperten besteht, verantwortlich. Damit soll die Identifizierung und das Verantwortungsbewusstsein jedes einzelnen Teammitglieds für den von ihm entwickelten und betriebenen Dienst gestärkt werden.
@@ -192,7 +192,7 @@ Oft wird SOA dafür kritisiert, viel zu abstrakt und breit gefächert zu sein. E
 
 \section{Zusammenfassung}
 
-In diesem Abschnitt wurden Microservices als um Geschäftskompetenzen entworfene, lose gekoppelte und autonome Dienste in einer service-orientierten Architektur, definiert. Der Begriff Microservices dient als Sammelbegriff für viele Konzepte, die sich um dieses Architekturmuster scharen. Im Gegensatz zu SOA ist die Vorstellung, was Microservices sind, viel konkreter, obwohl auch Microservices immer noch viel Interpretationsspielraum offenlassen.
+In diesem Abschnitt wurden Microservices als um Geschäftskompetenzen entworfene, lose gekoppelte und autonome Dienste in einer service"=orientierten Architektur, definiert. Der Begriff Microservices dient als Sammelbegriff für viele Konzepte, die sich um dieses Architekturmuster scharen. Im Gegensatz zu SOA ist die Vorstellung, was Microservices sind, viel konkreter, obwohl auch Microservices immer noch viel Interpretationsspielraum offenlassen.
 
 Monolithischen Anwendung bündeln sämtliche Funktionalität eines Systems in einem einzigen großen ausführbaren Prozess. Bei der Microservice"=Architektur stehen wichtige Funktionalitäten als eigenständiger Dienst zur Verfügung. Das ermöglicht großen Teams die Arbeit an komplexen Aufgaben, ohne sich gegenseitig zu stören. Damit ist es jedem Team selbst überlassen, die optimalen Technologieentscheidungen zu treffen, den Releasezyklus des Dienstes zu bestimmen und den Dienst in robuster Art und Weise zu implementieren.
 

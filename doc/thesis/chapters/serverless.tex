@@ -14,11 +14,11 @@ Die Grundidee hinter \textit{Serverless Computing} ist dem Softwareentwickler ei
 
 Wie viele Konzepte im Microservice"=Umfeld lässt sich auch serverlose Softwarearchitektur nur schwer abgrenzen. Im nächsten Abschnitt werden die zwei zur Zeit häufigsten Ausprägungsformen näher betrachtet.
 
-\section{Arten Serverloser Softwarearchitektur}
+\section{Arten serverloser Softwarearchitektur}
 
 Serverlose Softwarearchitektur ist ein sehr junges Konzept, dessen weitere Zukunft noch offen ist. Derzeit haben sich aber schon zwei unterschiedliche Sichtweisen auf dieses Themengebiet herauskristallisiert \cite{ServerlessArchitectures}.
 
-In der älteren Sichtweise beschreibt der Begriff \textit{Serverlos} Applikationen die sehr stark auf vollständig verwaltete Dienste von Cloud"=Anbietern zurückgreifen. Darunter fallen beispielsweise verwaltete Datenbanken, Authentifizierungs- oder Benachrichtigungsdienste. Dieser Ansatz ersetzt also einen Großteil der Logik auf der Serverseite durch Dienste von Drittanbietern. Daher hat sich auch die Bezeichnung \textit{Backend-as-a-Service} dafür etabliert. Ein Teil der Applikationslogik muss aber dadurch vom Client übernommen werden. Mit JavaScript und verschiedenen Bibliotheken für die Erstellung von Benutzeroberflächen, lassen sich die dafür benötigten \textit{Rich-Applications} effizient realisieren.
+In der älteren Sichtweise beschreibt der Begriff \textit{serverlos} Applikationen die sehr stark auf vollständig verwaltete Dienste von Cloud"=Anbietern zurückgreifen. Darunter fallen beispielsweise verwaltete Datenbanken, Authentifizierungs- oder Benachrichtigungsdienste. Dieser Ansatz ersetzt also einen Großteil der Logik auf der Serverseite durch Dienste von Drittanbietern. Daher hat sich auch die Bezeichnung \textit{Backend-as-a-Service} dafür etabliert. Ein Teil der Applikationslogik muss aber dadurch vom Client übernommen werden. Mit JavaScript und verschiedenen Bibliotheken für die Erstellung von Benutzeroberflächen, lassen sich die dafür benötigten \textit{Rich-Applications} effizient realisieren.
 
 Seit etwa 2014 hat sich die Sichtweise durch die Einführung des Dienstes \textit{AWS Lambda} durch \textit{Amazon} etwas geändert. Dieser Dienst erlaubt es, einfache Ereignis-gesteuerte Funktionen zu schreiben, die in der Cloud in einer zustandslosen Ausführungsumgebung vollständig verwaltet laufen. Die Artefakte die ein Entwickler erstellen muss sind einfache Skript"=Dateien die Funktionen mit der gewünschten Applikationslogik enthalten. Aus diesem Grund ist dieser Ansatz unter dem Namen \textit{Functions-as-a-Service (FaaS)} bekannt. Der folgenden Abschnitt beschäftigt sich intensiv mit dieser neuen Sichtweise auf Serverlose Softwarearchitektur.
 
@@ -63,7 +63,7 @@ In vielen Bereichen überschneiden sich die Möglichkeiten von \textit{FaaS} mit
 
 Skalierbarkeit ist in Cloud"-Computing ein essentieller Faktor. \textit{PaaS} bietet dafür die Möglichkeit, abhängig von Metriken wie Prozessorlast, die Anzahl der Instanzen auf denen die Anwendung ausgeführt wird, dynamisch zu erhöhen oder zu verringern. Dieser Ansatz erfordert bereits sehr wenig manuelles Eingreifen durch einen Entwickler oder Administrator. Aber \textit{FaaS} geht hier noch einen Schritt weiter und erfordert praktisch keine manuellen Handlungen um die Funktion skalierbar zu machen. Es ist die Aufgabe des Cloud"=Anbieters die Funktion automatisch zu skalieren. Weil die Funktionen zustandslos sind, kann man sie einfach beliebig oft parallel ausführen.
 
-Die Verwendung von \textit{PaaS} schränkt Technologieentscheidungen sehr stark ein, weil man sich auf eine konkrete Platform bindet. Bei \textit{FaaS} hingegen ist die Auswahl an möglichen Programmiersprachen sehr breit. Laufend fügen Cloud"=Anbieter neue Sprachen hinzu. Damit ist die Technologieabhängigkeit durch die Verwendung von \textit{FaaS} sehr viel geringer.
+Die Verwendung von \textit{PaaS} schränkt Technologieentscheidungen stark ein, weil man sich auf eine konkrete Platform bindet. Bei \textit{FaaS} hingegen ist die Auswahl an möglichen Programmiersprachen sehr breit. Laufend fügen Cloud"=Anbieter neue Sprachen hinzu. Damit ist die Technologieabhängigkeit durch die Verwendung von \textit{FaaS} sehr viel geringer.
 
 \subsection{Markt}
 
@@ -90,7 +90,7 @@ Derzeit investieren Cloud"=Anbieter sehr viel in die Entwicklung ihrer \textit{F
 
 Dieser Abschnitt bezieht sich weitestgehend auf \cite{Cock16EvoFunc} und \cite{Cock17ShrinkingMS} in denen der Autor Adrian \citeauthor{Cock16EvoFunc} die Evolution von monolithischer Software"=Architektur hin zu Microservices und weiter zu ereignisgesteuerten serverlosen Anwendungen beschreibt. Außerdem werden die dafür verantwortlichen technischen und organisatorischen Entwicklungen identifiziert.
 
-Software"=Applikationen haben die Aufgabe, Geschäftswerte -- \textit{engl. business value} -- zu generieren. Dazu müssen sie den Benutzern die enthaltene Geschäftslogik zugänglich machen. Eine Funktion kann erst Geschäftswerte erzeugen, wenn sie dem Benutzer tatsächlich zur Verfügung steht. Daher sollte die Minimierung der Zeit zwischen der Erstellung der Geschäftslogik und der tatsächlichen Verfügbarkeit für den Endbenutzer für Unternehmen an oberster Stelle stehen. \citeauthor{Cock16EvoFunc} beschreibt diesen Zusammenhang in folgender Formel:
+Software"=Applikationen haben die Aufgabe Geschäftswerte -- \textit{engl. business value} -- zu generieren. Dazu müssen sie den Benutzern die enthaltene Geschäftslogik zugänglich machen. Eine Funktion kann erst Geschäftswerte erzeugen, wenn sie dem Benutzer tatsächlich zur Verfügung steht. Daher sollte die Minimierung der Zeit zwischen der Erstellung der Geschäftslogik und der tatsächlichen Verfügbarkeit für den Endbenutzer für Unternehmen an oberster Stelle stehen. \citeauthor{Cock16EvoFunc} beschreibt diesen Zusammenhang in folgender Formel:
 
 \begin{center}
 \textit{time to value = creation cost + delivery cost}
@@ -100,11 +100,11 @@ In der Vergangenheit war die Dauer zwischen der Erstellung und der Auslieferung 
 
 \subsection{Automatisierung der Softwareauslieferung}
 
-Vor einigen Jahren war die Bereitstellung von Software noch ein manueller Prozess. Die Beschaffung, Installation, Konfiguration und Aktualisierung von physischen Servern war ein wesentlicher Zeit und Kostenfaktor. Durch diese langsamen Vorgänge wurden nur selten, dafür eine große Menge Geschäftslogik, in einer neuen Softwareversion ausgerollt. 
+Vor einigen Jahren war die Bereitstellung von Software noch ein manueller Prozess. Die Beschaffung, Installation, Konfiguration und Aktualisierung von physischen Servern war ein wesentlicher Zeit und Kostenfaktor. Durch diese langsamen Vorgänge wurden nur selten, dafür eine große Menge Geschäftslogik, in einer neuen Softwareversion ausgerollt.
 
 Eine zusätzliche Herausforderung stellte die Kapazitätsplanung dar. Viele Server wurden aufgrund der langsamen Änderungszyklen  vorsichtshalber sehr großzügig dimensioniert. Das führte wiederum zu einer unökonomischen Ressourcenauslastung.
 
-Die Automatisierung von Infrastrukturaufgaben regte ein deutliche Überarbeitung festgefahrener Softwareauslieferungsprozesse aus. Werkzeuge wie \textit{Chef} und \textit{Puppet} erlaubten es erstmals, Skripte für die automatische Provisionierung und Konfiguration von Infrastrukturkomponeneten zu erstellen. Zu diesen Komponenten zählen Server, Betriebssystem, Netzwerk, Konfiguration, aber auch die Applikationssoftware selbst. Heute bezeichnet man diese Möglichkeiten als \textit{Infrastructure-as-Code}, weil sich Infrastruktur mittels Quelltext erstellen und manipulieren lässt. \cite[135]{Httermann:2012:DD:2380958}.
+Die Automatisierung von Infrastrukturaufgaben regte ein Überarbeitung festgefahrener Softwareauslieferungsprozesse aus. Werkzeuge wie \textit{Chef} und \textit{Puppet} erlaubten es erstmals, Skripte für die automatische Provisionierung und Konfiguration von Infrastrukturkomponeneten zu erstellen. Zu diesen Komponenten zählen Server, Betriebssystem, Netzwerk, Konfiguration, aber auch die Applikationssoftware selbst. Heute bezeichnet man diese Möglichkeiten als \textit{Infrastructure-as-Code}, weil sich Infrastruktur mittels Quelltext erstellen und manipulieren lässt. \cite[135]{Httermann:2012:DD:2380958}.
 
 Wenn sich Infrasturktur wie Quelltext behandeln lässt, ist es naheliegend, dass auch Softwareentwickler an diesem Prozess teilnehmen. Die Infrastrukturprovisionierung und -verwaltung verlagerte sich allmählich von den IT"= in die Softwareentwicklungsabteilungen. IT"=Abteilungen und Cloud"=Anbieter stellten den Entwicklern nur noch Programmierschnittstellen -- sogenannte APIs -- zur Verfügung, mit denen sie selbst die Infrastruktur nach ihren Bedürfnissen erzeugen und verändern konnten. Diese Zeit- und Kostenreduktion bei der Softwareauslieferung ermöglichten häufigere Releases und viel kleinere Anwendungen. Schlussendlich war das eine der Voraussetzung für die Microservice"=Architektur. Die Auslieferung von Service veränderte sich von einem langsamen und risikoreichen Prozess in einen automatisierten.
 
