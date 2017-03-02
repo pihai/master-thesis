@@ -1,0 +1,18 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 */15 * * * *"
+    },
+    {
+      "type": "table",
+      "name": "timingEntry",
+      "tableName": "coldStartTiming",
+      "connection": "timingCnnStr",
+      "direction": "out"
+    }
+  ]
+}

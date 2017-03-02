@@ -1,0 +1,9 @@
+source https://nuget.org/api/v2
+
+nuget Microsoft.Rest.ClientRuntime
+nuget Microsoft.Rest.ClientRuntime.Azure
+nuget Microsoft.IdentityModel.Clients.ActiveDirectory ~> 2.14.201151115
+nuget Microsoft.Azure.Management.ResourceManager prerelease
+nuget Microsoft.Azure.Management.Storage prerelease
+nuget ARMClient.Authentication prerelease
+nuget WindowsAzure.Storage prerelease
