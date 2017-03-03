@@ -331,3 +331,4 @@ $RECYCLE.BIN/
 *.bcf
 *.tps
 *.vscodeLog
+*.secrets
