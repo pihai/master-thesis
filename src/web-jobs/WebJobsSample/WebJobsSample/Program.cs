@@ -13,7 +13,7 @@ namespace WebJobsSample {
     public double Value { get; set; }
   }
   class Program {
-    static void Main() { new JobHost().Start(); Console.Read(); }
+    static void Main() => new JobHost().RunAndBlock();
   }
   public class Functions {
     public static void ProcessSensorData(
