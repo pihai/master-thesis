@@ -1,0 +1,26 @@
+{
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "direction": "in",
+      "webHookType": "genericJson",
+      "name": "reqData"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "table",
+      "name": "input",
+      "tableName": "outTable",
+      "partitionKey": "sort",
+      "rowKey": "{key}",
+      "take": 50,
+      "connection": "AzureWebJobsStorage",
+      "direction": "in"
+    }
+  ],
+  "disabled": false
+}
