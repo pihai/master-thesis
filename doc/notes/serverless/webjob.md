@@ -180,3 +180,38 @@ FOO END
   - non-trigger binding z.B. Table: Erlaubt zugriff auf externen Datenquelle
 - Attribute legen nur deklartiv die benötigten informationen für das binding fest
 - die eigentliche arbeit erledigt der binding provider
+
+
+# KUDU Revised
+
+- KUDU is itself a site extension (and can manage private site extensions)
+- There are a lot of pre-installed site extensions: %ProgramFiles(x86)%\SiteExtensions
+- Private site extensions are installed by the user and part of the website files
+- Some pre-installed extensions:
+  - KUDU (of course)
+  - AzureJobs (this is the Web Jobs Dashboard extension)
+  - Functions (The functions runtime - WebJobs.Script.Host bundled as a site extension)
+- In the WebJobs Dashboard functions are not shown as web job. But there is a functions tab on the dashboard site which lists all functions and the number of successful and failed executions
+
+# WebJobsSDK Script
+
+- The `Functions` site extension is installed by default
+- It can also be installed as private extension (specific version) via the binary `Functions.private`
+- If HTTP is not needed `WebJobs.Script.Host` can also be run as continuous web job
+
+
+# Summary
+
+- Binding Extensions Overview (https://github.com/Azure/azure-webjobs-sdk-extensions/wiki/Binding-Extensions-Overview)
+  - There are two types of bindings
+    - Trigger Bindings
+    - Non-Trigger Bindings
+  - There is a template for building a custom binding (https://github.com/Azure/azure-webjobs-sdk-extensions/tree/master/src/Sample.Extension)
+- Binding Process (https://github.com/Azure/azure-webjobs-sdk-extensions/wiki/The-Binding-Process)
+  - The binding can be devided in two phases
+  - On `JobHost` startup it registers all it's own and all extension `ITriggerBindingProvider` and `IBindingProvider` 
+  - The host tries for each function to binding each parameter
+    - The first binding wins
+    - The host has it's internal representation of all jobs/functions and their bindings
+    - For each `ITriggerBinding` it retries a listener and registers the listener
+    - 
