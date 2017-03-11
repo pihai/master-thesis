@@ -488,5 +488,8 @@ acknowledged. I further declare that this or similar work has not been submitted
 
 %%-------------------------------------------------------------
 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+
 \endinput
 
