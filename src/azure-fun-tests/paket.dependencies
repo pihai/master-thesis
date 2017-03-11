@@ -1,5 +1,7 @@
 source https://nuget.org/api/v2
 
+nuget FSharp.Charting
+nuget MathNet.Numerics.FSharp
 nuget Microsoft.Rest.ClientRuntime
 nuget Microsoft.Rest.ClientRuntime.Azure
 nuget Microsoft.IdentityModel.Clients.ActiveDirectory ~> 2.14.201151115

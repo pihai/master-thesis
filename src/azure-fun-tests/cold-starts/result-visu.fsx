@@ -1,4 +1,19 @@
 #r @"..\packages\WindowsAzure.Storage\lib\net45\Microsoft.WindowsAzure.Storage.dll"
+#r @"..\packages\FSharp.Charting\lib\net40\FSharp.Charting.dll"
+#r "System.Windows.Forms.DataVisualization.dll"
+#I @"..\packages\MathNet.Numerics.FSharp\lib\net40"
+#I @"..\packages\MathNet.Numerics\lib\net40"
+#r "MathNet.Numerics.dll"
+#r "MathNet.Numerics.FSharp.dll"
+open System.Numerics
+open MathNet.Numerics
+open MathNet.Numerics.Statistics
+
+
+open FSharp.Charting
+
+module FsiAutoShow = 
+    fsi.AddPrinter(fun (ch:FSharp.Charting.ChartTypes.GenericChart) -> ch.ShowChart() |> ignore; "(Chart)")
 
 open System
 open Microsoft.WindowsAzure.Storage
@@ -39,10 +54,11 @@ let cnnStr =
 
 let entries = downlaodTableToCsv cnnStr "coldStartTiming" "nix"
 
-entries |> List.length
+let avgPerRegion = 
+  entries
+  |> List.groupBy (fun x -> x.Location)
+  |> List.map (fun (key,rows) ->
+    let samples = rows |> List.map (fun x -> float x.DurationMillis / 1000.0)
+    key, Statistics.FiveNumberSummary samples
+  )
 
-entries
-|> List.groupBy (fun x -> x.Location)
-|> List.map (fun (key,rows) ->
-  key, rows |> List.averageBy (fun x -> x.DurationMillis |> float)
-)
