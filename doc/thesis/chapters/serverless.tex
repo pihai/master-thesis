@@ -465,6 +465,8 @@ Auch Funktionen in \textit{FaaS} machen intensiven Gebrauch von Nachrichtenüber
 
 Abschnitt \ref{sec:business-capabilities} hat bereits beschrieben, dass die Implementierung einer Microservice"=Architektur mit großer Wahrscheinlichkeit eine organisatorische Umstrukturierung mit sich bringt. Projekt- oder technologiebezogene Strukturen sollten in produktbezogene umgewandelt werden. Um die Autonomie zu steigern und den Koordinationsaufwand zu senken, ist es empfehlenswert, große Teams in kleinere Einheiten zu zerteilen. Jedes dieser kleinen Teams ist für den gesamten Lebenszyklus eines oder mehrerer Dienste verantwortlich. Diese Struktur erlaubte eine viel agilere Entwicklung und erfordert weniger definierte Prozesse.
 
+Jedes Unternehmen das ein Informationssystem entwirft, wird unvermeidbar eine Architektur hervorbringen, die ein Abbild der Organisationsstruktur ist \cite{paper:conway:1968}. Diese Aussage ist als das Gesetz von Conway bekannt. Aus diesem Grund ist für eine erfolgreiche Umsetzung von Microservices auch die richtige Organisationsstruktur eine unabdingbare Voraussetzung.
+
 \subsection{Von Microservices zu serverlosen Anwendungen}
 
 Wenn man Microservices auf die Spitze treibt, erfüllt jeder Service nur noch eine einzige Aufgabe. Aufgrund der großen Anzahl von Services in einer Microservice"=Architektur, erfordert dieser Ansatz eine extrem effiziente Bereitstellung von Services. Selbst automatisch erstellte virtuelle Server und Container sind dafür nicht ausreichend. Für diese Anforderung ist \textit{Function-as-a-Service} eine gute Wahl, denn Funktionen lassen sich in Bruchteilen einer Sekunde ausrollen.
