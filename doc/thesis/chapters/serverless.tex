@@ -285,6 +285,31 @@ Die \textit{Roslyn Compiler API} ist eine .NET Bibliothek, die unter anderem die
 
 Wesentlich aufwändiger gestaltet sich die Interaktion mit der \textit{Web Jobs SDK}, bei Sprachen die nicht der .NET"=Familie angehören. Bei JavaScript Funktionen beispielsweise, ist eine Brücke zwischen der .NET \textit{Common Language Runtime} und der \textit{JavaScript}-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter, als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
 
+Die Programmiermodelle von .NET und \textit{Node.js} unterscheiden sich in manchen Punkten gravierend. In \textit{Node.js} wird Nebenläufigkeit beispielsweise durch Callback-basierte Programmierung gelöst, weil die virtuelle JavaScript-Maschine nur einen einzigen Ausführungsstrang nutzt. In .NET gibt es diese Einschränkung nicht. Hier wird Task-basierte Nebenläufigkeit bevorzugt. Programm \ref{prog:dotnet-javascript-bridge} zeigt aber, dass beide Konzepte isomorph sind und sich darum trotzdem gut verbinden lassen.
+
+\begin{program}[!hbt]
+\caption{Brücke zwischen Task-basierter Programmierung in .NET und Callback-basierter Programmierung in JavaScript}
+\label{prog:dotnet-javascript-bridge}
+\noindent\begin{minipage}[t]{.48\textwidth}
+\lstset{showlines=true}
+\begin{GenericCode}
+Func</+\textcolor{red}{object}+/, /+\textcolor{cyan}{Task}+/</+\textcolor{olive}{object}> >
+
+
+\end{GenericCode} % leave empty lines!!!
+
+\end{minipage}\hfill
+\begin{minipage}[t]{.48\textwidth}
+\lstset{showlines=true}
+\begin{GenericCode}
+function (/+\textcolor{red}{arguments}+/, /+\textcolor{cyan}{callback}+/) {
+  callback(/+\textcolor{cyan}{error}+/, /+\textcolor{olive}{result}+/);
+}
+\end{GenericCode}
+
+\end{minipage}
+\end{program}
+
 Die Kompilierung oder Interpretation der Job Funktion zur Laufzeit, ermöglicht ein sehr effizientes ausrollen dieser Funktionen. Es muss nicht die ganze Host-Anwendung neu übersetzt und Ausgerollt werden, wie es bei den in Abschnitt \ref{subsec:webjobssdk} beschriebenen traditionellen \textit{Web Jobs} der Fall war.
 
 \subsection{Azure Function App}

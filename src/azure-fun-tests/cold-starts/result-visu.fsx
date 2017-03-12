@@ -54,6 +54,8 @@ let cnnStr =
 
 let entries = downlaodTableToCsv cnnStr "coldStartTiming" "nix"
 
+entries.Length
+
 let avgPerRegion = 
   entries
   |> List.groupBy (fun x -> x.Location)
@@ -61,4 +63,23 @@ let avgPerRegion =
     let samples = rows |> List.map (fun x -> float x.DurationMillis / 1000.0)
     key, Statistics.FiveNumberSummary samples
   )
+
+let dateStart = entries |> List.map (fun x -> x.Timestamp) |> List.min
+let dateEnd = entries |> List.map (fun x -> x.Timestamp) |> List.max
+
+let dateRange = dateEnd - dateStart
+
+let latex =
+  avgPerRegion
+  |> List.map (fun (reg, stats) ->
+    reg, 
+    stats
+    |> Seq.zip ["lower whisker"; "lower quartile"; "mediae"; "upper quartile"; "upper whisker"]
+    |> Seq.map (fun (name, value) -> sprintf "%s=%.2f" name value)
+    |> String.concat ", "
+  )
+
+latex |> List.iter (printf "%A")
+
+
 
