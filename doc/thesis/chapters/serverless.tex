@@ -83,7 +83,7 @@ Derzeit investieren Cloud"=Anbieter sehr viel in die Entwicklung ihrer \textit{F
 
 Im März 2016 veröffentlichte die Firma \textit{Microsoft} eine Vorschauversion ihrer eigenen serverlosen Plattform mit dem Namen \textit{Azure Functions} \cite{AzFunIntro}. Nur ein halbes Jahr später folgte die erste offizielle Version \cite{AzFunGA}. \textit{Azure Functions} ist eine Erweiterung der ohnehin schon sehr umfangreichen \textit{Microsoft} Cloud"=Plattform. Diese Technologie eignet sich vor allem für die ereignisgesteuerte Verarbeitung und Transformation von Daten aus verschiedenen Datenquellen. Das deklarative Programmiermodell von \textit{Azure Functions} ermöglicht eine einfache Interaktion mit Daten- und Ereignisquellen. 
 
-\textit{Microsoft} griff für die Implementierung von \textit{Azure Functions} auf folgende, schon länger in \textit{Microsoft Azure} enthaltene Dienste und Bibliotheken zurück \cite{AzFunJourney}:
+\textit{Microsoft} griff für die Implementierung von \textit{Azure Functions} auf folgende, schon länger in \textit{Microsoft Azure} enthaltene, Dienste und Bibliotheken zurück \cite{AzFunJourney}:
 
 \begin{itemize}
 	\item \textit{App Service - Web App}
@@ -92,30 +92,30 @@ Im März 2016 veröffentlichte die Firma \textit{Microsoft} eine Vorschauversion
 	\item \textit{Web Jobs}
 	\item \textit{Web Jobs SDK}
 \end{itemize}
-Tatsächliche Neuentwicklungen waren folgende notwendig:
+Folgende Neuentwicklungen waren tatsächlich notwendig:
 \begin{itemize}
 	\item \textit{Web Jobs SDK Script}
 	\item \textit{App Service - Function App}
 	\item \textit{Dynamic Hosting Plan}
 \end{itemize}
 
-Die nachfolgenden Abschnitte geben einen Überblick der hier aufgelisteten Bestandteile, die Entstehungsgeschichte und Anwendungsmöglichkeiten von \textit{Azure Functions}. Großteils beziehen sich die Grundlagen von \textit{App Services} und \textit{Web Jobs} auf \cite{AzWebEssentials4Devs}.
+Die nachfolgenden Abschnitte geben einen Überblick über die hier aufgelisteten Bestandteile, die Entstehungsgeschichte und Anwendungsmöglichkeiten von \textit{Azure Functions}. Großteils beziehen sich die Grundlagen von \textit{App Services} und \textit{Web Jobs} auf \cite{AzWebEssentials4Devs}.
 
 \subsection{Azure App Service}
 
 \textit{App Service} ist in der \textit{Microsoft Azure} Cloud ein Oberbegriff für Services, die in die Kategorie \textit{Platform-as-a-Service} einzuordnen sind. Diese Services haben eine etwas konsequentere Interpretation von \textit{PaaS} als die älteren \textit{Cloud Services}. Bei einem \textit{App Service} übernimmt \textit{Microsoft} die Verwaltung der Infrastruktur, des Betriebssystems und der Laufzeitumgebungen. 
 
-Ein \textit{App Service} ist einem sogenannten \textit{App Service Plan} zugeordnet. Dieser kann mehrere \textit{App Services} beinhalten, die dann auf einem oder mehreren Servern gemeinsam ausgeführt werden. Der \textit{App Service Plan} ist also eine abstrakte Infrastrukturbeschreibung, welche die Anzahl, Größe und das Skalierungsverhalten der virtuellen Maschinen festlegt. Daher wird er oft als \textit{Server Farm} bezeichnet.
+Ein \textit{App Service} ist einem sogenannten \textit{App Service Plan} zugeordnet. Dieser kann mehrere \textit{App Services} beinhalten, die dann auf einem oder mehreren Servern gemeinsam ausgeführt werden. Der \textit{App Service Plan} ist also eine abstrakte Infrastrukturbeschreibung, in der die Anzahl, die Größe und das Skalierungsverhalten der virtuellen Maschinen festlegt. Daher wird er oft als \textit{Server Farm} bezeichnet.
 
 Der nächste Abschnitt beschreibt mit \textit{Azure Web Apps} einen konkreten \textit{App Service}, der ein Grundbaustein von \textit{Azure Functions} ist.
 
 \subsubsection{Azure Web App}
 
-Eine \textit{Web App} ist in \textit{Microsoft Azure} der einfachste Weg um eine Web"=Anwendung bereitzustellen. Die virtuellen Maschinen des \textit{App Service Plan}, in dem eine \textit{Web App} ausgeführt wird, sind bereits mit den gängigsten Webentwicklungsumgebungen ausgestattet. Damit lassen sich Web"=Anwendungen unterschiedlicher Technologien, wie \zB Node.js, .NET oder PHP, gemeinsam betreiben. \textit{Web Apps} sind als eine Abstraktion eines Web"=Servers.
+Eine \textit{Web App} ist in \textit{Microsoft Azure} der einfachste Weg, um eine Web"=Anwendung bereitzustellen. Die virtuellen Maschinen des \textit{App Service Plan}, in dem eine \textit{Web App} ausgeführt wird, sind bereits mit den gängigsten Webentwicklungsumgebungen ausgestattet. Damit lassen sich Web"=Anwendungen unterschiedlicher Technologien, wie \zB Node.js, .NET oder PHP, gemeinsam betreiben. Grundsätzlich ist eine \textit{Web App} ein abstrakter Web"=Server.
 
 \subsection{Site Control Manager}
 
-Die Funktionalität eines \textit{App Service} und somit auch einer \textit{Web App} ist mit Hilfe sogenannter \textit{Site Extensions} erweiterbar. Diese Erweiterungen werden im selben Kontext wie die eigentliche Web Anwendung ausgeführt. Der \textit{Site Control Manager} -- oft auch \textit{KUDU} genannt -- ist eine Erweiterung die bei jedem \textit{App Service} automatisch vorinstalliert ist. 
+Die Funktionalität eines \textit{App Service} und somit auch einer \textit{Web App} ist mit Hilfe von sogenannten \textit{Site Extensions} erweiterbar. Diese Erweiterungen werden im selben Kontext wie die eigentliche Web Anwendung ausgeführt. Der \textit{Site Control Manager} -- oft auch \textit{KUDU} genannt -- ist eine Erweiterung, die bei jedem \textit{App Service} automatisch vorinstalliert ist.
 
 Anfänglich war die einzige Aufgabe des \textit{Site Control Manager} die Auslieferung des \textit{App Service} mittels Versionsverwaltungssystemen. Aber im Laufe der Zeit wurden weitere Funktionen ergänzt. Dazu zählt auch die Funktion \textit{Web Jobs}, welche die Abarbeitung von Hintergrundaufgaben ermöglicht. Für kleinere Aufgaben, für die eine eigene virtuelle Maschine überdimensioniert wäre, sind \textit{Web Jobs} oft eine wirtschaftlichere Alternative.
 
@@ -126,14 +126,14 @@ Als \textit{Web Job} eignen sich ausführbare Dateien oder unterstützte Skripte
 \subsection{Web Jobs SDK}
 \label{subsec:webjobssdk}
 
-Die \textit{Web Jobs SDK} ist eine .NET"=Bibliothek für die Implementierung ereignisgesteuerter Hintergrundaufgaben. Das besondere daran ist das deklarative Programmiermodell, dass es erlaubt mit externen Datenquellen zu interagieren, ohne dafür extra Quelltext schreiben zu müssen \cite{WebJobsSdkBindingAttributes}.
+Die \textit{Web Jobs SDK} ist eine .NET"=Bibliothek für die Implementierung ereignisgesteuerter Hintergrundaufgaben. Diese Bibliothek bietet eine reichhaltige Integration externen Datenquellen. Ein deklaratives Programmiermodell sorgt dafür, dass Entwickler die Anbindung an eine Datenquelle deklarativ beschreiben können, ohne selbst eine Zeile Quelltext zu schreiben \cite{WebJobsSdkBindingAttributes}.
 
 Um vorab einen Einblick zu geben, zeigt Programm \ref{prog:webjobssdk} beispielhaft die Verwendung dieser Bibliothek. Der nächste Abschnitt enthält dann eine detailliertere Aufarbeitung der verwendeten Konzepte. Die folgende Aufzählung gibt eine Übersicht wichtiger Aspekte des Einführungsbeispiels:
 
 \begin{itemize}
 	\item Die Zeilen \textit{(1-5)} definieren eine Datenstruktur mit drei Attributen.
 	\item Zeile \textit{(7)} startet die \textit{Web Jobs SDK} Laufzeitumgebung. Diese sucht per .NET Reflection nach kompatiblen Funktionen.
-	\item Zeile \textit{(10)} definiert eine Funktion die ereignisgesteuert aufgerufen wird.
+	\item Zeile \textit{(10)} definiert eine Funktion, die ereignisgesteuert aufgerufen wird.
 	\item Zeile \textit{(11)} definiert das Ereignis, das einen Funktionsaufruf auslöst. Hier wird die Funktion bei jedem neuen Eintrag in einer Warteschlangen aufgerufen und dessen Inhalt automatisch an den Funktionsparameter übergeben.
 	\item Zeile \textit{(12)} definiert einen Ausgangsparameter. Wertzuweisungen an diesen Parameter werden automatisch in dem konfigurierten \textit{Blob Storage} gespeichert. Für den Pfad dieses Eintrags werden die aus dem Parameter in Zeile \textit{(11)} übergebenen Werte extrahiert.
 	\item Zeile \textit{(13)} definiert einen weiteren Ausgangsparameter, der an eine andere Warteschlange weitergeleitet wird. Dieses Ereignis könnte wiederum einen anderen Funktionsaufruf auslösen. 
@@ -165,13 +165,13 @@ public class Functions {
 
 Obwohl die Funktion in Programm \ref{prog:webjobssdk} mit drei verschiedenen externen Datenquellen interagiert, enthält sie dafür fast keinen imperativen Quelltext, sondern lediglich eine deklarative Beschreibung in Form von Attributen. Die eigentliche Interaktion und das Warten auf Ereignisse ist die Aufgabe der \textit{Web Jobs SDK}. 
 
-Eine \textit{Web Job} Anwendungen ist nichts anderes als eine gewöhnliche .NET Applikation mit einer Referenz auf die \textit{Web Jobs SDK}. Der nächste Abschnitt beschreibt wie statische Methoden einer \textit{Web Job} Anwendungen zu einem ereignisgesteuerten \textit{Web Job} werden.
+Eine \textit{Web Job} Anwendung ist nichts anderes als eine gewöhnliche .NET Applikation mit einer Referenz auf die \textit{Web Jobs SDK}. Der nächste Abschnitt beschreibt, wie statische Methoden einer \textit{Web Job} Anwendungen zu einem ereignisgesteuerten \textit{Web Job} werden.
 
-Für viele Einsatzgebiete reicht dieses einfache, deklarative Programmiermodell aus. Es spricht aber nichts dagegen, die Interaktionslogik mit einer Datenquelle selbst im Funktionsrumpf zu implementieren. Das ist oft sogar notwendig, wenn der Funktionsumfang der deklarativen Variante nicht ausreicht. Der Grundgedanke ist jedoch derartigen repetitiven Standardquelltext durch deklarative Programmierung zu vermeiden.
+Für viele Einsatzgebiete reicht dieses einfache, deklarative Programmiermodell aus. Es spricht aber nichts dagegen, die Interaktionslogik mit einer Datenquelle selbst im Funktionsrumpf zu implementieren. Das ist oft sogar notwendig, wenn der Funktionsumfang der deklarativen Variante nicht ausreicht. Der Grundgedanke ist jedoch, derartigen repetitiven Standardquelltext durch deklarative Programmierung zu vermeiden.
 
 \subsection{Bindungen}
 
-Bindungen definieren wann eine Funktion aufgerufen wird und wie sie über ihre Funktionsparameter mit Datenquellen interagieren kann. Die zwei wesentlichen \textit{Web Job} Bindungen sind Trigger"=Bindungen und Nicht"=Trigger"=Bindungen. Erstere überwachen eine Ereignisquelle und lösen den Aufruf einer Job Funktion aus, wenn ein Ereignis auftritt. Zweitere binden Parameter einer Job Funktion an eine externe Datenquelle. Das kann sowohl zum Lesen, als auch zum Schreiben von Daten sein. Darum werden Nicht"=Trigger"=Bindungen in Eingangs- und Ausgangsbindungen eingeteilt. Jede Funktion muss genau eine Trigger"=Bindung haben, kann aber beliebig viele Nicht"=Trigger"=Bindungen enthalten.
+Bindungen definieren, wann eine Funktion aufgerufen wird und wie sie über ihre Funktionsparameter mit Datenquellen interagieren kann. Die zwei wesentlichen \textit{Web Job} Bindungen sind Trigger"=Bindungen und Nicht"=Trigger"=Bindungen. Erstere überwachen eine Ereignisquelle und lösen den Aufruf einer Job Funktion aus, wenn ein Ereignis auftritt. Zweitere binden Parameter einer Job Funktion an eine externe Datenquelle. Das kann sowohl zum Lesen, als auch zum Schreiben von Daten sein. Darum werden Nicht"=Trigger"=Bindungen in Eingangs- und Ausgangsbindungen eingeteilt. Jede Funktion muss genau eine Trigger"=Bindung haben, kann aber beliebig viele Nicht"=Trigger"=Bindungen enthalten.
 
 Es gibt bereits eine Vielzahl vorhandener Bindungen. Entwickler können die Bibliothek aber auch mit selbst oder von Drittanbietern entwickelten Bindungen erweitern. Dazu muss man die wichtigsten dafür notwendigen Klassen kennen. Abbildung \ref{fig:webjobsclassdiag} zeigt den Bindungsmechanismus von Nicht"=Trigger"=Bindungen in einem stark vereinfachten Klassendiagramm.
 
@@ -189,10 +189,10 @@ Beim Starten der Anwendung werden Funktionen gesucht, die sich als \textit{Web J
 
 \begin{enumerate}
 	\item Das Assembly der Anwendung wird nach allen Methoden in allen öffentlichen Klassen durchsucht.
-	\item Für jeden Parameter einer Methode wird versucht eine Bindung zu erzeugen.
+	\item Für jeden Parameter einer Methode wird versucht, eine Bindung zu erzeugen.
 	\item Jeder registrierte \lstinline{I(Trigger)BindingProvider} bekommt die Möglichkeit eine Bindung über die Fabrikmethode \lstinline{TryCreate} zu erstellen. Diese Methode überprüft den Datentyp des Parameters und meistens die Existenz des Bindungs"=Attributs, welches die Metadaten der Bindung beinhaltet. Sind die Voraussetzungen einer konkreten Bindung erfüllt, wird diese erzeugt und zurückgegeben.
 	\item Wenn alle Parameter gebunden werden konnten, wird die Funktion in der \textit{Web Jobs} Laufzeitumgebung registriert.
-	\item Für jede Trigger"=Binding wird zusätzlich die Überwachung der jeweiligen Ereignisquelle gestartet.
+	\item Für jede Trigger"=Bindung wird zusätzlich die Überwachung der jeweiligen Ereignisquelle gestartet.
 \end{enumerate}
 
 \subsubsection{Laufzeitphase}
@@ -203,19 +203,19 @@ Nachdem alle Funktionen identifiziert wurden, beginnt die Laufzeitphase. In dies
 	\item Das Eintreten eines Ereignisses einer Trigger"=Bindung führt zur Ausführung der assoziierten Job Funktion.
 	\item Für jeden gebundenen Parameter wird die \lstinline{BindAsync} Methode der zur Startphase festgelegten Bindung aufgerufen. In dieser passiert der eigentliche Interaktionsschritt mit einer externen Datenquelle, wie \zB dem Lesen von Daten aus einer Datenbank.
 	\item Oft unterstützen Bindungen verschiedene Parametertypen, wie \zB \lstinline{String} oder \lstinline{Stream}. Die Bindung muss ihren tatsächlichen Wertebereich auf den Datentyp der aufzurufenden Funktion konvertieren.
-	\item Nachdem alle Parameter gebunden wurden, kann der eigentlich Funktionsrumpf aufgerufen werden.
+	\item Nachdem alle Parameter gebunden wurden, kann der eigentliche Funktionsrumpf aufgerufen werden.
 \end{enumerate}
 
 \subsection{Web Jobs Script SDK}
 \label{subsec:webjobsscriptsdk}
 
-Die \textit{Web Jobs Script SDK} ist das Herzstück von \textit{Azure Functions}. Es ist eine .NET Bibliothek, die eine interaktive Verwendung der sonst nur für .NET Applikationen geeigneten \textit{Web Jobs SDK} auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für \textit{Web Jobs} entwickelten Bindungen, für \textit{Azure Functions} wiederverwendet werden.
+Die \textit{Web Jobs Script SDK} ist das Herzstück von \textit{Azure Functions}. Es ist eine .NET Bibliothek, die eine interaktive Verwendung der sonst nur für .NET Applikationen geeigneten \textit{Web Jobs SDK} auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für \textit{Web Jobs} entwickelten Bindungen für \textit{Azure Functions} wiederverwendet werden.
 
-Wie in Programm \ref{prog:webjobssdk} gezeigt, agiert die Klasse \lstinline{JobHost} als Laufzeitumgebung von \textit{Web Job} Funktionen. In der \textit{Web Jobs Script SDK} Bibliothek ist die Klasse \lstinline{ScriptHost} von \lstinline{JobHost} abgeleitet und um dynamische Aspekte erweitert. Anstelle die Funktionen in eine .NET Anwendung zu verpacken, werden hier die Funktionen als Skript"=Dateien in einer bestimmten Ordnerstruktur abgelegt. Die Skript"=Laufzeitumgebung überwacht diese Ordnerstruktur auf Änderungen. Wenn eine Funktion hinzugefügt wird, löst das unmittelbar eine Aktualisierung und bei kompilierten Sprachen einen neue Übersetzung der Funktion aus.
+Wie in Programm \ref{prog:webjobssdk} gezeigt, agiert die Klasse \lstinline{JobHost} als Laufzeitumgebung von \textit{Web Job} Funktionen. In der \textit{Web Jobs Script SDK} Bibliothek ist die Klasse \lstinline{ScriptHost} von \lstinline{JobHost} abgeleitet und um dynamische Aspekte erweitert. Anstelle die Funktionen in eine .NET Anwendung zu verpacken, werden hier die Funktionen als Skript"=Dateien in einer bestimmten Ordnerstruktur abgelegt. Die Skript"=Laufzeitumgebung überwacht diese Ordnerstruktur auf Änderungen. Wenn eine Funktion hinzugefügt wird, löst das unmittelbar eine Aktualisierung und bei kompilierten Sprachen eine erneute Übersetzung der Funktion aus.
 
 \subsubsection{Programmiermodell}
 
-Eine \textit{Azure Function} Applikation ist im Grunde nur eine Ordnerstruktur. Jede Funktion befindet sich in einem eigenen Ordner und enthält mindestens zwei Dateien. Eine Skript"=Datei mit dem eigentlichen Quelltext der Funktion und einer Konfigurationsdatei, in der die Metadaten der Parameterbindungen definiert sind. Abschnitt \ref{subsec:webjobssdk} hat die Attribut-basierte Definition der Bindungsmetadaten gezeigt. Für \textit{Azure Functions} das nicht tauglich, weil nicht alle Programmiersprachen einen derartigen Mechanismus besitzen.
+Eine \textit{Azure Function} Applikation ist im Grunde nur eine Ordnerstruktur. Jede Funktion befindet sich in einem eigenen Ordner und enthält mindestens zwei Dateien. Meistens sind das eine Skript"=Datei, mit dem eigentlichen Quelltext der Funktion und eine Konfigurationsdatei, in der die Metadaten der Parameterbindungen definiert sind. Abschnitt \ref{subsec:webjobssdk} hat die attributbasierte Definition der Bindungsmetadaten gezeigt. Für \textit{Azure Functions} ist diese Umsetzung untauglich, weil nicht alle Programmiersprachen einen derartigen Mechanismus besitzen.
 
 \begin{program}[!hbt]
 \caption{Azure Functions Beispiel C\#}
@@ -273,39 +273,39 @@ public class SensorData {
 \end{minipage}
 \end{program}
 
-Die in Programm \ref{prog:azfun-sensor} dargestellte \textit{Azure Function} ist funktional äquivalent zu der in Programm \ref{prog:webjobssdk} gezeigten \textit{Web Job} Variante. Aus programmiertechnischer Sicht, ist der Größe Unterschied, die Definition der Bindungsmetadaten. Der Vorteil ist ganz klar die sprachunabhängigen Definition in Form einer Konfigurationsdatei, die auch für andere Sprachen verwendet werden kann. In diesem Beispiel ist der eigentliche Quelltext in Form einer C\#-Skript-Datei implementiert. Diese könnte sehr einfach gegen eine andere unterstützte Sprache ausgetauscht werden.
+Die in Programm \ref{prog:azfun-sensor} dargestellte \textit{Azure Function} ist funktional äquivalent zu der in Programm \ref{prog:webjobssdk} gezeigten \textit{Web Job} Variante. Aus programmiertechnischer Sicht ist der größte Unterschied, die Definition der Bindungsmetadaten in Form einer sprachunabhängigen Konfigurationsdatei, die auch für andere Sprachen verwendet werden kann. In diesem Beispiel ist der eigentliche Quelltext in einer C\#-Skript-Datei implementiert, die aber durch jede andere unterstützte Sprache ausgetauscht werden könnte.
 
-Der folgende Abschnitt, beschreibt wie die dynamische Übersetzung von \textit{Azure Functions} während der Laufzeit funktioniert.
+Der folgende Abschnitt beschreibt, wie die dynamische Übersetzung von \textit{Azure Functions} während der Laufzeit funktioniert.
 
 \subsubsection{Übersetzungsvorgang}
 
 Die Hauptaufgabe der \textit{Web Jobs Script SDK} Bibliothek ist die dynamische Übersetzung der verschiedenen unterstützten Programmiersprachen und die Integration dieser dynamisch übersetzten Funktionen in die \textit{Web Jobs SDK} Laufzeitumgebung. Für jede Programmiersprache ist ein anderer Übersetzungsprozess notwendig. Nachfolgend wird dieser Prozess für die kompilierten Sprachen C\# und F\#, sowie für die interpretierte Sprache Javascript, kurz dargestellt.
 
-Die \textit{Roslyn Compiler API} ist eine .NET Bibliothek die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der \textit{Web Jobs} Laufzeitumgebung verwendet werden.
+Die \textit{Roslyn Compiler API} ist eine .NET Bibliothek, die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken, um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der \textit{Web Jobs} Laufzeitumgebung verwendet werden.
 
-Bei Sprachen die nicht der .NET"=Familie angehören, wie \zB JavaScript, ist die Interaktion mit der \textit{Web Jobs SDK} wesentlich aufwändiger. Bei JavaScript Funktionen beispielsweise ist eine Brücke zwischen der .NET \textit{Common Language Runtime} und der \textit{JavaScript}-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
+Wesentlich aufwändiger gestaltet sich die Interaktion mit der \textit{Web Jobs SDK}, bei Sprachen die nicht der .NET"=Familie angehören. Bei JavaScript Funktionen beispielsweise, ist eine Brücke zwischen der .NET \textit{Common Language Runtime} und der \textit{JavaScript}-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter, als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
 
-Die Kompilierung oder Interpretation der Job Funktion zur Laufzeit, ermöglicht ein sehr effizientes ausrollen dieser Funktionen. Es muss nicht die ganze Host-Anwendung neu übersetzt und ausgerollt werden, wie es bei den in Abschnitt \ref{subsec:webjobssdk} beschriebenen traditionellen \textit{Web Jobs} der Fall war.
+Die Kompilierung oder Interpretation der Job Funktion zur Laufzeit, ermöglicht ein sehr effizientes ausrollen dieser Funktionen. Es muss nicht die ganze Host-Anwendung neu übersetzt und Ausgerollt werden, wie es bei den in Abschnitt \ref{subsec:webjobssdk} beschriebenen traditionellen \textit{Web Jobs} der Fall war.
 
 \subsection{Azure Function App}
 
-Eine \textit{Function App} ist in Microsoft Azure ein auf die Bedürfnisse von \textit{Azure Functions} zugeschnittener \textit{App Service}. Alle \textit{App Services} haben gemeinsame Basisfunktionen, wie \zB Logging, Monitoring, Deployment- sowie Skalierbarkeitsmöglichkeiten. Eine \textit{Function App} hat eine zusätzliche \textit{Site Extension} in der die in Abschnitt \ref{subsec:webjobsscriptsdk} beschriebene Skript-Laufzeitumgebung ausgeführt wird. Auf diese Weise ist auch die Verwendung von HTTP-Triggern möglich, weil eine \textit{Site Extension} auch die Kommunikation über HTTP ermöglicht. Damit lassen sich mit \textit{Azure Functions} auch sehr schnell einfache Web"=Services entwickeln. Alternativ wäre es auch möglich, die Skript-Laufzeitumgebung in einer .NET"=Konsolenanwendung als kontinuierlichen \textit{Web Job} eines \textit{App Service} auszuführen. Damit wäre aber das Empfangen von HTTP-Anfragen nicht möglich.
+Eine \textit{Function App} ist in \textit{Microsoft Azure} ein auf die Bedürfnisse von \textit{Azure Functions} zugeschnittener \textit{App Service}, der mehrere zusammengehörende \textit{Azure Functions} zusammenbindet. Alle \textit{App Services} haben gemeinsame Basisfunktionen, wie \zB Logging, Monitoring, Deployment-, sowie Skalierbarkeitsmöglichkeiten. Eine \textit{Function App} hat eine zusätzliche \textit{Site Extension}, in der die in Abschnitt \ref{subsec:webjobsscriptsdk} beschriebene Skript-Laufzeitumgebung ausgeführt wird. Auf diese Weise ist auch die Verwendung von HTTP-Triggern möglich, weil eine \textit{Site Extension} auch die Kommunikation über HTTP ermöglicht. Damit lassen sich mit \textit{Azure Functions} auch sehr schnell einfache Web"=Services entwickeln. Alternativ wäre es auch möglich, die Skript-Laufzeitumgebung in einer .NET"=Konsolenanwendung als kontinuierlichen \textit{Web Job} eines \textit{App Service} auszuführen. Damit wäre aber das Empfangen von HTTP-Anfragen nicht möglich.
 
 Als zusätzliche Erweiterung bieten \textit{Function Apps} auch eine online Entwicklungsumgebung, die in das \textit{Microsoft Azure Portal} integriert wurde. Somit können Funktionen interaktiv erstellt, geändert und gelöscht werden. Dateiänderungen werden automatisch von der Skript-Laufzeitumgebung erkannt und die geänderten Funktionen neu übersetzt. In der Entwurfsphase ist diese Möglichkeit der Entwicklung sehr produktiv. Danach sollte aber ein automatisierter Prozess, \zB über ein Versionsverwaltungssystem, bevorzugt werden.
 
-Der \textit{App Service Plan} eines \textit{App Service} definiert aus welchen und wie vielen virtuellen Server die Infrasturktur bestehen soll. Die zur Verfügung gestellten Ressourcen stehen permanent zur Verfügung und verursachen somit auch laufend Kosten, wenn die Anwendungen keine Ressourcen beanspruchen. Dieses Konzept steht im Widerspruch zur Grundidee von \textit{Function-as-a-Service}. Hier soll die Verrechnung auf Basis der Funktionsaufrufe erfolgen. 
+Der \textit{App Service Plan} eines \textit{App Service} definiert, aus welchen und wie vielen virtuellen Servern die Infrasturktur bestehen soll. Die zur Verfügung gestellten Ressourcen stehen permanent zur Verfügung und verursachen somit auch laufend Kosten, wenn die Anwendungen keine Ressourcen beanspruchen. Dieses Konzept steht im Widerspruch zur Grundidee von \textit{Function-as-a-Service}. Hier soll die Verrechnung auf Basis der Funktionsaufrufe erfolgen. 
 
-Für eine konsequente Implementierung von \textit{FaaS} erweiterte \textit{Microsoft} den klassischen \textit{App Service Plans} um einen sogenannten \textit{Consumption Plan}. Mit dieser Variante hat der Entwickler keinerlei Möglichkeit mehr die Skalierbarkeitseigenschaften zu bestimmt. \textit{Microsoft Azure} übernimmt völlig automatisch die Skalierung auf die optimale Größe.
+Für eine konsequente Implementierung von \textit{FaaS} erweiterte \textit{Microsoft} den klassischen \textit{App Service Plans} um einen sogenannten \textit{Consumption Plan}. Mit dieser Variante hat der Entwickler keinerlei Möglichkeit mehr, die Skalierbarkeitseigenschaften zu bestimmen. \textit{Microsoft Azure} übernimmt völlig automatisch die Skalierung auf die optimale Größe.
 
 Das Verrechnungsmodell bei einem \textit{Consumption Plan} stellt nur tatsächlich konsumierte Ressourcen in Rechnung. In vielen Fällen lassen sich damit Kostenersparnisse gegenüber Varianten mit reservierter Ressourcenzeit erzielen. Man verliert aber jegliche Einflussmöglichkeit auf die Ressourcen, sodass man beispielsweise das in Abschnitt \ref{subsec:coldstart} beschriebene Kaltstartproblem in Kauf nehmen muss.
 
-Derzeit ist die Verwendung eines traditionellen \textit{App Service Plans} und eines \textit{Consumption Plans} möglich. Der hat also die Wahlfreiheit oder kann bestehende \textit{App Service Plans} mit \textit{Azure Functions} nutzen. Die meisten anderen Anbieter am Markt haben nur ein dem \textit{Consumption Plan} ähnliches Modell im Angebot.
+Derzeit ist die Verwendung eines traditionellen \textit{App Service Plans} und eines \textit{Consumption Plans} möglich. Konsumenten haben also die Wahlfreiheit oder können bestehende \textit{App Service Plans} für \textit{Azure Functions} nutzen. Die meisten anderen Anbieter am Markt haben nur ein dem \textit{Consumption Plan} ähnliches Modell im Angebot.
 
 \subsection{Verrechnungsmodell}
 
-Dieser Abschnitt bezieht sich auf den zuvor beschriebenen \textit{Consumption Plan}, da dieser die Größte Übereinstimmung mit den Ideen hinter serverloser Softwarearchitektur hat. Die Kosten von \textit{Azure Functions} werden durch die Anzahl der Funktionsaufrufe und den Ressourcenkosten bestimmt. Für die Berechnung der Aufrufkosten wird die Anzahl der Funktionsaufrufe mit dem festgelegten Preis pro Aufruf multipliziert.
+Dieser Abschnitt bezieht sich auf den zuvor beschriebenen \textit{Consumption Plan}, da dieser die größte Übereinstimmung mit den Ideen hinter serverloser Softwarearchitektur hat. Die Kosten von \textit{Azure Functions} werden durch die Anzahl der Funktionsaufrufe und den Ressourcenkosten bestimmt. Für die Berechnung der Aufrufkosten wird die Anzahl der Funktionsaufrufe mit dem festgelegten Preis pro Aufruf multipliziert.
 
-Hinter den Ressourcenkosten steckt eine aufwändigere Berechnung. Zuerst wird die Anzahl der Aufrufe mit der Aufrufdauer multipliziert, um den Ressourcenverbrauch in Sekunden zu erhalten. Dieser Wert wird mit dem durchschnittlichen Speicherverbrauch in Gigabyte multipliziert. Danach erhält man den Ressourcenverbrauch in Gigabyte-Sekunden. Auch pro Gigabyte-Sekunde gibt es eine festgelegten Tarif, mit dem man die Ressourcenkosten berechnen kann.
+Hinter den Ressourcenkosten steckt eine aufwändigere Berechnung. Zuerst wird die Anzahl der Aufrufe mit der Aufrufdauer multipliziert, um den Ressourcenverbrauch in Sekunden zu ermitteln. Dieser Wert wird mit dem durchschnittlichen Speicherverbrauch in Gigabyte multipliziert. Danach erhält man den Ressourcenverbrauch in Gigabyte-Sekunden. Auch pro Gigabyte-Sekunde gibt es einen festgelegten Tarif, mit dem man die Ressourcenkosten berechnen kann.
 
 Die Gesamtkosten setzen sich aus den Aufrufkosten und den Ressourcenkosten zusammen. Den Hauptteil der Kosten nehmen meistens die Ressourcenkosten ein, die abhängig vom Speicherverbrauch und der Aufrufdauer sind. In Tabelle \ref{tab:azfun-pricing} ist die gesamte Berechnung noch einmal verdeutlicht.
 
@@ -345,9 +345,9 @@ $=$ & \textit{\textbf{Gesamtkosten}} \\
 
 Die dynamische Ressourcenbereitstellung des \textit{Consumption Plans} ermöglicht zwar eine sehr feingranulare und kosteneffiziente Verrechnung von Funktionsaufrufen, jedoch hat diese Art auch Nachteile. Einer davon sind sogenannte Kaltstarts. Darunter versteht man den Effekt, dass der erste Funktionsaufruf nach längerer Inaktivität viel länger dauert, als durchschnittliche Aufrufe.
 
-In \textit{AWS Lambda} werden Latenzzeiten von 100 bis 800 Millisekunden bei \textit{Node.js} und bis zu 3500 Millisekunden bei \textit{Java} Funktionen beobachtet \cite[Kap. 16]{Fuller2016}. Auch wenn \textit{AWS Lambda} und \textit{Azure Functions} mit völlig unterschiedlich Technologien entwickelt wurden, leiden sie dennoch beide unter diesem Problem, wie das nachfolgende Experiment zeigt.
+In \textit{AWS Lambda} werden Latenzzeiten von 100 bis 800 Millisekunden bei \textit{Node.js} und bis zu 3500 Millisekunden bei \textit{Java} Funktionen beobachtet \cite[Kap. 16]{Fuller2016}. Auch wenn \textit{AWS Lambda} und \textit{Azure Functions} mit völlig unterschiedlichen Technologien entwickelt wurden, leiden sie dennoch beide unter diesem Problem, wie das nachfolgende Experiment zeigt.
 
-Um das Kaltstartproblem in \textit{Azure Functions} zu analysieren, wurden über einen Zeitraum von zwei Wochen, in mehreren \textit{Microsoft Azure} Regionen Funktionen über einen HTTP-Trigger aufgerufen. Die Aufrufe selbst erfolgte aus der selben Region und hatten einen Abstand zwischen fünfzehn Minuten und zwölf Stunden. Abbildung \ref{fig:azfun-latency} zeigt, dass ein HTTP-Aufruf nach längerer Inaktivität durchschnittlich etwa vier Sekunden benötigt. Es ist aber auch zu erkennen, dass die Antwortzeiten sehr große Schwankungen aufweisen.
+Um das Kaltstartproblem in \textit{Azure Functions} zu analysieren, wurden über einen Zeitraum von zwei Wochen, in mehreren \textit{Microsoft Azure} Regionen, Funktionen über einen HTTP-Trigger aufgerufen. Die Aufrufe selbst erfolgten aus der selben Region und hatten einen Abstand zwischen fünfzehn Minuten und zwölf Stunden. Abbildung \ref{fig:azfun-latency} zeigt, dass ein HTTP-Aufruf nach längerer Inaktivität durchschnittlich etwa vier Sekunden benötigt. Es ist aber auch zu erkennen, dass die Antwortzeiten sehr große Schwankungen aufweisen.
 
 \begin{figure}[!hbt]%
 \caption{Azure Functions Kaltstart-Latenzzeit}%
@@ -388,13 +388,13 @@ Um das Kaltstartproblem in \textit{Azure Functions} zu analysieren, wurden über
 \end{tikzpicture}
 \end{figure}
 
-Ob die großen Latenzzeiten nach einem Kaltstart ein Problem darstellen, kommt auf das jeweilige Einsatzgebiet an. In diesem Bereich herrscht sicherlich noch großes Optimierungspotential seitens der Cloud"=Anbieter. 
+Ob die großen Latenzzeiten nach einem Kaltstart ein Problem darstellen, kommt auf das jeweilige Einsatzgebiet an. Bei einem kontinuierlichen Lastaufkommen oder bei nicht zeitkritischen Szenerien, kann dieses Problem auch vernachlässigbar sein. In diesem Bereich herrscht sicherlich noch großes Optimierungspotential seitens der \textit{FaaS}=Anbieter.
 
 \subsection{Zusammenfassung}
 
-In diesem Abschnitt wurde \textit{Azure Functions} als konkrete Technologie, aus dem Bereich \textit{Function-as-a-Service} vorgestellt. Es ist eine Möglichkeit kleine unabhängige Funktionen, ereignisgesteuert auszuführen. Die Alleinstellungsmerkmale sind die einfache Interaktion mit externen Datenquellen und das serverlose Ressourcenmodell. Serverlos bedeutet nämlich, dass der Service-Anbieter sämtliche Infrastrukturaufgaben übernimmt, selbst die Skalierung.
+In diesem Abschnitt wurde \textit{Azure Functions} als konkrete Technologie aus dem Bereich \textit{Function-as-a-Service} vorgestellt. Es ist eine Möglichkeit, kleine unabhängige Funktionen ereignisgesteuert auszuführen. Die Alleinstellungsmerkmale sind die einfache Interaktion mit externen Datenquellen und das serverlose Ressourcenmodell. Serverlos bedeutet nämlich, dass der Service-Anbieter sämtliche Infrastrukturaufgaben übernimmt, selbst die Skalierung.
 
-\textit{Azure Functions} baut sehr stark auf die vorhandenen Funktionen der \textit{Web Jobs SDK} auf und macht diese auch Programmiersprachen außerhalb der .NET-Familie zugänglich. Mit all seinen Bindungen und Triggern an verschiedenste Datenquellen, besitzt \textit{Azure Functions} einen reichhaltigen Baukasten für die Entwicklung von Microservices in der Cloud. Weil Funktionen automatisch hoch skalierbar und verfügbar sind, ist \textit{FaaS} auch für Anspruchsvolle Anwendungen geeignet. Spielt jedoch die Latenzzeit eine große rolle, oder ist die Lastverteilung sehr hoch und vorhersehbar, sind andere Technologien möglicherweise bessere geeignet. 
+\textit{Azure Functions} baut sehr stark auf die vorhandenen Funktionen der \textit{Web Jobs SDK} auf und macht diese auch Programmiersprachen außerhalb der .NET-Familie zugänglich. Mit all seinen Bindungen und Triggern an verschiedenste Datenquellen, besitzt \textit{Azure Functions} einen reichhaltigen Baukasten für die Entwicklung von Microservices in der Cloud. Weil Funktionen automatisch hoch skalierbar und verfügbar sind, ist \textit{FaaS} auch für anspruchsvolle Anwendungen geeignet. Spielt jedoch die Latenzzeit eine große Rolle, oder ist die Lastverteilung sehr hoch und vorhersehbar, sind andere Technologien möglicherweise besser geeignet. 
 
 \section{Evolution der Anwendungsentwicklung}
 
