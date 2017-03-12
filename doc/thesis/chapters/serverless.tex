@@ -133,7 +133,7 @@ Um vorab einen Einblick zu geben, zeigt Programm \ref{prog:webjobssdk} beispielh
 \begin{itemize}
 	\item Die Zeilen \textit{(1-5)} definieren eine Datenstruktur mit drei Attributen.
 	\item Zeile \textit{(7)} startet die \textit{Web Jobs SDK} Laufzeitumgebung. Diese sucht per .NET Reflection nach kompatiblen Funktionen.
-	\item Zeile \textit{(10)} definiert eine Funktion, die ereignisgesteuert aufgerufen wird.
+	\item Zeile \textit{(10)} definiert ereignisgesteuerte Funktion.
 	\item Zeile \textit{(11)} definiert das Ereignis, das einen Funktionsaufruf auslöst. Hier wird die Funktion bei jedem neuen Eintrag in einer Warteschlangen aufgerufen und dessen Inhalt automatisch an den Funktionsparameter übergeben.
 	\item Zeile \textit{(12)} definiert einen Ausgangsparameter. Wertzuweisungen an diesen Parameter werden automatisch in dem konfigurierten \textit{Blob Storage} gespeichert. Für den Pfad dieses Eintrags werden die aus dem Parameter in Zeile \textit{(11)} übergebenen Werte extrahiert.
 	\item Zeile \textit{(13)} definiert einen weiteren Ausgangsparameter, der an eine andere Warteschlange weitergeleitet wird. Dieses Ereignis könnte wiederum einen anderen Funktionsaufruf auslösen. 
@@ -209,7 +209,7 @@ Nachdem alle Funktionen identifiziert wurden, beginnt die Laufzeitphase. In dies
 \subsection{Web Jobs Script SDK}
 \label{subsec:webjobsscriptsdk}
 
-Die \textit{Web Jobs Script SDK} ist das Herzstück von \textit{Azure Functions}. Es ist eine .NET Bibliothek, die eine interaktive Verwendung der sonst nur für .NET Applikationen geeigneten \textit{Web Jobs SDK} auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für \textit{Web Jobs} entwickelten Bindungen für \textit{Azure Functions} wiederverwendet werden.
+Die \textit{Web Jobs Script SDK} ist das Herzstück von \textit{Azure Functions}. Es ist eine .NET"=Bibliothek, die eine interaktive Verwendung der sonst nur für .NET Applikationen geeigneten \textit{Web Jobs SDK} auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für \textit{Web Jobs} entwickelten Bindungen für \textit{Azure Functions} wiederverwendet werden.
 
 Wie in Programm \ref{prog:webjobssdk} gezeigt, agiert die Klasse \lstinline{JobHost} als Laufzeitumgebung von \textit{Web Job} Funktionen. In der \textit{Web Jobs Script SDK} Bibliothek ist die Klasse \lstinline{ScriptHost} von \lstinline{JobHost} abgeleitet und um dynamische Aspekte erweitert. Anstelle die Funktionen in eine .NET Anwendung zu verpacken, werden hier die Funktionen als Skript"=Dateien in einer bestimmten Ordnerstruktur abgelegt. Die Skript"=Laufzeitumgebung überwacht diese Ordnerstruktur auf Änderungen. Wenn eine Funktion hinzugefügt wird, löst das unmittelbar eine Aktualisierung und bei kompilierten Sprachen eine erneute Übersetzung der Funktion aus.
 
@@ -281,11 +281,11 @@ Der folgende Abschnitt beschreibt, wie die dynamische Übersetzung von \textit{A
 
 Die Hauptaufgabe der \textit{Web Jobs Script SDK} Bibliothek ist die dynamische Übersetzung der verschiedenen unterstützten Programmiersprachen und die Integration dieser dynamisch übersetzten Funktionen in die \textit{Web Jobs SDK} Laufzeitumgebung. Für jede Programmiersprache ist ein anderer Übersetzungsprozess notwendig. Nachfolgend wird dieser Prozess für die kompilierten Sprachen C\# und F\#, sowie für die interpretierte Sprache Javascript, kurz dargestellt.
 
-Die \textit{Roslyn Compiler API} ist eine .NET Bibliothek, die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken, um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der \textit{Web Jobs} Laufzeitumgebung verwendet werden.
+Die \textit{Roslyn Compiler API} ist eine .NET"=Bibliothek, die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken, um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der \textit{Web Jobs} Laufzeitumgebung verwendet werden.
 
 Wesentlich aufwändiger gestaltet sich die Interaktion mit der \textit{Web Jobs SDK}, bei Sprachen die nicht der .NET"=Familie angehören. Bei JavaScript Funktionen beispielsweise, ist eine Brücke zwischen der .NET \textit{Common Language Runtime} und der \textit{JavaScript}-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter, als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
 
-Die Programmiermodelle von .NET und \textit{Node.js} unterscheiden sich in manchen Punkten gravierend. In \textit{Node.js} wird Nebenläufigkeit beispielsweise durch Callback-basierte Programmierung gelöst, weil die virtuelle JavaScript-Maschine nur einen einzigen Ausführungsstrang nutzt. In .NET gibt es diese Einschränkung nicht. Hier wird Task-basierte Nebenläufigkeit bevorzugt. Programm \ref{prog:dotnet-javascript-bridge} zeigt aber, dass beide Konzepte isomorph sind und sich darum trotzdem gut verbinden lassen.
+Die Programmiermodelle von .NET und \textit{Node.js} unterscheiden sich teilweise gravierend. In \textit{Node.js} wird Nebenläufigkeit beispielsweise durch Callback"=basierte Programmierung gelöst, weil die virtuelle JavaScript-Maschine nur einen einzigen Ausführungsstrang nutzt. In .NET gibt es diese Einschränkung nicht. Hier wird Task"=basierte Nebenläufigkeit bevorzugt. Programm \ref{prog:dotnet-javascript-bridge} zeigt aber, dass beide Konzepte isomorph sind und sich darum trotzdem gut verbinden lassen.
 
 \begin{program}[!hbt]
 \caption{Brücke zwischen Task-basierter Programmierung in .NET und Callback-basierter Programmierung in JavaScript}
