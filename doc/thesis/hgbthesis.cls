@@ -491,5 +491,7 @@ acknowledged. I further declare that this or similar work has not been submitted
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.14}
 
+\pdfsuppresswarningpagegroup=1 % see http://tex.stackexchange.com/a/78020
+
 \endinput
 
