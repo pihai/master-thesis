@@ -1,0 +1,102 @@
+\chapter{Containervirtualisierung}
+
+Dieses Kapitel beschreibt mit der Container-Virtualisierung eine äußerst effektive Methode Microservices mit allen Abhängigkeiten effizient und robust zu betreiben.
+
+Eine Microservices"=Architektur ist nicht nur aus Softwareentwicklungssicht herausfordernd, sondern auch aus Infrastruktursicht. Jeder Microservice muss unabhängig ausgerollt und skaliert werden können. Nur so kann diese Architektur auch die in Abschnitt \ref{sec:ms-advantages} beschriebenen Vorteile entfalten. In diesem Kapitel wird Betriebssystemvirtualisierung mittels Containern vorgestellt, die eine effiziente Verteilung von Anwendungen und deren Abhängigkeiten ermöglichen. Im Unterschied zu klassischer Virtualisierung bietet dieser Ansatz wesentlich kürzere Bereitstellungszeiten und eine effektivere Nutzung von Ressourcen.
+
+Jeder Service hat bestimmte Voraussetzungen an seine Umgebung. Dazu zählen externen Bibliotheken, Konfigurationsdateien und selbstverständlich eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Man könnte versuchen über \textit{Infrastructure-as-Code} die für einen Service notwendigen Abhängigkeiten zu installieren. Ein alternativer Ansatz ist den Service und mit seinen Abhängigkeiten in ein Betriebssystemabbildung -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung, wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt, der die Anwendung beinhaltet.
+
+\section{Unveränderbare Server}
+
+Anstatt die Konfiguration eines Servers zu ändern, kann man ihn auch stoppen und einen neuen Server mit aktualisierter Konfiguration wieder starten. Was sich zuerst sehr aufwändig und unsinnig anhört, ist heute aus gutem Grund gängige Praxis. Die Firma \textit{Netflix} war eines der ersten Unternehmen, das diesen Ansatz praktizierte \cite{NflxLegos}. Laut eigenen Angaben, konnten sie dadurch die Reproduzierbarkeit und Stabilität ihres Softwareauslieferungsprozess stark verbessern. Zurückzuführen ist das auf die Tatsache, dass die in der Testumgebung validierten Artefakte identisch zu den im Produktivsystem eingesetzten sind. Des weiteren gibt es keine Möglichkeit, wie eine Konfigurationsänderung unabsichtlich in ein Produktivsystem gelangen kann, ohne dass diese durch eine Reihe von Tests validiert wurde.
+
+Unter einem unveränderbaren Server versteht man eine Ressource, die niemals verändert, sondern nur durch eine aktualisierte Version ersetzt wird \cite{ImmutableServer}. Die in den nächsten Abschnitten beschriebene Containertechnologie \textit{Docker} unterstützt diesen Ansatz sehr gut und ist darüber hinaus auch noch effizienter als klassische Virtualisierung.
+
+\subsection{Arten von Virtualisierung}
+
+Vor dem Einstieg in Containertechnologien lohnt sich ein genauerer Blick auf verschiedene Virtualisierungstechniken. Nur wer die Eigenschaften der verschieden Systeme kennt, kann objektiv entscheiden in welcher Situation welche Technologie vorteilhaft ist.
+
+Unter Virtualisierung versteht man die Illusion mehrere virtuelle und voneinander unabhängige Server auf einem einzigen physischen System auszuführen. Zum einen ermöglicht das eine effektivere Nutzung von Ressourcen und zum anderen die Möglichkeit Server per Software zu erzeugen. Es wurden viele verschiedene Arten von Virtualisierung entwickelt. \cite{VirtualizationBasics} und \cite{Smith:2005:AVM:1069588.1069632} geben eine mögliche Klassifizierungen dieser Ansätze anhand ihrer Architektur. Die nächsten Abschnitte beschreiben die für den Kontext dieser Arbeit relevanten Arten.
+
+\subsubsection{Vollständige Virtualisierung}
+
+Bei der \textit{vollständigen Virtualisierung} ermöglicht der sogenannte Hypervisor den Gastbetriebssystemen den Zugriff auf die Hardware. Die Gastsysteme sind unveränderte Betriebssysteme die keine Kenntnis darüber haben, dass sie virtualisiert sind. Für jeden Gast wird sozusagen eine vollständige Hardwareumgebung simuliert.
+
+\subsubsection{Paravirtualisierung}
+
+Bei der \textit{Paravirtualisierung} hat das Gastsystem Kenntnis über die Virtualisierung. Es verwendet sogenannte \textit{Hypercalls} um direkt mit dem Hypervisor zu interagieren. Damit lässt sich eine Performanzverbesserung erzielen, erfordert aber ein angepasstes Gastbetriebssystem. Diese Art der Virtualisierung kommt \zB in der \textit{Microsoft Azure} Cloud zum Einsatz \cite[30]{Krishnan10}. Dort wird das Gastbetriebssystem als aufgeklärt -- \textit{engl. enlightend} -- bezeichnet.
+
+\subsubsection{Prozessorunterstützte vollständige Virtualisierung}
+
+Für die \textit{prozessorunterstützte vollständige Virtualisierung} arbeitet der Hypervisor eng mit speziellen Prozessoren zusammen. Der Befehlssatz dieser Prozessoren wurde spezielle für Virtualisierungsszenarien erweitert, um eine Geschwindigkeitssteigerung zu erzielen und die Aufgaben des Hypervisors zu erleichtern. Durch die Komplexitätsreduktion des Hypervisors sind diese viel einfacher und robuster.
+
+\subsubsection{Betriebssystemvirtualisierung}
+
+Die \textit{Betriebssystemvirtualisierung} unterscheidet sich stark von den anderen Arten. Hier gibt es keinen Hypervisor und auch die Gastsysteme sind keine vollständigen Betriebssysteme. Stattdessen werden sogenannte Container innerhalb eines Betriebssystems virtualisiert. Diese Art erfordert nur eine Betriebssystem und ist dementsprechend auch schneller und Ressourcensparender. Eine wesentliche Einschränkung ist aber, dass die Container und das Wirtsystem vom selben Betriebssystem sein müssen.
+
+\subsection{Isolation versus Effizienz}
+
+Virtualisierung ist immer ein Kompromiss zwischen Effizient und Isolation. Jede Art setzt die Grenzen zwischen diesen beiden Eigenschaften an einen anderen Punkt. Die Effizient lässt sich einfach Anhand quantitativer Kriterien wie Durchsatz oder Latenzzeiten festmachen. Bei der Isolation gestaltet sich die Situation schwieriger. In \cite{Soltesz:2007:COS:1272996.1273025} werden dazu folgende Kriterien herangezogen:
+
+\begin{itemize}
+	\item \textbf{Fehlerisolation} ist gegeben, wenn eine Fehler in einem Gastsystem die anderen Gastsysteme nicht beeinflussen kann.
+	\item Mit \textbf{Ressourcenisolation} wird sichergestellt, dass die vorhandenen Ressourcen gerecht \bzw kontrollierbar auf die Gastsysteme aufgeteilt werden.
+	\item \textbf{Sicherheitsisolation} sorgt für die Sicherheit zwischen Gastsystemen. Sicherheitslücken treten vermehrt auf, wenn verschiedene Aspekte zwischen Gastsystemen geteilt werden. Dazu zählen \zB das Dateisystem, virtueller Adressraum, Netzwerk \usw.
+\end{itemize}
+
+Hypervisorvirtualisierung, auch gerne als Hardwarevirtualisierung bezeichnet, bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden. Daher ist hier Betriebssystemvirtualisierung mit Containern gut geeignet.
+
+\section{Docker}
+
+Die zur Zeit bekannteste Betriebssystemvirtualisierungssoftware ist \textit{Docker}. 
+
+\newpage
+\iffalse
+- illusion of running multiple virtual machines (own os) on a single physical server
+- trace efficiency for isolation (container-paper). efficiency easily quantifyable, but isolation not
+	- fault isolation
+		- one vm failes nothing happens to the others
+		- container host kernel fails, every container fails
+		- only bug in the hypervisor can fail a vm
+	- resource isolation
+	  - fair/controllable distirbution of resources
+	- Security isolation:
+- two types (1 and 2). One bette suited for comparision with docker
+- no resource sharing
+- os virt vs hardware virt
+- full os for each vm
+- isolated host spaces (containers)
+- cheap and fast (no indirection, union file system, ...)
+- Containers are more like processes (efficient way to deliver applications) than OSs
+- quite good isolation but not as good as vms
+- Schliessen sich nicht aus (Docker in virtuellen maschine machen sehr viel sinn) -> ABER docker is for packeging and deployment
+
+
+
+- Docker
+  - Leightweight virtual machine
+	- sandboxing
+  - Technologie developed on linux and adopted in windows
+	- client server arch
+	- container vs vms figure
+	- Dependency hell
+	- container vs. hypervisor-based vms
+	  - os level vs. hardware level
+	- Advantages
+	  - Multi version
+		- missing dependencies
+		- 
+	- OS-Level Concepts
+	  - cgroups
+		- namespaces
+		- union-file system
+		- virtual networks
+		- ...
+	- Docker Architecture
+	  - CLI, Rest-Service, Host
+		- Registry, Hub
+		- Swarm
+	- Microservices
+	  - Compose
+		
+\fi
