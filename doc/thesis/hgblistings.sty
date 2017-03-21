@@ -236,3 +236,21 @@ keepspaces=true,%
   escapeinside={/+}{+/},
   #1}}%
 {}
+
+% Language Definition and Code Environment for Docker
+\lstdefinelanguage{Docker}{
+  morekeywords={FROM,RUN,CMD,LABEL,MAINTAINER,EXPOSE,ENV,%
+	  ADD,COPY,ENTRYPOINT,VOLUME,USER,WORKDIR,ARG,ONBUILD,%
+		STOPSIGNAL,HEALTHCHECK,SHELL},     
+  sensitive=true,
+  morecomment=[l][\color{commentColor}]{\#},
+  morestring=[b]"
+}
+
+\lstnewenvironment{DockerCode}[1][]
+{\lstset{%
+  language=Docker,
+  mathescape=false,
+  escapeinside={/*}{*/},
+  #1}}%
+{}

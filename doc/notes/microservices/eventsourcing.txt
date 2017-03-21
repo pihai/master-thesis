@@ -1,0 +1,66 @@
+# Classic Architecure
+
+- Client
+- SOAP / REST Endpoint (DTOs)
+- Business Logic (Domain)
+- DAO (Daos)
+- RDBMS
+
+- Reads and Writes go through the same layers and data models
+- Same model is used for reads and Writes
+- Data is changed directly (mutable) (state change) (old value is gone)
+- This approach is battle tested an works well in many scenarios
+- It doens't mean that the old approach is wrong, but in the old days the prerequisits were differnt (weak perf, ...)
+
+## Drawbacks
+
+1. Same model for reads and writes
+2. Read and Write can't be scaled independently (read vs write heavy apps) (only the whole stack can be scaled)
+3. No data history
+4. Tendency to a monolithic approach
+
+# Event Sourcing
+
+- Is an architectural pattern
+- Which solves the above problems
+- determines the current state of the application by applying a sequence of events
+- Infinite stream of events
+- Insert only
+- An event is something that had happend (past)
+- Events on every entity are too fine grained
+  - Better find an appropriate scope for aggregates
+  - Entities are CRUD like
+  - Aggregate
+    - Multiple Entities bounded to a business context
+    - Root-Entity determines the lifetime
+  - Events are immutable and are never deleted
+  - Better use pipes instead of monstrous enterprise service buses for event transmission
+  - Version Contol Systems are Event Sourced systems (also databases uses it internally for their transaction log)
+- Representation of events
+  - serialized objects
+  - json/xml (good choice because can easily be read by other systems)
+  - tables in a rdbms
+
+## Advantages of Event Sourcing
+
+- Complete rebuild is possible (based on the events)
+- Temportal Queries
+- Event Replay (find nasty business logic bugs)
+
+# CQRS
+
+- Commands = Writes
+- Queries = Reass
+- Both are seperated
+- Commands issue events
+- Pre-aggregate (redundancy) some aggregates which would be hard to query
+- Maybe seperate read from write microservices
+
+# Challenges
+
+- Consistency
+  - Mostly eventual consistent (propably all distributed systems are eventual consitent)
+  - Degree of consistency is a business decision
+  
+- Validation
+- Parallel Updates
