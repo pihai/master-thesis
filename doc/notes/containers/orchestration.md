@@ -36,3 +36,23 @@
   - Kernel (Orchestration)
 - Docker Swarm
 - Kubernetes (More than orchestration)
+- Container Platforms offer additional capabilities such as application development lifecycle (source repo, CI, Artifact Repo)
+
+# Kubernetes Keynote
+
+- https://www.youtube.com/watch?v=of45hYbkIZs
+- Platforms
+  - Linux is a small set of API calls over a lot of differnt hardware implementation
+  - Java provides highlevel abstractions over multiple operating systems
+- Kubernetes is an abstraction over
+  - amazon web services
+  - google cloud platform
+  - microsoft azure
+  - openstack
+  - bare metal
+  - ...
+- and provides features such as
+  - autoscaling
+  - load balancing
+  - Remote Storage
+  - Service discovery
