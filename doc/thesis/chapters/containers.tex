@@ -55,12 +55,12 @@ Im Gegensatz zu den anderen Virtualisierungstechniken, steht bei \textit{Docker}
 
 \subsection{Begriffserklärung}
 
-Im Zusammenhang mit \textit{Docker} gibt es einige wichtige Begriffe. Die nachfolgende Liste bietet einen kurzen Überblick über die drei wichtigsten davon:
+Im Umfeld von Containervirtualisierung und \textit{Docker} gibt es einige wichtige Begriffe. \citeauthor{paper_ernst_containers} beschreiben in \cite{paper_ernst_containers} eine umfassende Taxonomie über die Konzepte und Bestandteile von Containertechnologien. Nachfolgende werden nur einige grundlegende Begriffe und Bestandteile definiert:
 
 \begin{itemize}
 	\item Ein \textit{Image} ist die Vorlage für einen Container.
 	\item Das \textit{Dockerfile} ist eine textuelle Beschreibung eines Images. Aufgrund dieser Beschreibung wird schlussendlich das Image erstellt.
-	\item Ein \textit{Container} ist eine Instanz eines Images zur Laufzeit. Im Grunde ist ein Container ein virtuelles Betriebssystem. Es können beliebig viele Container vom selben Image gleichzeitig ausgeführt werden.
+	\item Ein \textit{Container} ist eine von beliebig vielen Instanzen eines Images zur Laufzeit. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
 \end{itemize}
 
 Der nächste Abschnitt setzt die gerade definierten Begriffe in Kontext und beschreibt den grundsätzlichen Aufbau von \textit{Docker}. Darüber hinaus werden die signifikanten Unterschiede zu Hardwarevirtualisierung hervorgehoben.
@@ -163,13 +163,17 @@ Windows Nano Server & Windows & 1 GB \\
 \end{tabular}
 \end{table}
 
-\section{Containerorchestrierung}
+\section{Containerverwaltung}
 
-Einen Container auf nur einem Server zu betreiben ist eine triviale Aufgaben, aber hunderte Container auf einem Cluster mit mehreren Servern, ist ein ungleich komplexeres Unterfangen. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel als die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden eine Vielzahl von sogenannten Containerorchestrierungswerkzeugen und Containerplattformen entwickelt \bzw werden noch immer entwickelt. Eine wichtige Funktion von diesen Werkzeugen ist es mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als zusammenhängende Plattform betrachtet werden. Die Technologielandschaft rund um Containerorchestrierung und Containerplattformen ist sehr breit und befindet sich noch stark im Aufbau. Eine genaue Betrachtung dieses große Bereichs würde das Ausmaß dieser Arbeit übersteigen. Dennoch ist es für eine Arbeit wie diese, die sich mit dem Thema Microservices auseinandersetzt, unumgänglich diesen wichtigen Teilbereich zu erwähnen. Daher werden nachfolgend zumindest einige grundlegende Aspekte von Containerorchestrierung im Bezug auf Microservices dargestellt, die sich hauptsächlich auf \cite{ContainerOrcaWars} beziehen. 
+Einen Container auf nur einem Server zu betreiben ist eine triviale Aufgaben, aber hunderte Container auf einem Cluster mit mehreren Servern, ist ein ungleich komplexeres Unterfangen \cite{RussinovicContainers}. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel als die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden eine viele Werkzeuge für die Cluster- und Containerverwaltung entwickelt. Eine wichtige Funktion von diesen Werkzeugen ist es mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als kohärente Plattform betrachtet werden. 
+
+Der Begriff Orchestrierung beschreibt in der Softwareentwicklung die Kombination mehrere Dienste zu einer Komposition. Auch bei Containern spricht man von Containerorchestrierung, wenn mehrere Container zu einer Einheit zusammengeschlossen werden um ihren Lebenszyklus gemeinsam zu verwalten. Ein Orchestrierer wird von vielen anderen Funktionen, wie \zB einem Scheduler oder einem Ressourcenmonitor unterstützt. 
+
+Die Technologielandschaft rund um Containerverwaltung ist sehr breit und befindet sich noch stark im Aufbau. Eine umfassende Betrachtung dieses große Bereichs würde das Ausmaß dieser Arbeit übersteigen. Dennoch ist es für eine Arbeit wie diese, die sich mit dem Thema Microservices auseinandersetzt, unumgänglich diesen wichtigen Teilbereich zu erwähnen. Daher werden nachfolgend zumindest einige grundlegende Aspekte von Containerorchestrierung im Bezug auf Microservices dargestellt, die sich hauptsächlich auf \cite{ContainerOrcaWars} beziehen. 
 
 \subsection{Funktionalität}
 
-Die Hauptaufgaben eines Containerorchestrierungswerkzeuges sind Maschinenbelegungsplanung, Ressourcen- und Serviceverwaltung. All diese Funktionen ermöglichen eine Reihe nicht"=funktionaler Eigenschaften wie Skalierbarkeit, Verfügbarkeit oder Portabilität von Containern. Die einzelnen Produkt am Markt unterscheiden vom Funktionsumfang und der Umsetzung der einzelnen Funktion.
+Die Hauptaufgaben eines Containerorchestrierers sind Maschinenbelegungsplanung, Ressourcen- und Serviceverwaltung. All diese Funktionen ermöglichen eine Reihe nicht"=funktionaler Eigenschaften wie Skalierbarkeit, Verfügbarkeit oder Portabilität von Containern. Die einzelnen Produkt am Markt unterscheiden vom Funktionsumfang und der Umsetzung der einzelnen Funktion.
 
 \subsubsection{Maschinenbelegungsplanung}
 
@@ -196,7 +200,7 @@ Ein Betriebssystem bietet Anwendungsprogrammen eine Schnittstelle zu den Systemr
 
 \subsection{Marktanalyse}
 
-Studien wie \cite{ContainerMarketGrowth} sehen Container als einen der größten Zukunftsmärkte im Bereich Cloud"=Computing, mit einer geschätzten jährlichen Wachstumsrate von bis zu 40 Prozent bis 2020. Aufgrund dieser Zahlen ist es auch nicht verwunderlich, dass in diesem Bereich sehr viel investiert wird und dementsprechend viele Produkte auf den Markt kommen. 
+Studien wie \cite{ContainerMarketGrowth} sehen Container mit einer geschätzten jährlichen Wachstumsrate von bis zu 40 Prozent bis 2020, als einen der größten Zukunftsmärkte im Bereich Cloud"=Computing. Aufgrund dieser Zahlen ist es auch nicht verwunderlich, dass in diesem Bereich sehr viel investiert wird und dementsprechend viele Produkte auf den Markt kommen. 
 
 Laut \cite{ContainerMarketReport} ist \textit{Docker} mit 94 Prozent in 2016 das meist verwendete System für Containervirtualisierung. Jedoch bei der Containerorchestrierung sieht selbige Studie derzeit einen ausgeglichenere Markaufteilung zwischen den Produkten \textit{Docker Swarm}, \textit{Kubernetes} und \textit{Apache Mesos}, wobei \textit{Kubernetes} die meisten Anteile dazugewinnen konnte.
 
@@ -204,48 +208,8 @@ Laut \cite{ContainerMarketReport} ist \textit{Docker} mit 94 Prozent in 2016 das
 
 In diesem Kapitel wurde Containervirtualisierung, im speziellen mit \textit{Docker}, als mögliche Plattform für Microservices vorgestellt. Ähnlich wie mit virtuellen Maschinen ist es mit \textit{Docker} möglich eine Anwendung mit allen Abhängigkeiten zu verpacken, zu verteilen und zu betreiben. Jedoch ist Containervirtualisierung viel effizienter und benötigt weniger Speicherplatz als Hardwarevirtualisierung.
 
-Anstattt einer langlebigen Server"=Infrastruktur die laufend Aktualisiert wird, setzt man heutzutage eher auf eine unveränderbare Infrastruktur. Das heißt anstatt einen Server zu aktualisieren wird er durch einen neuen ersetzt. Virtualisierungsplattformen wie \textit{Docker} haben diesen Ansatz extrem effizient und robust gemacht.
+Anstatt einer langlebigen Server"=Infrastruktur deren Software und Konfiguration laufend Aktualisiert wird, setzt man heutzutage eher auf eine unveränderbare Infrastruktur. Das heißt anstatt einen Server zu aktualisieren wird er durch einen neuen ersetzt. Virtualisierungsplattformen wie \textit{Docker} haben diesen Ansatz extrem effizient und robust gemacht.
 
 Container alleine decken aber längst nicht alle Anforderungen an einen Infrastruktur für Microservices ab. Schnell sind Funktionen für die Skalierung, Verteilung, Aktualisierung oder die Überwachung von Containern notwendig. Für diese Aufgabe gibt es eine Menge von Containerorchestrierungswerkzeugen, die als eine Art verteiltes Betriebssystem über der Containervirtualisierung agieren.
 
-Unumstritten sind Container eines der zukunftsträchtigsten Technologien der letzten Jahre. Vor allem im Bereich von Cloud"=Computing haben sie sehr großes Potential. Die Zukunft wird zeigen, ob und wie sich Container zwischen allen bestehenden \textit{Plattform-as-a-Service} Angeboten platzieren kann. 
-
-\iffalse
-
-- way of packaging applications (solves multi and conflicting version)
--
-
-- cheap and fast (no indirection, union file system, ...)
-- Containers are more like processes (efficient way to deliver applications) than OSs
-- quite good isolation but not as good as vms
-- Schliessen sich nicht aus (Docker in virtuellen maschine machen sehr viel sinn) -> ABER docker is for packeging and deployment
-
-
-
-- Docker
-  - Leightweight virtual machine
-	- sandboxing
-  - Technologie developed on linux and adopted in windows
-	- client server arch
-	- container vs vms figure
-	- Dependency hell
-	- container vs. hypervisor-based vms
-	  - os level vs. hardware level
-	- Advantages
-	  - Multi version
-		- missing dependencies
-		- 
-	- OS-Level Concepts
-	  - cgroups
-		- namespaces
-		- union-file system
-		- virtual networks
-		- ...
-	- Docker Architecture
-	  - CLI, Rest-Service, Host
-		- Registry, Hub
-		- Swarm
-	- Microservices
-	  - Compose
-		
-\fi
+Unumstritten sind Container eines der zukunftsträchtigsten Technologiefelder der letzten Jahre, getrieben durch die DevOps"=Kultur und die Microservices"=Architektur. Vor allem im Bereich von Cloud"=Computing haben sie sehr großes Potential. Die Zukunft wird zeigen, ob und wie sich Container zwischen allen bestehenden \textit{Plattform-as-a-Service} Angeboten platzieren können. 
