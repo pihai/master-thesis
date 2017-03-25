@@ -1,75 +1,73 @@
-\chapter{Containervirtualisierung}
+\chapter{Container-Technologien}
 
-Dieses Kapitel beschreibt mit Containervirtualisierung eine effektive Möglichkeit Microservices mit allen Abhängigkeiten in eine Einheit zu verpacken und effizient zu betreiben. Es handelt sich dabei eigentlich um keine neue Technologie, aber eine Plattform mit dem Namen \textit{Docker} löste eine Art Renaissance dieser Virtualisierungsart aus. Mittlerweile ist \textit{Docker} eine allgegenwärtige Methode Software aller Art bereitzustellen.
+Dieses Kapitel beschreibt mit der Betriebssystemvirtualisierung in Containern eine effektive Möglichkeit, Microservices mit allen Abhängigkeiten in eine Einheit zu verpacken und effizient zu betreiben. Die technischen Grundlagen und Voraussetzungen dafür existieren schon einige Jahre, doch erst eine Implementierung mit dem Namen \textit{Docker} brachte neuen Aufschwung in diese Art der Virtualisierung. Mittlerweile ist Docker eine allgegenwärtige Methode, Software aller Art zu verteilen und zu betreiben.
 
-Eine Microservices"=Architektur ist nicht nur aus Softwareentwicklungssicht herausfordernd, sondern auch aus Infrastruktursicht. Jeder Microservice muss unabhängig ausgerollt und skaliert werden können. Nur so kann diese Architektur auch die in Abschnitt \ref{sec:ms-advantages} beschriebenen Vorteile entfalten.  Im Unterschied zu Hardwarevirtualisierung bietet dieser Ansatz wesentlich kürzere Bereitstellungszeiten und eine effektivere Nutzung von Ressourcen.
+Eine Microservices"=Architektur ist nicht nur aus Softwareentwicklungssicht herausfordernd, sondern auch aus Infrastruktursicht. Jeder Microservice muss unabhängig ausgerollt und skaliert werden können. Nur so kann diese Architektur auch die in Abschnitt \ref{sec:ms-advantages} beschriebenen Vorteile entfalten. Im Unterschied zu Hardwarevirtualisierung bietet dieser Ansatz wesentlich kürzere Bereitstellungszeiten und eine effektivere Nutzung von Ressourcen.
 
-Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externen Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Man könnte versuchen die für einen Service notwendigen Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend an geänderte Gegebenheiten anzupassen. Ein alternativer Ansatz ist den Service mit seinen Abhängigkeiten in ein Betriebssystemabbildung -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung, wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt, der den Service und dessen Abhängigkeiten beinhaltet.
-
+Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externe Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Nun gibt es drei Möglichkeiten, die Infrastruktur über den gesamten Lebenszyklus eines Services zu verwalten. Am schlechtesten ist die benötigte Konfiguration manuell vorzunehmen. Dadurch ist es schwierig Änderungen nachzuvollziehen und zu testen. Besser ist es die Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend zu aktualisieren. Ein alternativer Ansatz ist, den Service mit seinen Abhängigkeiten und Konfigurationen in ein Betriebssystemabbild -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung, wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt und verteilt. Im folgenden Abschnitt wird dieser Ansatz noch näher präzisiert und anschließend mit Docker eine Technologie vorgestellt, die genau auf dieser Idee aufsetzt.
 \section{Unveränderbarer Server}
 
-Anstatt die Konfiguration eines Servers zu ändern, kann man ihn auch stoppen und einen neuen Server mit aktualisierter Konfiguration wieder starten. Was sich anfänglich sehr aufwändig und unsinnig anhört, ist heute aus gutem Grund gängige Praxis. Die Firma \textit{Netflix} war eines der ersten Unternehmen, das diesen Ansatz praktizierte \cite{NflxLegos}. Laut eigenen Angaben, konnten sie dadurch die Reproduzierbarkeit und Stabilität ihres Softwareauslieferungsprozess stark verbessern. Zurückzuführen ist das auf die Tatsache, dass die in der Testumgebung validierten Artefakte identisch zu den im Produktivsystem eingesetzten sind. Des weiteren gibt es keine Möglichkeit, wie eine Konfigurationsänderung unabsichtlich in ein Produktivsystem gelangen kann, ohne dass diese durch eine Reihe von Tests validiert wurde.
-
-Unter einem unveränderbaren Server versteht man also eine Ressource, die niemals verändert, sondern nur durch eine aktualisierte Version ersetzt wird \cite{ImmutableServer}. Auch die in diesem Kapitel betrachtete Containertechnologie \textit{Docker} basiert auf dieser Idee.
+Anstatt die Konfiguration eines Servers zu ändern, kann man ihn auch stoppen und einen neuen Server mit aktualisierter Konfiguration wieder starten. Was sich anfänglich sehr aufwändig und unsinnig anhört, ist heute aus gutem Grund gängige Praxis. Das Unternehmen Netflix beispielsweise, praktizierte diesen Ansatz bereits sehr früh \cite{NflxLegos}. Laut eigenen Angaben konnten sie dadurch die Reproduzierbarkeit und Stabilität ihres Softwareauslieferungsprozesses stark verbessern. Zurückzuführen ist das auf die Tatsache, dass die in der Testumgebung validierten Artefakte identisch zu den im Produktivsystem eingesetzten sind. Des weiteren gibt es keine Möglichkeit, wie eine Konfigurationsänderung unabsichtlich in ein Produktivsystem gelangen kann, ohne dass diese durch eine Reihe von Tests validiert wurde. Unter einem unveränderbaren Server versteht man also eine Ressource, die niemals verändert, sondern nur durch eine aktualisierte Version ersetzt wird \cite{ImmutableServer}.
 
 \section{Arten von Virtualisierung}
 
-Vor dem Einstieg in Containertechnologien lohnt sich ein genauerer Blick auf verschiedene Virtualisierungstechniken. Nur wer die Eigenschaften der verschieden Systeme kennt, kann objektiv entscheiden, in welcher Situation welche Technologie vorteilhaft ist. Daher bietet dieser Abschnitt eine Darstellung verschiedener Virtualisierungskonzepte.
+Vor dem Einstieg in Container"=Technologien lohnt sich ein genauerer Blick auf verschiedene Virtualisierungstechniken. Nur wer die Eigenschaften der verschieden Systeme kennt, kann objektiv entscheiden, in welcher Situation welche Technologie vorteilhaft ist. Daher bietet dieser Abschnitt eine Darstellung verschiedener Virtualisierungskonzepte.
 
-Unter Virtualisierung versteht man die Illusion mehrere virtuelle und voneinander unabhängige Server auf einem einzigen physischen System auszuführen. Zum einen ermöglicht das eine effektivere Nutzung von Ressourcen und zum anderen die Möglichkeit Server per Software zu verwalten. Über die Jahre wurden viele verschiedene Arten von Virtualisierung entwickelt. \cite{VirtualizationBasics} und \cite{Smith:2005:AVM:1069588.1069632} geben eine mögliche Klassifizierungen dieser Ansätze anhand ihrer Architektur. Die nächsten Abschnitte beschreiben aus diesen beiden Werken die für den Kontext dieser Arbeit relevanten Arten.
+Unter Virtualisierung versteht man die Illusion, mehrere virtuelle und voneinander unabhängige Server auf einem einzigen physischen System auszuführen. Zum einen ermöglicht das eine effektivere Nutzung von Ressourcen und zum anderen die Möglichkeit, Server per Software zu verwalten. Über die Jahre wurden viele verschiedene Arten von Virtualisierung entwickelt. \cite{VirtualizationBasics} und \cite{Smith:2005:AVM:1069588.1069632} geben eine mögliche Klassifizierung verschiedener Ansätze.
+Nachfolgend sind nur diejenigen Arten beschrieben, die für den Kontext dieser Arbeit relevant sind.
 
 \subsubsection{Vollständige Virtualisierung}
 
-Bei der \textit{vollständigen Virtualisierung} ermöglicht der sogenannte Hypervisor den Gastbetriebssystemen den Zugriff auf die Hardware. Die Gastsysteme sind unveränderte Betriebssysteme die keine Kenntnis darüber haben, dass sie virtualisiert sind. Für jeden Gast wird sozusagen eine vollständige Hardwareumgebung simuliert. Dieser Ansatz schützt die Gastsysteme gegenseitig sehr effektiv, er ist aufwändig, da jedes Gastsystem ein vollständiges Betriebssystem betreibt.
+Bei der \textit{vollständigen Virtualisierung} ermöglicht der sogenannte Hypervisor den Gastbetriebssystemen den Zugriff auf die Hardware. Die Gastsysteme sind unveränderte Betriebssysteme die keine Kenntnis darüber haben, dass sie virtualisiert sind. Für jeden Gast wird eine vollständige Hardwareumgebung simuliert. Dieser Ansatz schützt die Gastsysteme gegenseitig sehr effektiv. Er ist aber auch sehr aufwändig, da jedes Gastsystem ein vollständiges Betriebssystem benötigt.
 
 \subsubsection{Paravirtualisierung}
 
-Wenn das Gastsystem Kenntnis über die Virtualisierung hat, dann spricht man von \textit{Paravirtualisierung}. Das Gastsystem verwendet sogenannte \textit{Hypercalls} um direkt mit dem Hypervisor zu interagieren. Damit lässt sich eine Performanzverbesserung erzielen, erfordert aber ein adaptiertes Gastbetriebssystem. Diese Art der Virtualisierung kommt \zB in der \textit{Microsoft Azure} Cloud zum Einsatz \cite[30]{Krishnan10}. Dort wird das Gastbetriebssystem als aufgeklärt -- \textit{engl. enlightend} -- bezeichnet.
+Wenn das Gastsystem Kenntnis über die Virtualisierung hat, dann spricht man von \textit{Paravirtualisierung}. Das Gastsystem verwendet sogenannte Hypercalls, um direkt mit dem Hypervisor zu interagieren. Damit lässt sich zwar eine Performanzverbesserung erzielen, jedoch ist dafür ein adaptiertes Gastbetriebssystem erforderlich. Diese Art der Virtualisierung kommt \zB in der Microsoft Azure Cloud zum Einsatz \cite[30]{Krishnan10}. Dort wird das Gastbetriebssystem als aufgeklärt -- \textit{engl. enlightend} -- bezeichnet.
 
 \subsubsection{Prozessorunterstützte vollständige Virtualisierung}
 
-Für die \textit{prozessorunterstützte vollständige Virtualisierung} greift der Hypervisor auf spezielle Prozessorfunktionen zurück. Der Befehlssatz dieser Prozessoren wurde spezielle für Virtualisierungsszenarien erweitert, um eine Geschwindigkeitssteigerung zu erzielen und die Aufgaben des Hypervisors zu erleichtern. Durch die damit erreichte Komplexitätsreduktion der Hypervisorimplementierung sind diese viel einfacher und robuster zu implementieren.
+Für die \textit{prozessorunterstützte vollständige Virtualisierung} greift der Hypervisor auf spezielle Prozessorfunktionen zurück. Der Befehlssatz dieser Prozessoren ist für Virtualisierungsszenarien erweitert, um eine Geschwindigkeitssteigerung zu erzielen und die Aufgaben des Hypervisors zu erleichtern. Durch die damit erreichte Komplexitätsreduktion der Hypervisorimplementierung, sind diese viel einfacher und robuster zu implementieren.
 
 \subsubsection{Betriebssystemvirtualisierung}
 
-Die \textit{Betriebssystemvirtualisierung} unterscheidet sich stark von den anderen Arten. Hier gibt es keinen Hypervisor und auch die Gastsysteme sind keine vollständigen Betriebssysteme. Stattdessen werden sogenannte Container innerhalb eines Betriebssystems virtualisiert. Weil diese Art nur eine tatsächliches Betriebssystem erfordert und dieses von allen Container genutzt wird, ist sie effizient und ressourcensparend. Eine wesentliche Einschränkung ist derzeit aber noch, dass Container und das Wirtsystem auf dem selben Betriebssystem basieren müssen.
+Die \textit{Betriebssystemvirtualisierung} unterscheidet sich stark von den anderen Arten. Hier gibt es keinen Hypervisor und auch die Gastsysteme sind keine vollständigen Betriebssysteme. Stattdessen werden sogenannte Container innerhalb eines Betriebssystems virtualisiert. Weil diese Art nur ein tatsächliches Betriebssystem erfordert und dieses von allen Container genutzt wird, ist sie effizient und ressourcensparend. Eine wesentliche Einschränkung ist derzeit aber noch, dass Container und das Wirtsystem auf dem selben Betriebssystem basieren müssen.
 
 \section{Isolation versus Effizienz}
 \label{sec:isolation-vs-efficiencys}
 
-Virtualisierung ist immer ein Kompromiss zwischen Effizient und Isolation. Jede Art zieht die Grenzen zwischen diesen beiden Eigenschaften an einem anderen Punkt. Die Effizient lässt sich einfach Anhand quantitativer Kriterien, wie dem Durchsatz oder Latenzzeiten festmachen. Bei der Isolation gestaltet sich die Situation schwieriger. In \cite{Soltesz:2007:COS:1272996.1273025} werden dazu folgende Kriterien herangezogen:
+Virtualisierung ist immer ein Kompromiss zwischen Effizienz und Isolation. Jede Art zieht die Grenzen zwischen diesen beiden Eigenschaften an einem anderen Punkt. Die Effizienz lässt sich einfach anhand quantitativer Kriterien, wie dem Durchsatz oder Latenzzeiten festmachen. Bei der Isolation gestaltet sich die Situation schwieriger. In \cite{Soltesz:2007:COS:1272996.1273025} werden dazu folgende Kriterien herangezogen:
 
 \begin{itemize}
 	\item \textit{Fehlerisolation} ist gegeben, wenn ein Fehler in einem Gastsystem kein anderes Gastsystem beeinflussen kann.
 	\item \textit{Ressourcenisolation} stellt sicher, dass die vorhandenen Ressourcen gerecht \bzw kontrollierbar auf die Gastsysteme aufgeteilt werden.
-	\item \textit{Sicherheitsisolation} sorgt für die Sicherheit zwischen Gastsystemen. Sicherheitslücken treten vermehrt auf, wenn verschiedene Aspekte zwischen Gastsystemen geteilt werden. Dazu zählen \zB das Dateisystem, virtueller Speicheradressraum, Netzwerk \usw
+	\item \textit{Sicherheitsisolation} beschränkt den Zugriff auf Ressourcen wie dem Dateisystem, dem virtuellen Speicheradressraum oder dem Netzwerk.
 \end{itemize}
 
-Hypervisorvirtualisierung, auch gerne als Hardwarevirtualisierung bezeichnet, bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden. Darum ist Betriebssystemvirtualisierung mit Containern in diesen Fällen gut geeignet.
+Hypervisorvirtualisierung -- oft auch als Hardwarevirtualisierung bezeichnet -- bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden.
 
 \section{Docker}
 
-Die zur Zeit bekannteste Betriebssystemvirtualisierungssoftware ist \textit{Docker}. Im Gegensatz zur Hardwarevirtualisierung wird auf die Emulation einer Hardwareumgebung verzichtet und stattdessen auf der Betriebssystemebene virtualisiert. Durch den verzicht auf diese Indirektionsschicht ist dieser Ansatz wesentlich effizienter.
+Die zur Zeit bekannteste Betriebssystemvirtualisierungssoftware ist Docker. Im Gegensatz zur Hardwarevirtualisierung wird auf die Emulation einer Hardwareumgebung verzichtet und stattdessen auf der Betriebssystemebene virtualisiert. Durch den Verzicht auf diese Indirektionsschicht ist dieser Ansatz wesentlich effizienter.
 
-Im Gegensatz zu den anderen Virtualisierungstechniken, steht bei \textit{Docker} die Auslieferung von Software im Vordergrund. Ähnlich zu einer Paketverwaltungssoftware bietet \textit{Docker} eine zentrale Stelle um Software zu beziehen. \textit{Docker} erleichtert den Bezug, die Installation und die Aktualisierung von Software. Alle diese Möglichkeiten sind wertvolle Hilfsmittel bei der Realisierung einer Microservice"=Architektur.
+Im Gegensatz zu anderen Virtualisierungstechniken steht bei \mbox{Docker} die Auslieferung von Software im Vordergrund. Ähnlich wie eine Paketverwaltungssoftware kann Docker eine zentral Stelle für die Verteilung von Software sein. Zusammengefasst erleichtert Docker den Bezug, die Installation, den Betrieb und die Aktualisierung von Software. Alle diese Möglichkeiten sind wertvolle Hilfsmittel bei der Realisierung einer Microservice"=Architektur.
 
 \subsection{Begriffserklärung}
 
-Im Umfeld von Containervirtualisierung und \textit{Docker} gibt es einige wichtige Begriffe. \citeauthor{paper_ernst_containers} beschreiben in \cite{paper_ernst_containers} eine umfassende Taxonomie über die Konzepte und Bestandteile von Containertechnologien. Nachfolgende werden nur einige grundlegende Begriffe und Bestandteile definiert:
+Im Umfeld von Betriebssystemvirtualisierung und Docker gibt es einige wichtige Begriffe. In \cite{paper_ernst_containers} ist eine umfassende Taxonomie über die Konzepte und Bestandteile von Container-Technologien zu finden. Ein kleiner Ausschnitt daraus sind folgende grundlegenden Begriffe:
 
 \begin{itemize}
 	\item Ein \textit{Image} ist die Vorlage für einen Container.
 	\item Das \textit{Dockerfile} ist eine textuelle Beschreibung eines Images. Aufgrund dieser Beschreibung wird schlussendlich das Image erstellt.
-	\item Ein \textit{Container} ist eine von beliebig vielen Instanzen eines Images zur Laufzeit. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
+	\item Ein \textit{Container} ist eine von beliebig vielen Laufzeitinstanzen eines Images. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container- oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
 \end{itemize}
 
-Der nächste Abschnitt setzt die gerade definierten Begriffe in Kontext und beschreibt den grundsätzlichen Aufbau von \textit{Docker}. Darüber hinaus werden die signifikanten Unterschiede zu Hardwarevirtualisierung hervorgehoben.
+Der nächste Abschnitt beschreibt mit den zuvor definierten Begriffe den grundsätzlichen Aufbau von Docker. Darüber hinaus werden signifikante Unterschiede zu Hardwarevirtualisierung hervorgehoben.
 
 \subsection{Docker"=Architektur}
 
-\textit{Docker} implementiert eine klassische Client"=Server"=Architektur. Der Serverteil wird als \textit{Docker"=Engine} oder \textit{Docker"=Deamon} bezeichnet. Er interagiert direkt mit dem Betriebssystem, das schlussendlich die tatsächliche Containervirtualisierung realisiert. Der Server bietet eine REST"=Schnittstelle an, über die Klienten unterschiedlichster Art mit ihm kommunizieren können. Somit können sie \zB Images erstellen, Container starten, stoppen oder löschen.
+Docker implementiert eine klassische Client"=Server"=Architektur. Der Serverteil wird als \textit{Docker"=Engine} oder \textit{Docker"=Deamon} bezeichnet. Er interagiert direkt mit dem Betriebssystem, das schlussendlich die tatsächliche Virtualisierung realisiert. Der Server bietet eine REST"=Schnittstelle an, über die Klienten unterschiedlichster Art mit ihm kommunizieren können. Danut können sie \zB Images erstellen, Container starten, stoppen oder löschen.
 
-Um ein Image zu erstellen, sendet der Client die Beschreibung in Form des \textit{Dockerfile} und die benötigten Dateien an den Server. Dieser erstellt aufgrund der Beschreibung ein Image, dass alle benötigten Abhängigkeiten bereits inkludiert. Auf Basis dieses Images kann der Client beliebig viele Container starten. In Abbildung \ref{fig:docker-arch} ist dieser Ablauf noch einmal visuell dargestellt.
+Um ein Image zu erstellen, sendet der Klient die Beschreibung in Form des "`Dockerfile"' und die benötigten Dateien an den Server. Dieser erstellt ein Image, das auf Basis der Beschreibung konfiguriert und mit allen benötigten Abhängigkeiten ausgestattet ist. Ausgehend von einem Image kann der Klient beliebig viele Container starten. In Abbildung \ref{fig:docker-arch} ist dieser Ablauf noch einmal visuell dargestellt.
 
 \begin{figure}[!hbt]%
 \centering
@@ -78,32 +76,33 @@ Um ein Image zu erstellen, sendet der Client die Beschreibung in Form des \texti
 \label{fig:docker-arch}%
 \end{figure}
 
-Die genaue technische Umsetzung der Virtualisierung mit \textit{Docker} übersteigt den Rahmen dieser Arbeit. Der folgende Abschnitt beschreibt nur einen komprimierten Überblick.
+Die genaue technische Umsetzung der Virtualisierung ist für des Betriebssystem spezifisch und übersteigt den Rahmen dieser Arbeit. Der folgende Abschnitt beschreibt nur einen komprimierten Überblick über einige grundlegende Konzepte im Betriebssystem Linux.
 
 \subsection{Voraussetzungen für Betriebssystemvirtualisierung}
 \label{subsec:docker-tech}
 
-Containervirtualisierung isoliert die einzelnen Container nur auf Betriebssystemebenen. Die in einem Container gestarteten Anwendungen sind im Prinzip gewöhnliche Betriebssystemprozesse im Wirtsystem. Dennoch ist ein Container mehr ein virtuelles Betriebssystem als ein einfacher Prozess.
+Ein Container ist nur auf der Betriebssystemebene von anderen Containern isoliert. Im Prinzip sind die in einem Container gestarteten Anwendungen  gewöhnliche Betriebssystemprozesse im Wirtsystem. Dennoch ist ein Container mehr ein virtuelles Betriebssystem als ein einfacher Prozess.
 
-Die nachfolgenden Abschnitt basieren auf \cite{Merkel:2014:DLL:2600239.2600241}, sowie \cite{DBLP:journals/corr/Bui15} und beschreiben einige Betriebssystemkomponenten die für die Virtualisierung verantwortlich sind.
+Die nachfolgenden Abschnitte basieren auf \cite{Merkel:2014:DLL:2600239.2600241}, sowie \cite{DBLP:journals/corr/Bui15} und beschreiben einige Betriebssystemkomponenten, die für die Virtualisierung verantwortlich sind.
 
 \subsubsection{Namensräume}
 
-\textit{Namensräume} bezeichnen im Betriebssystem \textit{Linux} eine Technologie, mit der Betriebssystemressourcen gruppiert und somit voneinander isolieren werden können. Dazu zählen beispielsweise Prozesse, Netzwerkverbindungen, Dateisystem \usw Diese Technologie stellt somit die Isolation zwischen Container und auch zum Wirtsystem sicher.
+\textit{Namensräume} bezeichnen im Betriebssystem \textit{Linux} eine Technologie, mit der Betriebssystemressourcen gruppiert und somit voneinander isoliert werden können. Dazu zählen beispielsweise Prozesse, Netzwerkverbindungen, das Dateisystem, \usw Diese Technologie stellt somit die Isolation zwischen Containern und auch zum Wirtsystem sicher.
 
 \subsubsection{Kontrollgruppen}
 
-Wie Abschnitt \ref{sec:isolation-vs-efficiencys} schon dargestellt hat, ist eine faire Ressourcenaufteilung zwischen Containern sehr wichtig. Linux biete dafür das Konzept der Kontrollgruppen. Damit kann Ressourcenverbrauch von Containern überwacht und gegebenenfalls deren Verbrauch limitiert werden.
+Wie Abschnitt \ref{sec:isolation-vs-efficiencys} schon dargestellt hat, ist eine faire Ressourcenaufteilung zwischen Containern sehr wichtig. Linux bietet dafür das Konzept der Kontrollgruppen. Damit kann der Ressourcenverbrauch von Containern überwacht und gegebenenfalls deren Verbrauch limitiert werden.
 
 \subsubsection{Überlagerte Dateisysteme}
 
-Durch die Verwendungen eines spezielle Dateisystems, kann \textit{Docker} viele Daten zwischen Containern teilen und somit den Speicherplatz reduzieren. Die Grundidee ist mehrere Schichten eines Dateisystems in eine einzige logische Schicht zu vereinen. Jede Schicht, außer die oberste, ist unveränderbar. Änderungen einer Datei in einer Schicht überdecken die gleiche Datei in niedrigeren Schichten.
+Durch die Verwendung eines speziellen Dateisystems, kann Docker viele Daten zwischen Containern teilen und somit den Speicherplatz stark reduzieren. Die Grundidee ist, ein mehrschichtiges Dateisystem in eine einzige logische Sicht zu vereinen. Nur die oberste Schicht ist veränderbar. Alle anderen sind nicht beschreibbar und folglich unveränderbar. Eine Dateiänderung in einer höheren Schicht überdeckt die gleiche Datei einer niedrigeren Schicht.
 
-Für beliebig viele Containerinstanzen ist somit nur eine einzige Kopie ihres Images notwendig. Mit dieser Technik ist also eine enorme Speicherersparnis möglich, ohne die Isolation zu kompromittieren. Je nach Betriebssystem gibt es verschiedene Implementierungen dieses Konzepts. Zwei der bekanntesten Implementierungen sind das \textit{Advanced Multi-Layered Unification File\-system} und das \textit{OverlayFS}.
+Für beliebig viele Containerinstanzen ist somit nur eine einzige Kopie ihres Images auf der Festplatte notwendig. Mit dieser Technik ist eine enorme Speicherersparnis möglich, ohne die Isolation zu kompromittieren. Ein Betriebssystemabbild einer virtuellen Maschine mit Hardwarevirtualisierung ist um ein vielfaches größer und muss mehrfach abgespeichert werden. Je nach Betriebssystem gibt es verschiedene Implementierungen von überlagerten Dateisystemen. Zwei der bekanntesten Implementierungen sind das \textit{Advanced Multi-Layered Unification File\-system} und das \textit{OverlayFS}.
 
 \subsection{Docker Beispiel}
 
-Programm~\ref{prog:dockerfile} zeigt eine Beispiel für ein \textit{Dockerfile}, dass ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren.
+Programm~\ref{prog:dockerfile} zeigt ein Beispiel für ein "`Dockerfile"', dass ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren. Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung aus Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image und startet dieses anschließend.
+
 
 \begin{program}[!hbt]
 \caption{Beispiel für ein Dockerfile}
@@ -117,8 +116,6 @@ EXPOSE 80
 ENTRYPOINT [ "dotnet", "mywebapi.dll" ]
 \end{DockerCode}
 \end{program}
-
-Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung aus Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image und startet dieses anschließend.
 
 \begin{program}[!hbt]
 \caption{Docker Kommandozeilenbefehle}
