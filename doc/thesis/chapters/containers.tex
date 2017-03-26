@@ -43,7 +43,7 @@ Virtualisierung ist immer ein Kompromiss zwischen Effizienz und Isolation. Jede 
 	\item \textit{Sicherheitsisolation} beschränkt den Zugriff auf Ressourcen wie dem Dateisystem, dem virtuellen Speicheradressraum oder dem Netzwerk.
 \end{itemize}
 
-Hypervisorvirtualisierung -- oft auch als Hardwarevirtualisierung bezeichnet -- bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden.
+Hypervisor- oder gleichbedeutend auch Hardwarevirtualisierung bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden.
 
 \section{Docker}
 
@@ -58,7 +58,7 @@ Im Umfeld von Betriebssystemvirtualisierung und Docker gibt es einige wichtige B
 \begin{itemize}
 	\item Ein \textit{Image} ist die Vorlage für einen Container.
 	\item Das \textit{Dockerfile} ist eine textuelle Beschreibung eines Images. Aufgrund dieser Beschreibung wird schlussendlich das Image erstellt.
-	\item Ein \textit{Container} ist eine von beliebig vielen Laufzeitinstanzen eines Images. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container- oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
+	\item Ein \textit{Container} ist eine Laufzeitinstanz eines Images. Es kann beliebig viele Container"=Instanzen von einem Image geben. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container- oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
 \end{itemize}
 
 Der nächste Abschnitt beschreibt mit den zuvor definierten Begriffe den grundsätzlichen Aufbau von Docker. Darüber hinaus werden signifikante Unterschiede zu Hardwarevirtualisierung hervorgehoben.
@@ -205,7 +205,7 @@ Laut \cite{ContainerMarketReport} ist Docker mit 94 Prozent in 2016 das meist ve
 
 In diesem Kapitel wurde Betriebssystemvirtualisierung, im speziellen mit Docker, als mögliche Plattform für Microservices vorgestellt. Ähnlich wie mit virtuellen Maschinen, ist es mit Docker möglich, eine Anwendung mit allen Abhängigkeiten zu verpacken, zu verteilen und zu betreiben. Jedoch ist Virtualisierung mit Containern viel effizienter und benötigt weniger Speicherplatz als Hardwarevirtualisierung.
 
-Langlebige Server"=Infrastrukturen, deren Software und Konfiguration laufend aktualisiert wird, werden vermehrt durch eine unveränderbare Infrastruktur ersetzt. Das heißt, anstatt einen Server zu aktualisieren, wird er durch einen neuen ersetzt. Virtualisierungsplattformen wie Docker haben diesen Ansatz extrem effizient und robust gemacht.
+Es wird immer seltener, dass die Software und die Konfiguration einer Server"=Infrastruktur laufend aktualisiert wird. Stattdessen werden diese langlebigen Server durch eine unveränderbare Infrastruktur ersetzt. Das heißt, anstatt einen Server zu aktualisieren, wird er durch einen neuen ersetzt. Unter einem Server ist in diesem Kontext meistens virtualisierter Server gemeint. Virtualisierungsplattformen wie Docker haben diesen Ansatz extrem effizient und robust gemacht.
 
 Container alleine decken aber längst nicht alle Anforderungen an eine Infrastruktur für Microservices ab. Schnell sind Funktionen für die Skalierung, Verteilung, Aktualisierung oder die Überwachung von Containern notwendig. Für diese Aufgabe gibt es eine Menge von Containerorchestrierungswerkzeugen, die als eine Art verteiltes Betriebssystem über der Betriebssystemvirtualisierung agieren.
 
