@@ -4,9 +4,9 @@ Die Bereitstellung und der Betrieb von Software"=Applikationen sind zwei oft unt
 
 Vor der Bereitstellung einer monolithischen Software steht zuerst die Dimensionierung und Beschaffung der benötigten Hardware"=Infrastruktur durch die IT-Abteilung. Diese muss danach noch an die Bedürfnisse und Voraussetzungen der Software angepasst werden. Die Installation der eigentlichen Software ist oft ein manueller oder halb"=automatisierter Prozess. Das ist langsam und fehleranfällig, aber meistens akzeptabel, denn eine monolithische Software hat lange Release"=Zyklen und besteht aus einem einzigen Artefakt. Erst das Microservice"=Architekturmuster hat eine isolierte, agile und effiziente Bereitstellung von Software vorangetrieben.
 
-Mit \textit{Infrastructure-as-a-Service (IaaS)} bieten viele Cloud"=Computing"=Dienstleister die Möglichkeit, Server in wenigen Minuten bereitzustellen. Der Verwaltungsaufwand bleibt trotzdem relativ hoch, weil Betriebssystem"=Updates, IT"=Sicherheit, Netzwerkkonfiguration, \usw in der Verantwortung des Verwenders liegen. Viele Applikationen benötigen kaum Kontrolle über die Umgebung in der sie ausgeführt werden. Für diesen Fall ist die Verwendung eines \textit{Platform-as-a-Service (PaaS)} Dienstes meistens vorteilhafter. Hier übernimmt der \textit{PaaS}-Betreiber die vollständige Verwaltung der Hardware- und Betriebssystemebene. Der Dienstleistungsnehmer muss dafür nur seine Anwendung im richtigen Format bereitstellen, sowie die Kapazität und Skalierbarkeitseigenschaften festlegen.
+Mit \textit{Infrastructure-as-a-Service (IaaS)} bieten viele Cloud"=Computing"=Dienstleister die Möglichkeit, Server in wenigen Minuten bereitzustellen. Der Verwaltungsaufwand bleibt trotzdem relativ hoch, weil Betriebssystem"=Updates, IT"=Sicherheit, Netzwerkkonfiguration, \usw in der Verantwortung des Verwenders liegen. Viele Applikationen benötigen kaum Kontrolle über die Umgebung in der sie ausgeführt werden. Für diesen Fall ist die Verwendung eines \textit{Platform-as-a-Service (PaaS)} Dienstes meistens vorteilhafter. Hier übernimmt der PaaS-Betreiber die vollständige Verwaltung der Hardware- und Betriebssystemebene. Der Dienstleistungsnehmer muss dafür nur seine Anwendung im richtigen Format bereitstellen, sowie die Kapazität und Skalierbarkeitseigenschaften festlegen.
 
-Die Grundidee hinter \textit{Serverless Computing}, ist dem Softwareentwickler eine Plattform für die Bereitstellung von Diensten zu bieten, ohne dass sich dieser um Server, deren Konfiguration oder Kapazitätsmanagement kümmern muss. Bei \textit{IaaS} und \textit{PaaS} ist das nicht oder nur zum Teil gegeben.
+Die Grundidee hinter \textit{Serverless Computing}, ist dem Softwareentwickler eine Plattform für die Bereitstellung von Diensten zu bieten, ohne dass sich dieser um Server, deren Konfiguration oder Kapazitätsmanagement kümmern muss. Bei IaaS und PaaS ist das nicht oder nur zum Teil gegeben.
 
 Wie viele Konzepte im Microservice"=Umfeld lässt sich auch serverlose Softwarearchitektur nur schwer abgrenzen. Im nächsten Abschnitt werden die zwei zur Zeit häufigsten Ausprägungsformen näher betrachtet.
 
@@ -16,13 +16,13 @@ Serverlose Softwarearchitektur ist ein sehr junges Konzept, dessen weitere Zukun
 
 In der älteren Sichtweise beschreibt der Begriff \textit{"`serverlos"'}, Applikationen die sehr stark auf vollständig verwaltete Dienste von Cloud"=Anbietern zurückgreifen. Darunter fallen beispielsweise verwaltete Datenbanken, Authentifizierungs- oder Benachrichtigungsdienste. Dieser Ansatz ersetzt also einen Großteil der Server"=Logikdurch Dienste von Drittanbietern. Daher hat sich auch die Bezeichnung \textit{Backend-as-a-Service} dafür etabliert. Ein Teil der Applikationslogik muss aber dadurch vom Client übernommen werden. Mit JavaScript und verschiedenen Bibliotheken für die Erstellung von Benutzeroberflächen, lassen sich die dafür benötigten \textit{Rich-Applications} effizient realisieren.
 
-Seit etwa 2014 hat sich die Sichtweise durch die Einführung des Dienstes \textit{AWS Lambda} durch \textit{Amazon} etwas geändert. Dieser Dienst erlaubt es, einfache ereignisgesteuerte Funktionen zu schreiben, die in der Cloud in einer zustandslosen Ausführungsumgebung vollständig verwaltet laufen. Diese Funktionen enthalten fast ausschließlich Geschäftslogik und werden in Skript"=Dateien erstellt. Anstatt klobiger Artefakte können somit einfache Skript"=Dateien verteilt werden. Weil Funktionen das zentrale Bereitstellungsformat sind, ist dieser Ansatz unter dem Namen \textit{Functions-as-a-Service (FaaS)} bekannt. Der folgende Abschnitt beschäftigt sich intensiv mit dieser neuen Sichtweise auf serverlose Softwarearchitektur.
+Seit etwa 2014 hat sich die Sichtweise durch die Einführung des Dienstes AWS-Lambda der Firma Amazon etwas geändert. Dieser Dienst erlaubt es, einfache ereignisgesteuerte Funktionen zu schreiben, die in der Cloud in einer zustandslosen Ausführungsumgebung vollständig verwaltet laufen. Diese Funktionen enthalten fast ausschließlich Geschäftslogik und werden in Skript"=Dateien erstellt. Anstatt klobiger Artefakte können somit einfache Skript"=Dateien verteilt werden. Weil Funktionen das zentrale Bereitstellungsformat sind, ist dieser Ansatz unter dem Namen \textit{Functions-as-a-Service (FaaS)} bekannt. Der folgende Abschnitt beschäftigt sich intensiv mit dieser neuen Sichtweise auf serverlose Softwarearchitektur.
 
 \section{Functions-as-a-Service}
 
-Im Grunde erlaubt \textit{Functions-as-a-Service}, kleine Aufgaben in Form von Funktionen zu programmieren und skalierbar, ohne weiteren Aufwand in der Cloud zu betreiben. Der Entwickler kann sich voll auf die Geschäftslogik seiner Applikation konzentrieren und muss sich kaum noch um Infrastrukturaufgaben kümmern.
+Im Grunde erlaubt Functions-as-a-Service, kleine Aufgaben in Form von Funktionen zu programmieren und skalierbar, ohne weiteren Aufwand in der Cloud zu betreiben. Der Entwickler kann sich voll auf die Geschäftslogik seiner Applikation konzentrieren und muss sich kaum noch um Infrastrukturaufgaben kümmern.
 
-Wie in den allermeisten Programmiersprachen, sind Funktionen in diesem Kontext eine relativ kleine Quelltexteinheit, die Eingangs- in Ausgangswerte transformiert. Die Aktivierung erfolgt bei Programmiersprachen durch einen Funktionsaufruf. Hingegen bei \textit{FaaS}, durch das Auftreten bestimmter vom Entwickler festgelegter Ereignisse. Beispiele für derartige Ereignisse sind folgende:
+Wie in den allermeisten Programmiersprachen, sind Funktionen in diesem Kontext eine relativ kleine Quelltexteinheit, die Eingangs- in Ausgangswerte transformiert. Die Aktivierung erfolgt bei Programmiersprachen durch einen Funktionsaufruf. Hingegen bei FaaS, durch das Auftreten bestimmter vom Entwickler festgelegter Ereignisse. Beispiele für derartige Ereignisse sind folgende:
 
 \begin{itemize}
 	\item Das Hinzufügen oder Manipulieren von Daten in einem Datenspeicher.
@@ -31,7 +31,7 @@ Wie in den allermeisten Programmiersprachen, sind Funktionen in diesem Kontext e
 	\item Das Auftreten eines zeitgesteuerten Ereignisses.
 \end{itemize}
 
-Eine Funktion ist nur dann sinnvoll, wenn sie auch Ausgaben oder zumindest Seiteneffekte produziert. In \textit{FaaS} können diese wieder sehr vielfältig sein. Meistens ist das Ergebnis, die Interaktion mit einem anderen Cloud"=Dienst wie \zB:
+Eine Funktion ist nur dann sinnvoll, wenn sie auch Ausgaben oder zumindest Seiteneffekte produziert. In FaaS können diese wieder sehr vielfältig sein. Meistens ist das Ergebnis, die Interaktion mit einem anderen Cloud"=Dienst wie \zB:
 
 \begin{itemize}
 	\item Das Hinzufügen oder Manipulieren von Daten in einem Datenspeicher.
@@ -40,99 +40,99 @@ Eine Funktion ist nur dann sinnvoll, wenn sie auch Ausgaben oder zumindest Seite
 	\item Das Versenden einer E-Mail.
 \end{itemize}
 
-Die folgenden Abschnitte beschreiben vielversprechende Anwendungsgebiete für \textit{FaaS}. Des Weiteren werden die Konzepte \textit{FaaS} und \textit{PaaS} voneinander abgegrenzt.
+Die folgenden Abschnitte beschreiben vielversprechende Anwendungsgebiete für FaaS. Des Weiteren werden die Konzepte FaaS und PaaS voneinander abgegrenzt.
 
 \subsection{Anwendungsgebiete}
 
-Für \textit{FaaS} gibt es in den verschiedensten Bereichen sinnvolle Anwendungsgebiete. Hauptsächlich werden sie aber für kleine und abgeschlossene Funktionalitäten herangezogen. Beispielsweise eignet es sich sehr gut für die Konvertierung und Validierung von Daten. Eine Funktion kann auf ein bestimmtes Ereignis warten -- \zB dem Hinzufügen eines Elements in einer Warteschlange -- und danach die gewünschte Funktionalität ausführen. Das Ergebnis der Funktion kann \zB automatisch in eine Datenbank gespeichert oder an ein anderes System gesendet werden.
+Für FaaS gibt es in den verschiedensten Bereichen sinnvolle Anwendungsgebiete. Hauptsächlich werden sie aber für kleine und abgeschlossene Funktionalitäten herangezogen. Beispielsweise eignet es sich sehr gut für die Konvertierung und Validierung von Daten. Eine Funktion kann auf ein bestimmtes Ereignis warten -- \zB dem Hinzufügen eines Elements in einer Warteschlange -- und danach die gewünschte Funktionalität ausführen. Das Ergebnis der Funktion kann \zB automatisch in eine Datenbank gespeichert oder an ein anderes System gesendet werden.
 
-Microservice- und Cloud-Anwendungen verwenden oft eine große Anzahl an Cloud"=Komponenten, wie verschiedenen Datenspeicher, Warteschlangen und Nachrichtendienste. Damit alle Einzelkomponenten in Summe ein funktionstüchtiges Gesamtsystem bilden, ist viel Logik für die Verbindung und Administration der Komponenten notwendig. Im Englischen wird diese Art von Logik häufig als \textit{Glue-Code} bezeichnet, weil er die Einzelteile zum einem Ganzen "`zusammengeklebt"'. Die Interaktion mit Cloud"=Komponenten ist also ein essentielles Einsatzgebiet und ist deswegen ein großer Einflussfaktor auf das Programmiermodell von \textit{FaaS}.
+Microservice- und Cloud-Anwendungen verwenden oft eine große Anzahl an Cloud"=Komponenten, wie verschiedenen Datenspeicher, Warteschlangen und Nachrichtendienste. Damit alle Einzelkomponenten in Summe ein funktionstüchtiges Gesamtsystem bilden, ist viel Logik für die Verbindung und Administration der Komponenten notwendig. Im Englischen wird diese Art von Logik häufig als "`Glue-Code"' bezeichnet, weil er die Einzelteile zum einem Ganzen "`zusammengeklebt"'. Die Interaktion mit Cloud"=Komponenten ist also ein essentielles Einsatzgebiet und ist deswegen ein großer Einflussfaktor auf das Programmiermodell von FaaS.
 
 Der Erfolg der Microservice"=Architektur und \textit{FaaS} führte bereits zur Entstehung eines möglicherweise neuen Paradigmas: \textit{Nanoservices} \cite{infoqFaaS}. Bei Microservices stehen einzelne Geschäftsanforderungen im Vordergrund. Mit Nanoservices werden einzelne Geschäftsanforderungen noch weiter auf Funktionsebene heruntergebrochen. Ein Beispiel für einen Microservice könnte ein Dienst für die Erstellung, Änderung und Nachverfolgung von Bestellungen in einem Online"=Shop sein. Mit Nanoservices wäre jede einzelne dieser Funktionen ein eigener Dienst.
 
-\textit{Amazon} beschreibt in \cite{AwsMultiTier} wie klassische Drei"=Schicht"=Architektur, \zB Web- oder Mobile"=Anwendungen, mit serverlosen Technologie umgesetzt werden können. Darüber hinaus eignet sich \textit{FaaS} aber genau so gut für Microservice"=Architekturen. Die Einsatzgebiete sind daher sehr breit, was \textit{FaaS} zu einem mächtigen Werkzeug macht.
+Amazon hat in \cite{AwsMultiTier} Vorschläge veröffentlicht, wie klassische Drei"=Schicht"=Architekturen, \zB Web- oder Mobile"=Anwendungen, mit serverlosen Technologie umgesetzt werden können. Darüber hinaus eignet sich FaaS aber genau so gut für Microservice"=Architekturen. Die Einsatzgebiete sind daher sehr breit, was FaaS zu einem mächtigen Werkzeug macht.
 
-Viel Potential besteht in neuen Domänen, wie \textit{Internet of Things}, \textit{Chat-Bots} oder \textit{DevOps} \cite{NewStackAzurePreview}. In diesen Bereichen ist die Nachfrage nach kleinen, skalierbaren Programmen, die sich einfach entwickeln und betreiben lassen, sehr hoch. Durch die Einfachheit von \textit{FaaS} eignet es sich auch sehr gut für den Prototypenbau.
+Viel Potential besteht in neuen Domänen, wie \textit{Internet of Things}, \textit{Chat-Bots} oder \textit{DevOps} \cite{NewStackAzurePreview}. In diesen Bereichen ist die Nachfrage nach kleinen, skalierbaren Programmen, die sich einfach entwickeln und betreiben lassen, sehr hoch. Durch die Einfachheit von FaaS eignet es sich auch sehr gut für den Prototypenbau.
 
 \subsection{Beziehung zu Platform-as-a-Service}
 
-In vielen Bereichen überschneiden sich die Möglichkeiten von \textit{FaaS} mit denen anderer Technologien, wie \zB \textit{PaaS}. Dieser Umstand ist nicht weiter verwunderlich, da \textit{FaaS} auf der Basis von \textit{PaaS} aufbaut. Der signifikanteste Unterschied ist die ereignisgesteuerte Funktionsweise von \textit{FaaS}. Funktionen werden nach dem Auftreten eines bestimmten Ereignis nur für die Dauer einer Aktivierung ausgeführt. Daher bezahlt der Verwender auch nur die Anzahl der Aufrufe und die Dauer der Ausführungszeit. Bei \textit{PaaS} ist meistens zumindest eine ständig laufende virtuelle Maschine erforderlich, die auf Ereignisse wartet. Das verursacht Kosten, auch wenn die Maschine kaum oder gar nicht genutzt wird.
+In vielen Bereichen überschneiden sich die Möglichkeiten von FaaS mit denen anderer Technologien, wie \zB PaaS. Dieser Umstand ist nicht weiter verwunderlich, da FaaS auf der Basis von PaaS aufbaut. Der signifikanteste Unterschied ist die ereignisgesteuerte Funktionsweise von FaaS. Funktionen werden nach dem Auftreten eines bestimmten Ereignis nur für die Dauer einer Aktivierung ausgeführt. Daher bezahlt der Verwender auch nur die Anzahl der Aufrufe und die Dauer der Ausführungszeit. Bei PaaS ist meistens zumindest eine ständig laufende virtuelle Maschine erforderlich, die auf Ereignisse wartet. Das verursacht Kosten, auch wenn die Maschine kaum oder gar nicht genutzt wird.
 
-Skalierbarkeit ist in Cloud"-Computing ein essentieller Faktor. \textit{PaaS} bietet dafür die Möglichkeit, abhängig von Metriken wie Prozessorlast, die Anzahl der Instanzen auf denen die Anwendung ausgeführt wird, dynamisch zu erhöhen oder zu verringern. Dieser Ansatz erfordert bereits sehr wenig manuelles Eingreifen durch einen Entwickler oder Administrator. Aber \textit{FaaS} geht hier noch einen Schritt weiter und erfordert praktisch keine manuellen Handlungen, um die Funktion skalierbar zu machen. Es ist die Aufgabe des Cloud"=Anbieters, die Funktion automatisch zu skalieren. Weil die Funktionen zustandslos sind, kann man sie beliebig oft parallel ausführen.
+Skalierbarkeit ist in Cloud"-Computing ein essentieller Faktor. PaaS bietet dafür die Möglichkeit, abhängig von Metriken wie Prozessorlast, die Anzahl der Instanzen auf denen die Anwendung ausgeführt wird, dynamisch zu erhöhen oder zu verringern. Dieser Ansatz erfordert bereits sehr wenig manuelles Eingreifen durch einen Entwickler oder Administrator. Aber FaaS geht hier noch einen Schritt weiter und erfordert praktisch keine manuellen Handlungen, um die Funktion skalierbar zu machen. Es ist die Aufgabe des Cloud"=Anbieters, die Funktion automatisch zu skalieren. Weil die Funktionen zustandslos sind, kann man sie beliebig oft parallel ausführen.
 
-Die Verwendung von \textit{PaaS} schränkt Technologieentscheidungen stark ein, weil man sich auf eine konkrete Plattform bindet. Bei \textit{FaaS} hingegen ist die Auswahl an möglichen Programmiersprachen sehr breit. Laufend fügen Cloud"=Anbieter neue Sprachen hinzu. Damit ist die Technologieabhängigkeit durch die Verwendung von \textit{FaaS} sehr viel geringer.
+Die Verwendung von PaaS schränkt Technologieentscheidungen stark ein, weil man sich auf eine konkrete Plattform bindet. Bei FaaS hingegen ist die Auswahl an möglichen Programmiersprachen sehr breit. Laufend fügen Cloud"=Anbieter neue Sprachen hinzu. Damit ist die Technologieabhängigkeit durch die Verwendung von FaaS sehr viel geringer.
 
 \subsection{Markt}
 
-Alle namhaften Cloud"=Anbieter, wie Amazon, Microsoft, IBM und Google haben bereits \textit{FaaS}"=Produkte in ihrem Angebot. Die nachfolgenden Abschnitte zeigen die Funktionsweise und Prinzipien anhand von \textit{Microsoft Azure Functions}, da diese Implementierung unter der MIT-Lizenz Open-Source verfügbar ist und somit tiefe Einblicke in die Umsetzung bietet. 
+Alle namhaften Cloud"=Anbieter, wie Amazon, Microsoft, IBM und Google haben bereits FaaS"=Produkte in ihrem Angebot. Die nachfolgenden Abschnitte zeigen die Funktionsweise und Prinzipien anhand von \textit{Microsoft-Azure-Functions}, da diese Implementierung unter der MIT-Lizenz Open-Source verfügbar ist und somit tiefe Einblicke in die Umsetzung bietet. 
 
-\textit{Amazon AWS Lambda} ist von allen Produkten am längsten am Markt und bietet den größten Funktionsumfang. Jedoch haben auch die anderen Anbieter das Potential und die Nachfrage von \textit{FaaS} erkannt und versuchen seither, den Entwicklungsrückstand zu schließen.
+Amazon-AWS-Lambda ist von allen Produkten am längsten am Markt und bietet den größten Funktionsumfang. Jedoch haben auch die anderen Anbieter das Potential und die Nachfrage von FaaS erkannt und versuchen seither, den Entwicklungsrückstand zu schließen.
 
 Derzeit befindet sich dieses doch recht neue Thema noch stark im Wandel. Es ist sehr wahrscheinlich, dass sich einige Dinge in naher Zukunft verändern werden. Die Grundideen haben aber alle Anbieter ähnlich umgesetzt. Trotzdem unterscheiden sie sich in einzelnen Punkten:
 
 \begin{itemize}
 	\item Jeder Anbieter bietet unterschiedliche Programmiersprachen an. Es werden aber laufend neue Sprachen in die Produkte integriert.
 	\item Auch wie das konkrete Skalierbarkeitsverhalten aussieht, muss beim jeweiligen Anbieter getestet werden.
-	\item Meistens sind nur andere Dienste innerhalb des selben Cloud"=Anbieters mit \textit{FaaS} integriert. Dadurch kann sehr leicht eine starke Abhängigkeit zum gewählten Anbieter entstehen.
+	\item Meistens sind nur andere Dienste innerhalb des selben Cloud"=Anbieters mit FaaS integriert. Dadurch kann sehr leicht eine starke Abhängigkeit zum gewählten Anbieter entstehen.
 	\item Natürlich unterscheiden sich die einzelnen Angebote auch im Preis.
 \end{itemize}
 
 Derzeit investieren Cloud"=Anbieter sehr viel in die Entwicklung ihrer \textit{FaaS} Produkte. Das gibt einen Hinweis auf das große Potential dieser Technologie.
 
-\section{Azure Functions}
+\section{Azure-Functions}
 
-Im März 2016 veröffentlichte die Firma \textit{Microsoft} eine Vorschauversion ihrer eigenen serverlosen Plattform mit dem Namen \textit{Azure Functions} \cite{AzFunIntro}. Nur ein halbes Jahr später folgte die erste offizielle Version \cite{AzFunGA}. \textit{Azure Functions} ist eine Erweiterung der ohnehin schon sehr umfangreichen \textit{Microsoft} Cloud"=Plattform. Diese Technologie eignet sich vor allem für die ereignisgesteuerte Verarbeitung und Transformation von Daten aus verschiedenen Datenquellen. Das deklarative Programmiermodell von \textit{Azure Functions} ermöglicht eine einfache Interaktion mit Daten- und Ereignisquellen. 
+Im März 2016 veröffentlichte die Firma Microsoft eine Vorschauversion ihrer eigenen serverlosen Plattform mit dem Namen Azure-Functions \cite{AzFunIntro}. Nur ein halbes Jahr später folgte die erste offizielle Version \cite{AzFunGA}. Azure- Functions ist eine Erweiterung der ohnehin schon sehr umfangreichen Microsoft Cloud"=Plattform. Diese Technologie eignet sich vor allem für die ereignisgesteuerte Verarbeitung und Transformation von Daten aus verschiedenen Datenquellen. Das deklarative Programmiermodell von Azure-Functions ermöglicht eine einfache Interaktion mit Daten- und Ereignisquellen. 
 
-\textit{Microsoft} griff für die Implementierung von \textit{Azure Functions} auf folgende, schon länger in \textit{Microsoft Azure} enthaltene, Dienste und Bibliotheken zurück \cite{AzFunJourney}:
+Microsoft griff für die Implementierung von Azure-Functions auf folgende, schon länger in Microsoft-Azure enthaltene, Dienste und Bibliotheken zurück \cite{AzFunJourney}:
 
 \begin{itemize}
-	\item \textit{App Service - Web App}
-	\item \textit{App Service Plan}
-	\item \textit{Site Control Manger (SCM)}
-	\item \textit{Web Jobs}
-	\item \textit{Web Jobs SDK}
+	\item \textit{App-Service-Web-App}
+	\item \textit{App-Service-Plan}
+	\item \textit{Site-Control-Manger (SCM)}
+	\item \textit{Web-Jobs}
+	\item \textit{Web-Jobs-SDK}
 \end{itemize}
 Folgende Neuentwicklungen waren tatsächlich notwendig:
 \begin{itemize}
-	\item \textit{Web Jobs SDK Script}
-	\item \textit{App Service - Function App}
-	\item \textit{Dynamic Hosting Plan}
+	\item \textit{Web-Jobs-SDK.Script}
+	\item \textit{App-Service-Function-App}
+	\item \textit{Dynamic-Hosting-Plan}
 \end{itemize}
 
-Die nachfolgenden Abschnitte geben einen Überblick über die hier aufgelisteten Bestandteile, die Entstehungsgeschichte und Anwendungsmöglichkeiten von \textit{Azure Functions}. Großteils beziehen sich die Grundlagen von \textit{App Services} und \textit{Web Jobs} auf \cite{AzWebEssentials4Devs}.
+Die nachfolgenden Abschnitte geben einen Überblick über die hier aufgelisteten Bestandteile, die Entstehungsgeschichte und Anwendungsmöglichkeiten von Azure-Functions. Großteils beziehen sich die Grundlagen von App-Services und Web-Jobs auf \cite{AzWebEssentials4Devs}.
 
-\subsection{Azure App Service}
+\subsection{Azure-App-Service}
 
-\textit{App Service} ist in der \textit{Microsoft Azure} Cloud ein Oberbegriff für Services, die in die Kategorie \textit{Platform-as-a-Service} einzuordnen sind. Diese Services haben eine etwas konsequentere Interpretation von \textit{PaaS} als die älteren \textit{Cloud Services}. Bei einem \textit{App Service} übernimmt \textit{Microsoft} die Verwaltung der Infrastruktur, des Betriebssystems und der Laufzeitumgebungen. 
+App-Service ist in der Microsoft-Azure-Cloud ein Oberbegriff für Services, die in die Kategorie Platform-as-a-Service einzuordnen sind. Diese Services haben eine etwas konsequentere Interpretation von PaaS als die älteren Cloud-Services. Bei einem App-Service übernimmt Microsoft die Verwaltung der Infrastruktur, des Betriebssystems und der Laufzeitumgebungen. 
 
-Ein \textit{App Service} ist einem sogenannten \textit{App Service Plan} zugeordnet. Dieser kann mehrere \textit{App Services} beinhalten, die dann auf einem oder mehreren Servern gemeinsam ausgeführt werden. Der \textit{App Service Plan} ist also eine abstrakte Infrastrukturbeschreibung, in der die Anzahl, die Größe und das Skalierungsverhalten der virtuellen Maschinen festlegt. Daher wird er oft als \textit{Server Farm} bezeichnet.
+Ein App-Service ist einem sogenannten App-Service-Plan zugeordnet. Dieser kann mehrere App-Services beinhalten, die dann auf einem oder mehreren Servern gemeinsam ausgeführt werden. Der App-Service-Plan ist also eine abstrakte Infrastrukturbeschreibung, in der die Anzahl, die Größe und das Skalierungsverhalten der virtuellen Maschinen festlegt. Daher wird er oft als "`Server-Farm"' bezeichnet.
 
-Der nächste Abschnitt beschreibt mit \textit{Azure Web Apps} einen konkreten \textit{App Service}, der ein Grundbaustein von \textit{Azure Functions} ist.
+Der nächste Abschnitt beschreibt mit Azure-Web-Apps einen konkreten App-Service, der ein Grundbaustein von Azure-Functions ist.
 
 \subsubsection{Azure Web App}
 
-Eine \textit{Web App} ist in \textit{Microsoft Azure} der einfachste Weg, um eine Web"=Anwendung bereitzustellen. Die virtuellen Maschinen des \textit{App Service Plan}, in dem eine \textit{Web App} ausgeführt wird, sind bereits mit den gängigsten Webentwicklungsumgebungen ausgestattet. Damit lassen sich Web"=Anwendungen unterschiedlicher Technologien, wie \zB Node.js, .NET oder PHP, gemeinsam betreiben. Grundsätzlich ist eine \textit{Web App} ein abstrakter Web"=Server.
+Eine Web-App ist in Microsoft-Azure der einfachste Weg, um eine Web"=Anwendung bereitzustellen. Die virtuellen Maschinen des App- Service-Plan, in dem eine Web-App ausgeführt wird, sind bereits mit den gängigsten Webentwicklungsumgebungen ausgestattet. Damit lassen sich Web"=Anwendungen unterschiedlicher Technologien, wie \zB Node.js, .NET oder PHP, gemeinsam betreiben. Grundsätzlich ist eine Web-App ein abstrakter Web"=Server.
 
-\subsection{Site Control Manager}
+\subsection{Site-Control-Manager}
 
-Die Funktionalität eines \textit{App Service} und somit auch einer \textit{Web App} ist mit Hilfe von sogenannten \textit{Site Extensions} erweiterbar. Diese Erweiterungen werden im selben Kontext wie die eigentliche Web Anwendung ausgeführt. Der \textit{Site Control Manager} -- oft auch \textit{KUDU} genannt -- ist eine Erweiterung, die bei jedem \textit{App Service} automatisch vorinstalliert ist.
+Die Funktionalität eines App-Service und somit auch einer Web-App ist mit Hilfe von sogenannten Site-Extensions erweiterbar. Diese Erweiterungen werden im selben Kontext wie die eigentliche Web Anwendung ausgeführt. Der Site-Control-Manager -- oft auch KUDU genannt -- ist eine Erweiterung, die bei jedem App-Service automatisch vorinstalliert ist.
 
-Anfänglich war die einzige Aufgabe des \textit{Site Control Manager} die Auslieferung des \textit{App Service} mittels Versionsverwaltungssystemen. Aber im Laufe der Zeit wurden weitere Funktionen ergänzt. Dazu zählt auch die Funktion \textit{Web Jobs}, welche die Abarbeitung von Hintergrundaufgaben ermöglicht. Für kleinere Aufgaben, für die eine eigene virtuelle Maschine überdimensioniert wäre, sind \textit{Web Jobs} oft eine wirtschaftlichere Alternative.
+Anfänglich war die einzige Aufgabe des Site-Control-Manager die Auslieferung des App-Service mittels Versionsverwaltungssystemen. Aber im Laufe der Zeit wurden weitere Funktionen ergänzt. Dazu zählt auch die Funktion Web-Jobs, welche die Abarbeitung von Hintergrundaufgaben ermöglicht. Für kleinere Aufgaben, für die eine eigene virtuelle Maschine überdimensioniert wäre, sind Web- Jobs oft eine wirtschaftlichere Alternative.
 
-\subsubsection{Web Jobs}
+\subsubsection{Web-Jobs}
 
-Als \textit{Web Job} eignen sich ausführbare Dateien oder unterstützte Skripte. Diese werden als eigener Prozess im Kontext eines \textit{App Service} entweder zeitgesteuert oder kontinuierlich ausgeführt. Damit können Hintergrundaufgaben überschüssige Kapazität ausnützen. Es kann aber auch zu negativen Effekten kommen, denn Hintergrundaufgaben können die Performanz der eigentlichen Web"=Anwendung für den Endbenutzer beeinflussen.
+Als Web-Job eignen sich ausführbare Dateien oder unterstützte Skripte. Diese werden als eigener Prozess im Kontext eines App-Service entweder zeitgesteuert oder kontinuierlich ausgeführt. Damit können Hintergrundaufgaben überschüssige Kapazität ausnützen. Es kann aber auch zu negativen Effekten kommen, denn Hintergrundaufgaben können die Performanz der eigentlichen Web"=Anwendung für den Endbenutzer beeinflussen.
 
-\subsection{Web Jobs SDK}
+\subsection{Web-Jobs-SDK}
 \label{subsec:webjobssdk}
 
-Die \textit{Web Jobs SDK} ist eine .NET"=Bibliothek für die Implementierung ereignisgesteuerter Hintergrundaufgaben. Diese Bibliothek bietet eine reichhaltige Integration externen Datenquellen. Ein deklaratives Programmiermodell sorgt dafür, dass Entwickler die Anbindung an eine Datenquelle deklarativ beschreiben können, ohne selbst eine Zeile Quelltext zu schreiben \cite{WebJobsSdkBindingAttributes}.
+Die Web-Jobs-SDK ist eine .NET"=Bibliothek für die Implementierung ereignisgesteuerter Hintergrundaufgaben. Diese Bibliothek bietet eine reichhaltige Integration externen Datenquellen. Ein deklaratives Programmiermodell sorgt dafür, dass Entwickler die Anbindung an eine Datenquelle deklarativ beschreiben können, ohne selbst eine Zeile Quelltext zu schreiben \cite{WebJobsSdkBindingAttributes}.
 
-Um vorab einen Einblick zu geben, zeigt Programm \ref{prog:webjobssdk} beispielhaft die Verwendung dieser Bibliothek. Der nächste Abschnitt enthält dann eine detailliertere Aufarbeitung der verwendeten Konzepte. Die folgende Aufzählung gibt eine Übersicht wichtiger Aspekte des Einführungsbeispiels:
+Um vorab einen Einblick zu geben, zeigt Programm~\ref{prog:webjobssdk} beispielhaft die Verwendung dieser Bibliothek. Der nächste Abschnitt enthält dann eine detailliertere Aufarbeitung der verwendeten Konzepte. Die folgende Aufzählung gibt eine Übersicht wichtiger Aspekte des Einführungsbeispiels:
 
 \begin{itemize}
 	\item Die Zeilen \textit{(1-5)} definieren eine Datenstruktur mit drei Attributen.
-	\item Zeile \textit{(7)} startet die \textit{Web Jobs SDK} Laufzeitumgebung. Diese sucht per .NET Reflection nach kompatiblen Funktionen.
+	\item Zeile \textit{(7)} startet die Laufzeitumgebung der Web-Jobs-SDK. Diese sucht per .NET"=Reflection nach kompatiblen Funktionen.
 	\item Zeile \textit{(10)} definiert ereignisgesteuerte Funktion.
 	\item Zeile \textit{(11)} definiert das Ereignis, das einen Funktionsaufruf auslöst. Hier wird die Funktion bei jedem neuen Eintrag in einer Warteschlangen aufgerufen und dessen Inhalt automatisch an den Funktionsparameter übergeben.
 	\item Zeile \textit{(12)} definiert einen Ausgangsparameter. Wertzuweisungen an diesen Parameter werden automatisch in dem konfigurierten \textit{Blob Storage} gespeichert. Für den Pfad dieses Eintrags werden die aus dem Parameter in Zeile \textit{(11)} übergebenen Werte extrahiert.
@@ -140,7 +140,7 @@ Um vorab einen Einblick zu geben, zeigt Programm \ref{prog:webjobssdk} beispielh
 \end{itemize}
 
 \begin{program}[!hbt]
-\caption{Web Jobs SDK Beispiel}
+\caption{Web-Jobs-SDK Beispiel}
 \label{prog:webjobssdk}
 \begin{CsCode}
 public class SensorData {
@@ -163,15 +163,15 @@ public class Functions {
 \end{CsCode}
 \end{program}
 
-Obwohl die Funktion in Programm \ref{prog:webjobssdk} mit drei verschiedenen externen Datenquellen interagiert, enthält sie dafür fast keinen imperativen Quelltext, sondern lediglich eine deklarative Beschreibung in Form von Attributen. Die eigentliche Interaktion und das Warten auf Ereignisse ist die Aufgabe der \textit{Web Jobs SDK}. 
+Obwohl die Funktion in Programm~\ref{prog:webjobssdk} mit drei verschiedenen externen Datenquellen interagiert, enthält sie dafür fast keinen imperativen Quelltext, sondern lediglich eine deklarative Beschreibung in Form von Attributen. Die eigentliche Interaktion und das Warten auf Ereignisse ist die Aufgabe der Web-Jobs-SDK. 
 
-Eine \textit{Web Job} Anwendung ist nichts anderes als eine gewöhnliche .NET Applikation mit einer Referenz auf die \textit{Web Jobs SDK}. Der nächste Abschnitt beschreibt, wie statische Methoden einer \textit{Web Job} Anwendungen zu einem ereignisgesteuerten \textit{Web Job} werden.
+Eine Web-Job-Anwendung ist nichts anderes als eine gewöhnliche .NET"=Applikation mit einer Referenz auf die Web-Jobs-SDK. Der nächste Abschnitt beschreibt, wie statische Methoden einer Web-Job"=Anwendungen zu einem ereignisgesteuerten Web-Job werden.
 
 Für viele Einsatzgebiete reicht dieses einfache, deklarative Programmiermodell aus. Es spricht aber nichts dagegen, die Interaktionslogik mit einer Datenquelle selbst im Funktionsrumpf zu implementieren. Das ist oft sogar notwendig, wenn der Funktionsumfang der deklarativen Variante nicht ausreicht. Der Grundgedanke ist jedoch, derartigen repetitiven Standardquelltext durch deklarative Programmierung zu vermeiden.
 
 \subsection{Bindungen}
 
-Bindungen definieren, wann eine Funktion aufgerufen wird und wie sie über ihre Funktionsparameter mit Datenquellen interagieren kann. Die zwei wesentlichen \textit{Web Job} Bindungen sind Trigger"=Bindungen und Nicht"=Trigger"=Bindungen. Erstere überwachen eine Ereignisquelle und lösen den Aufruf einer Job Funktion aus, wenn ein Ereignis auftritt. Zweitere binden Parameter einer Job Funktion an eine externe Datenquelle. Das kann sowohl zum Lesen, als auch zum Schreiben von Daten sein. Darum werden Nicht"=Trigger"=Bindungen in Eingangs- und Ausgangsbindungen eingeteilt. Jede Funktion muss genau eine Trigger"=Bindung haben, kann aber beliebig viele Nicht"=Trigger"=Bindungen enthalten.
+Bindungen definieren, wann eine Funktion aufgerufen wird und wie sie über ihre Funktionsparameter mit Datenquellen interagieren kann. Die zwei wesentlichen Web-Job"=Bindungen sind Trigger"=Bindungen und Nicht"=Trigger"=Bindungen. Erstere überwachen eine Ereignisquelle und lösen den Aufruf einer Job Funktion aus, wenn ein Ereignis auftritt. Zweitere binden Parameter einer Job Funktion an eine externe Datenquelle. Das kann sowohl zum Lesen, als auch zum Schreiben von Daten sein. Darum werden Nicht"=Trigger"=Bindungen in Eingangs- und Ausgangsbindungen eingeteilt. Jede Funktion muss genau eine Trigger"=Bindung haben, kann aber beliebig viele Nicht"=Trigger"=Bindungen enthalten.
 
 Es gibt bereits eine Vielzahl vorhandener Bindungen. Entwickler können die Bibliothek aber auch mit selbst oder von Drittanbietern entwickelten Bindungen erweitern. Dazu muss man die wichtigsten dafür notwendigen Klassen kennen. Abbildung \ref{fig:webjobsclassdiag} zeigt den Bindungsmechanismus von Nicht"=Trigger"=Bindungen in einem stark vereinfachten Klassendiagramm.
 
@@ -185,13 +185,13 @@ Wie \cite{WebJobsSdkBindingProcess} beschreibt, ist der Bindungsprozess in zwei 
 
 \subsubsection{Startphase}
 
-Beim Starten der Anwendung werden Funktionen gesucht, die sich als \textit{Web Job} eignen. Dieser Prozess umfasst folgende Schritte:
+Beim Starten der Anwendung werden Funktionen gesucht, die sich als Web-Job eignen. Dieser Prozess umfasst folgende Schritte:
 
 \begin{enumerate}
 	\item Das Assembly der Anwendung wird nach allen Methoden in allen öffentlichen Klassen durchsucht.
 	\item Für jeden Parameter einer Methode wird versucht, eine Bindung zu erzeugen.
 	\item Jeder registrierte \lstinline{I(Trigger)BindingProvider} bekommt die Möglichkeit eine Bindung über die Fabrikmethode \lstinline{TryCreate} zu erstellen. Diese Methode überprüft den Datentyp des Parameters und meistens die Existenz des Bindungs"=Attributs, welches die Metadaten der Bindung beinhaltet. Sind die Voraussetzungen einer konkreten Bindung erfüllt, wird diese erzeugt und zurückgegeben.
-	\item Wenn alle Parameter gebunden werden konnten, wird die Funktion in der \textit{Web Jobs} Laufzeitumgebung registriert.
+	\item Wenn alle Parameter gebunden werden konnten, wird die Funktion in der Web-Jobs"=Laufzeitumgebung registriert.
 	\item Für jede Trigger"=Bindung wird zusätzlich die Überwachung der jeweiligen Ereignisquelle gestartet.
 \end{enumerate}
 
@@ -206,19 +206,19 @@ Nachdem alle Funktionen identifiziert wurden, beginnt die Laufzeitphase. In dies
 	\item Nachdem alle Parameter gebunden wurden, kann der eigentliche Funktionsrumpf aufgerufen werden.
 \end{enumerate}
 
-\subsection{Web Jobs Script SDK}
+\subsection{Web-Jobs-Script-SDK}
 \label{subsec:webjobsscriptsdk}
 
-Die \textit{Web Jobs Script SDK} ist das Herzstück von \textit{Azure Functions}. Es ist eine .NET"=Bibliothek, die eine interaktive Verwendung der sonst nur für .NET Applikationen geeigneten \textit{Web Jobs SDK} auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für \textit{Web Jobs} entwickelten Bindungen für \textit{Azure Functions} wiederverwendet werden.
+Die Web-Jobs-Script-SDK ist das Herzstück von Azure-Functions. Es ist eine .NET"=Bibliothek, die eine interaktive Verwendung der sonst nur für .NET"=Applikationen geeigneten Web-Jobs-SDK auch anderen Programmiersprachen zugänglich macht. Damit konnten die bereits für Web-Jobs entwickelten Bindungen für Azure-Functions wiederverwendet werden.
 
-Wie in Programm \ref{prog:webjobssdk} gezeigt, agiert die Klasse \lstinline{JobHost} als Laufzeitumgebung von \textit{Web Job} Funktionen. In der \textit{Web Jobs Script SDK} Bibliothek ist die Klasse \lstinline{ScriptHost} von \lstinline{JobHost} abgeleitet und um dynamische Aspekte erweitert. Anstelle die Funktionen in eine .NET Anwendung zu verpacken, werden hier die Funktionen als Skript"=Dateien in einer bestimmten Ordnerstruktur abgelegt. Die Skript"=Laufzeitumgebung überwacht diese Ordnerstruktur auf Änderungen. Wenn eine Funktion hinzugefügt wird, löst das unmittelbar eine Aktualisierung und bei kompilierten Sprachen eine erneute Übersetzung der Funktion aus.
+Wie in Programm~\ref{prog:webjobssdk} gezeigt, agiert die Klasse \lstinline{JobHost} als Laufzeitumgebung von Web-Job"=Funktionen. In der Web-Jobs-Script-SDK"=Bibliothek ist die Klasse \lstinline{ScriptHost} von \lstinline{JobHost} abgeleitet und um dynamische Aspekte erweitert. Anstelle die Funktionen in eine .NET Anwendung zu verpacken, werden hier die Funktionen als Skript"=Dateien in einer bestimmten Ordnerstruktur abgelegt. Die Skript"=Laufzeitumgebung überwacht diese Ordnerstruktur auf Änderungen. Wenn eine Funktion hinzugefügt wird, löst das unmittelbar eine Aktualisierung und bei kompilierten Sprachen eine erneute Übersetzung der Funktion aus.
 
 \subsubsection{Programmiermodell}
 
-Eine \textit{Azure Function} Applikation ist im Grunde nur eine Ordnerstruktur. Jede Funktion befindet sich in einem eigenen Ordner und enthält mindestens zwei Dateien. Meistens sind das eine Skript"=Datei, mit dem eigentlichen Quelltext der Funktion und eine Konfigurationsdatei, in der die Metadaten der Parameterbindungen definiert sind. Abschnitt \ref{subsec:webjobssdk} hat die attributbasierte Definition der Bindungsmetadaten gezeigt. Für \textit{Azure Functions} ist diese Umsetzung untauglich, weil nicht alle Programmiersprachen einen derartigen Mechanismus besitzen.
+Eine Azure-Function Applikation ist im Grunde nur eine Ordnerstruktur. Jede Funktion befindet sich in einem eigenen Ordner und enthält mindestens zwei Dateien. Meistens sind das eine Skript"=Datei, mit dem eigentlichen Quelltext der Funktion und eine Konfigurationsdatei, in der die Metadaten der Parameterbindungen definiert sind. Abschnitt~\ref{subsec:webjobssdk} hat die attributbasierte Definition der Bindungsmetadaten gezeigt. Für Azure-Functions ist diese Umsetzung untauglich, weil nicht alle Programmiersprachen einen derartigen Mechanismus besitzen.
 
 \begin{program}[!hbt]
-\caption{Azure Functions Beispiel C\#}
+\caption{Azure-Functions Beispiel C\#}
 \label{prog:azfun-sensor}
 \noindent\begin{minipage}[t]{.49\textwidth}
 \lstset{xleftmargin=0.0cm,framexleftmargin=0.0cm}
@@ -273,19 +273,19 @@ public class SensorData {
 \end{minipage}
 \end{program}
 
-Die in Programm \ref{prog:azfun-sensor} dargestellte \textit{Azure Function} ist funktional äquivalent zu der in Programm \ref{prog:webjobssdk} gezeigten \textit{Web Job} Variante. Aus programmiertechnischer Sicht ist der größte Unterschied, die Definition der Bindungsmetadaten in Form einer sprachunabhängigen Konfigurationsdatei, die auch für andere Sprachen verwendet werden kann. In diesem Beispiel ist der eigentliche Quelltext in einer C\#-Skript-Datei implementiert, die aber durch jede andere unterstützte Sprache ausgetauscht werden könnte.
+Die in Programm~\ref{prog:azfun-sensor} dargestellte Azure-Function ist funktional äquivalent zu der in Programm~\ref{prog:webjobssdk} gezeigten Variante mit Web-Jobs. Aus programmiertechnischer Sicht ist der größte Unterschied, die Definition der Bindungsmetadaten in Form einer sprachunabhängigen Konfigurationsdatei, die auch für andere Sprachen verwendet werden kann. In diesem Beispiel ist der eigentliche Quelltext in einer C\#-Skript-Datei implementiert, die aber durch jede andere unterstützte Sprache ausgetauscht werden könnte.
 
-Der folgende Abschnitt beschreibt, wie die dynamische Übersetzung von \textit{Azure Functions} während der Laufzeit funktioniert.
+Der folgende Abschnitt beschreibt, wie die dynamische Übersetzung von Azure-Functions während der Laufzeit funktioniert.
 
 \subsubsection{Übersetzungsvorgang}
 
-Die Hauptaufgabe der \textit{Web Jobs Script SDK} Bibliothek ist die dynamische Übersetzung der verschiedenen unterstützten Programmiersprachen und die Integration dieser dynamisch übersetzten Funktionen in die \textit{Web Jobs SDK} Laufzeitumgebung. Für jede Programmiersprache ist ein anderer Übersetzungsprozess notwendig. Nachfolgend wird dieser Prozess für die kompilierten Sprachen C\# und F\#, sowie für die interpretierte Sprache Javascript, kurz dargestellt.
+Die Hauptaufgabe der Web-Jobs-Script-SDK"=Bibliothek ist die dynamische Übersetzung der verschiedenen unterstützten Programmiersprachen und die Integration dieser dynamisch übersetzten Funktionen in die Web-Jobs-SDK"=Laufzeitumgebung. Für jede Programmiersprache ist ein anderer Übersetzungsprozess notwendig. Nachfolgend wird dieser Prozess für die kompilierten Sprachen C\# und F\#, sowie für die interpretierte Sprache Javascript, kurz dargestellt.
 
-Die \textit{Roslyn Compiler API} ist eine .NET"=Bibliothek, die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken, um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der \textit{Web Jobs} Laufzeitumgebung verwendet werden.
+Die \textit{Roslyn-Compiler-API} ist eine .NET"=Bibliothek, die unter anderem die Übersetzung von C\#-Quelltext ermöglicht \cite[5]{Roslyn}. Auch für die Sprache F\# gibt es eine derartige Bibliothek. Die Skript"=Laufzeitumgebung verwendet diese beiden Bibliotheken, um dynamisch C\# und F\# Skripte zu übersetzen und das Kompilat in ihren Prozess zu laden. Ab diesem Zeitpunkt kann die übersetzte Funktion ganz normal in der Web-Jobs"=Laufzeitumgebung verwendet werden.
 
-Wesentlich aufwändiger gestaltet sich die Interaktion mit der \textit{Web Jobs SDK}, bei Sprachen die nicht der .NET"=Familie angehören. Bei JavaScript Funktionen beispielsweise, ist eine Brücke zwischen der .NET \textit{Common Language Runtime} und der \textit{JavaScript}-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter, als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
+Wesentlich aufwändiger gestaltet sich die Interaktion mit der Web-Jobs-SDK, bei Sprachen die nicht der .NET"=Familie angehören. Bei JavaScript"=Funktionen beispielsweise, ist eine Brücke zwischen der .NET-\textit{Common-Language-Runtime} und der JavaScript-Laufzeitumgebungen notwendig. Dieses Problem löst eine Bibliothek mit dem Namen \textit{Edge.js}. Damit ist es möglich, .NET und \textit{Node.js} Quellcode im selben Prozess auszuführen, indem beide Laufzeiten im selben Prozess geladen werden \cite{EdgeJs}. Das ist wesentlich effizienter, als beide Umgebungen getrennt auszuführen und über Interprozesskommunikation zu verbinden.
 
-Die Programmiermodelle von .NET und \textit{Node.js} unterscheiden sich teilweise gravierend. In \textit{Node.js} wird Nebenläufigkeit beispielsweise durch Callback"=basierte Programmierung gelöst, weil die virtuelle JavaScript-Maschine nur einen einzigen Ausführungsstrang nutzt. In .NET gibt es diese Einschränkung nicht. Hier wird Task"=basierte Nebenläufigkeit bevorzugt. Programm \ref{prog:dotnet-javascript-bridge} zeigt aber, dass beide Konzepte isomorph sind und sich darum trotzdem vereinbaren lassen.
+Die Programmiermodelle von .NET und \textit{Node.js} unterscheiden sich teilweise gravierend. In \textit{Node.js} wird Nebenläufigkeit beispielsweise durch Callback"=basierte Programmierung gelöst, weil die virtuelle JavaScript-Maschine nur einen einzigen Ausführungsstrang nutzt. In .NET gibt es diese Einschränkung nicht. Hier wird Task"=basierte Nebenläufigkeit bevorzugt. Programm~\ref{prog:dotnet-javascript-bridge} zeigt aber, dass beide Konzepte isomorph sind und sich darum trotzdem vereinbaren lassen.
 
 \begin{program}[!hbt]
 \caption{Brücke zwischen Task-basierter Programmierung in .NET und Callback-basierter Programmierung in JavaScript}
@@ -310,34 +310,34 @@ function (/+\textcolor{red}{arguments}+/, /+\textcolor{cyan}{callback}+/) {
 \end{minipage}
 \end{program}
 
-Die Kompilierung oder Interpretation der Job Funktion zur Laufzeit, ermöglicht ein sehr effizientes ausrollen dieser Funktionen. Es muss nicht die ganze Host-Anwendung neu übersetzt und Ausgerollt werden, wie es bei den in Abschnitt \ref{subsec:webjobssdk} beschriebenen traditionellen \textit{Web Jobs} der Fall war.
+Die Kompilierung oder Interpretation der Job Funktion zur Laufzeit, ermöglicht ein sehr effizientes ausrollen dieser Funktionen. Es muss nicht die ganze Host-Anwendung neu übersetzt und Ausgerollt werden, wie es bei den in Abschnitt~\ref{subsec:webjobssdk} beschriebenen traditionellen Web-Jobs der Fall war.
 
-\subsection{Azure Function App}
+\subsection{Azure-Function-App}
 
-Eine \textit{Function App} ist in \textit{Microsoft Azure} ein auf die Bedürfnisse von \textit{Azure Functions} zugeschnittener \textit{App Service}, der mehrere zusammengehörende \textit{Azure Functions} zusammenbindet. Alle \textit{App Services} haben gemeinsame Basisfunktionen, wie \zB Logging, Monitoring, Deployment-, sowie Skalierbarkeitsmöglichkeiten. Eine \textit{Function App} hat eine zusätzliche \textit{Site Extension}, in der die in Abschnitt \ref{subsec:webjobsscriptsdk} beschriebene Skript-Laufzeitumgebung ausgeführt wird. Auf diese Weise ist auch die Verwendung von HTTP-Triggern möglich, weil eine \textit{Site Extension} auch die Kommunikation über HTTP ermöglicht. Damit lassen sich mit \textit{Azure Functions} auch sehr schnell einfache Web"=Services entwickeln. Alternativ wäre es auch möglich, die Skript-Laufzeitumgebung in einer .NET"=Konsolenanwendung als kontinuierlichen \textit{Web Job} eines \textit{App Service} auszuführen. Damit wäre aber das Empfangen von HTTP-Anfragen nicht möglich.
+Eine Function-App ist in Microsoft-Azure ein auf die Bedürfnisse von Azure-Functions zugeschnittener App-Service, der mehrere zusammengehörende Azure-Functions zusammenbindet. Alle App-Services haben gemeinsame Basisfunktionen, wie \zB Logging, Monitoring, Deployment-, sowie Skalierbarkeitsmöglichkeiten. Eine Function-App hat eine zusätzliche Site-Extension, in der die in Abschnitt~\ref{subsec:webjobsscriptsdk} beschriebene Skript-Laufzeitumgebung ausgeführt wird. Auf diese Weise ist auch die Verwendung von HTTP-Triggern möglich, weil eine Site-Extension auch die Kommunikation über HTTP ermöglicht. Damit lassen sich mit Azure-Functions auch sehr schnell einfache Web"=Services entwickeln. Alternativ wäre es auch möglich, die Skript-Laufzeitumgebung in einer .NET"=Konsolenanwendung als kontinuierlichen Web-Job eines App-Service auszuführen. Damit wäre aber das Empfangen von HTTP-Anfragen nicht möglich.
 
-Als zusätzliche Erweiterung bieten \textit{Function Apps} auch eine online Entwicklungsumgebung, die in das \textit{Microsoft Azure Portal} integriert wurde. Somit können Funktionen interaktiv erstellt, geändert und gelöscht werden. Dateiänderungen werden automatisch von der Skript-Laufzeitumgebung erkannt und die geänderten Funktionen neu übersetzt. In der Entwurfsphase ist diese Möglichkeit der Entwicklung sehr produktiv. Danach sollte aber ein automatisierter Prozess, \zB über ein Versionsverwaltungssystem, bevorzugt werden.
+Als zusätzliche Erweiterung bieten Function-Apps auch eine online Entwicklungsumgebung, die in das Microsoft-Azure-Portal integriert wurde. Somit können Funktionen interaktiv erstellt, geändert und gelöscht werden. Dateiänderungen werden automatisch von der Skript-Laufzeitumgebung erkannt und die geänderten Funktionen neu übersetzt. In der Entwurfsphase ist diese Möglichkeit der Entwicklung sehr produktiv. Danach sollte aber ein automatisierter Prozess, \zB über ein Versionsverwaltungssystem, bevorzugt werden.
 
-Der \textit{App Service Plan} eines \textit{App Service} definiert, aus welchen und wie vielen virtuellen Servern die Infrasturktur bestehen soll. Die zur Verfügung gestellten Ressourcen stehen permanent zur Verfügung und verursachen somit auch laufend Kosten, wenn die Anwendungen keine Ressourcen beanspruchen. Dieses Konzept steht im Widerspruch zur Grundidee von \textit{Function-as-a-Service}. Hier soll die Verrechnung auf Basis der Funktionsaufrufe erfolgen. 
+Der App-Service-Plan eines App-Service definiert, aus welchen und wie vielen virtuellen Servern die Infrasturktur bestehen soll. Die zur Verfügung gestellten Ressourcen stehen permanent zur Verfügung und verursachen somit auch laufend Kosten, wenn die Anwendungen keine Ressourcen beanspruchen. Dieses Konzept steht im Widerspruch zur Grundidee von Function-as-a-Service. Hier soll die Verrechnung auf Basis der Funktionsaufrufe erfolgen. 
 
-Für eine konsequente Implementierung von \textit{FaaS} erweiterte \textit{Microsoft} den klassischen \textit{App Service Plans} um einen sogenannten \textit{Consumption Plan}. Mit dieser Variante hat der Entwickler keinerlei Möglichkeit mehr, die Skalierbarkeitseigenschaften zu bestimmen. \textit{Microsoft Azure} übernimmt völlig automatisch die Skalierung auf die optimale Größe.
+Für eine konsequente Implementierung von FaaS erweiterte Microsoft den klassischen App-Service-Plans um einen sogenannten \textit{Consumption-Plan}. Mit dieser Variante hat der Entwickler keinerlei Möglichkeit mehr, die Skalierbarkeitseigenschaften zu bestimmen. Microsoft-Azure übernimmt völlig automatisch die Skalierung auf die optimale Größe.
 
-Das Verrechnungsmodell bei einem \textit{Consumption Plan} stellt nur tatsächlich konsumierte Ressourcen in Rechnung. In vielen Fällen lassen sich damit Kostenersparnisse gegenüber Varianten mit reservierter Ressourcenzeit erzielen. Man verliert aber jegliche Einflussmöglichkeit auf die Ressourcen, sodass man beispielsweise das in Abschnitt \ref{subsec:coldstart} beschriebene Kaltstartproblem in Kauf nehmen muss.
+Das Verrechnungsmodell bei einem Consumption-Plan stellt nur tatsächlich konsumierte Ressourcen in Rechnung. In vielen Fällen lassen sich damit Kostenersparnisse gegenüber Varianten mit reservierter Ressourcenzeit erzielen. Man verliert aber jegliche Einflussmöglichkeit auf die Ressourcen, sodass man beispielsweise das in Abschnitt~\ref{subsec:coldstart} beschriebene Kaltstartproblem in Kauf nehmen muss.
 
-Derzeit ist die Verwendung eines traditionellen \textit{App Service Plans} und eines \textit{Consumption Plans} möglich. Konsumenten haben also die Wahlfreiheit oder können bestehende \textit{App Service Plans} für \textit{Azure Functions} nutzen. Die meisten anderen Anbieter am Markt haben nur ein dem \textit{Consumption Plan} ähnliches Modell im Angebot.
+Derzeit ist die Verwendung eines traditionellen App-Service-Plans und eines Consumption-Plans möglich. Konsumenten haben also die Wahlfreiheit oder können bestehende App-Service-Plans für Azure-Functions nutzen. Die meisten anderen Anbieter am Markt haben nur ein dem Consumption-Plan ähnliches Modell im Angebot.
 
 \subsection{Verrechnungsmodell}
 
-Dieser Abschnitt bezieht sich auf den zuvor beschriebenen \textit{Consumption Plan}, da dieser die größte Übereinstimmung mit den Ideen hinter serverloser Softwarearchitektur hat. Die Kosten von \textit{Azure Functions} werden durch die Anzahl der Funktionsaufrufe und den Ressourcenkosten bestimmt. Für die Berechnung der Aufrufkosten wird die Anzahl der Funktionsaufrufe mit dem festgelegten Preis pro Aufruf multipliziert.
+Dieser Abschnitt bezieht sich auf den zuvor beschriebenen Consumption-Plan, da dieser die größte Übereinstimmung mit den Ideen hinter serverloser Softwarearchitektur hat. Die Kosten von Azure-Functions werden durch die Anzahl der Funktionsaufrufe und den Ressourcenkosten bestimmt. Für die Berechnung der Aufrufkosten wird die Anzahl der Funktionsaufrufe mit dem festgelegten Preis pro Aufruf multipliziert.
 
 Hinter den Ressourcenkosten steckt eine aufwändigere Berechnung. Zuerst wird die Anzahl der Aufrufe mit der Aufrufdauer multipliziert, um den Ressourcenverbrauch in Sekunden zu ermitteln. Dieser Wert wird mit dem durchschnittlichen Speicherverbrauch in Gigabyte multipliziert. Danach erhält man den Ressourcenverbrauch in Gigabyte-Sekunden. Auch pro Gigabyte-Sekunde gibt es einen festgelegten Tarif, mit dem man die Ressourcenkosten berechnen kann.
 
-Die Gesamtkosten setzen sich aus den Aufrufkosten und den Ressourcenkosten zusammen. Den Hauptteil der Kosten nehmen meistens die Ressourcenkosten ein, die abhängig vom Speicherverbrauch und der Aufrufdauer sind. In Tabelle \ref{tab:azfun-pricing} ist die gesamte Berechnung noch einmal verdeutlicht.
+Die Gesamtkosten setzen sich aus den Aufrufkosten und den Ressourcenkosten zusammen. Den Hauptteil der Kosten nehmen meistens die Ressourcenkosten ein, die abhängig vom Speicherverbrauch und der Aufrufdauer sind. In Tabelle~\ref{tab:azfun-pricing} ist die gesamte Berechnung noch einmal verdeutlicht.
 
-Bei einem klassischen \textit{App Service Plan} berechnen sich die Kosten aus der Anzahl und Größe der virtuellen Maschinen. Aber wie bereits erwähnt, entspricht dieses Verrechnungsmodell nicht den Grundgedanken von \textit{FaaS}.
+Bei einem klassischen App-Service-Plan berechnen sich die Kosten aus der Anzahl und Größe der virtuellen Maschinen. Aber wie bereits erwähnt, entspricht dieses Verrechnungsmodell nicht den Grundgedanken von Faas.
 
 \begin{table}[!hbt]
-\caption{Azure Functions Preiskalkulation}
+\caption{Azure-Functions-Preiskalkulation}
 \label{tab:azfun-pricing}
 \centering
 
@@ -368,14 +368,14 @@ $=$ & \textit{\textbf{Gesamtkosten}} \\
 \subsection{Kaltstart}
 \label{subsec:coldstart}
 
-Die dynamische Ressourcenbereitstellung des \textit{Consumption Plans} ermöglicht zwar eine sehr feingranulare und kosteneffiziente Verrechnung von Funktionsaufrufen, jedoch hat diese Art auch Nachteile. Einer davon sind sogenannte Kaltstarts. Darunter versteht man den Effekt, dass der erste Funktionsaufruf nach längerer Inaktivität viel länger dauert, als durchschnittliche Aufrufe.
+Die dynamische Ressourcenbereitstellung des Consumption-Plans ermöglicht zwar eine sehr feingranulare und kosteneffiziente Verrechnung von Funktionsaufrufen, jedoch hat diese Art auch Nachteile. Einer davon sind sogenannte Kaltstarts. Darunter versteht man den Effekt, dass der erste Funktionsaufruf nach längerer Inaktivität viel länger dauert, als durchschnittliche Aufrufe.
 
-In \textit{AWS Lambda} werden Latenzzeiten von 100 bis 800 Millisekunden bei \textit{Node.js} und bis zu 3500 Millisekunden bei \textit{Java} Funktionen beobachtet \cite[Kap. 16]{Fuller2016}. Auch wenn \textit{AWS Lambda} und \textit{Azure Functions} mit völlig unterschiedlichen Technologien entwickelt wurden, leiden sie dennoch beide unter diesem Problem, wie das nachfolgende Experiment zeigt.
+In AWS-Lambda werden Latenzzeiten von 100 bis 800 Millisekunden bei Node.js und bis zu 3500 Millisekunden bei Java Funktionen beobachtet~\cite[Kap. 16]{Fuller2016}. Auch wenn AWS-Lambda und Azure-Functions mit völlig unterschiedlichen Technologien entwickelt wurden, leiden sie dennoch beide unter diesem Problem, wie das nachfolgende Experiment zeigt.
 
-Um das Kaltstartproblem in \textit{Azure Functions} zu analysieren, wurden über einen Zeitraum von zwei Wochen, in mehreren \textit{Microsoft Azure} Regionen, Funktionen über einen HTTP-Trigger aufgerufen. Die Aufrufe selbst erfolgten aus der selben Region und hatten einen Abstand zwischen fünfzehn Minuten und zwölf Stunden. Abbildung \ref{fig:azfun-latency} zeigt, dass ein HTTP-Aufruf nach längerer Inaktivität durchschnittlich etwa vier Sekunden benötigt. Es ist aber auch zu erkennen, dass die Antwortzeiten sehr große Schwankungen aufweisen.
+Um das Kaltstartproblem in Azure-Functions zu analysieren, wurden über einen Zeitraum von zwei Wochen, in mehreren Regionen in Microsoft-Azure, Funktionen über einen HTTP-Trigger aufgerufen. Die Aufrufe selbst erfolgten aus der selben Region und hatten einen Abstand zwischen fünfzehn Minuten und zwölf Stunden. Abbildung~\ref{fig:azfun-latency} zeigt, dass ein HTTP-Aufruf nach längerer Inaktivität durchschnittlich etwa vier Sekunden benötigt. Es ist aber auch zu erkennen, dass die Antwortzeiten sehr große Schwankungen aufweisen.
 
 \begin{figure}[!hbt]%
-\caption{Azure Functions Kaltstart-Latenzzeit}%
+\caption{Latenzzeiten bei einem Azure-Functions-Kaltstart}%
 \label{fig:azfun-latency}%
 \centering
 \usepgfplotslibrary{statistics}
@@ -413,15 +413,15 @@ Um das Kaltstartproblem in \textit{Azure Functions} zu analysieren, wurden über
 \end{tikzpicture}
 \end{figure}
 
-Ob die großen Latenzzeiten nach einem Kaltstart ein Problem darstellen, kommt auf das jeweilige Einsatzgebiet an. Bei einem kontinuierlichen Lastaufkommen oder bei nicht zeitkritischen Szenerien, kann dieses Problem auch vernachlässigbar sein. In diesem Bereich herrscht sicherlich noch großes Optimierungspotential seitens der \textit{FaaS}=Anbieter.
+Ob die großen Latenzzeiten nach einem Kaltstart ein Problem darstellen, kommt auf das jeweilige Einsatzgebiet an. Bei einem kontinuierlichen Lastaufkommen oder bei nicht zeitkritischen Szenerien, kann dieses Problem auch vernachlässigbar sein. In diesem Bereich herrscht sicherlich noch großes Optimierungspotential seitens der FaaS-Anbieter.
 
 \subsection{Zusammenfassung}
 
-In diesem Abschnitt wurde \textit{Azure Functions} als konkrete Technologie aus dem Bereich \textit{Function-as-a-Service} vorgestellt. Es ist eine Möglichkeit, kleine unabhängige Funktionen ereignisgesteuert auszuführen. Die Alleinstellungsmerkmale sind die einfache Interaktion mit externen Datenquellen und das serverlose Ressourcenmodell. Serverlos bedeutet nämlich, dass der Service-Anbieter sämtliche Infrastrukturaufgaben übernimmt, selbst die Skalierung.
+In diesem Abschnitt wurde Azure-Functions als konkrete Technologie aus dem Bereich Function-as-a-Service vorgestellt. Es ist eine Möglichkeit, kleine unabhängige Funktionen ereignisgesteuert auszuführen. Die Alleinstellungsmerkmale sind die einfache Interaktion mit externen Datenquellen und das serverlose Ressourcenmodell. Serverlos bedeutet nämlich, dass der Service-Anbieter sämtliche Infrastrukturaufgaben übernimmt, selbst die Skalierung.
 
-\textit{Azure Functions} baut sehr stark auf die vorhandenen Funktionen der \textit{Web Jobs SDK} auf und macht diese auch Programmiersprachen außerhalb der .NET-Familie zugänglich. Mit all seinen Bindungen und Triggern an verschiedenste Datenquellen, besitzt \textit{Azure Functions} einen reichhaltigen Baukasten für die Entwicklung von Microservices in der Cloud. Weil Funktionen automatisch hoch skalierbar und verfügbar sind, ist \textit{FaaS} auch für anspruchsvolle Anwendungen geeignet. Spielt jedoch die Latenzzeit eine große Rolle, oder ist die Lastverteilung sehr hoch und vorhersehbar, sind andere Technologien möglicherweise besser geeignet.
+Azure-Functions baut sehr stark auf die vorhandenen Funktionen der Web-Jobs-SDK auf und macht diese auch Programmiersprachen außerhalb der .NET-Familie zugänglich. Mit all seinen Bindungen und Triggern an verschiedenste Datenquellen, besitzt Azure-Functions einen reichhaltigen Baukasten für die Entwicklung von Microservices in der Cloud. Weil Funktionen automatisch hoch skalierbar und verfügbar sind, ist FaaS auch für anspruchsvolle Anwendungen geeignet. Spielt jedoch die Latenzzeit eine große Rolle, oder ist die Lastverteilung sehr hoch und vorhersehbar, sind andere Technologien möglicherweise besser geeignet.
 
-In dieser Arbeit wurden keineswegs alle Möglichkeiten von \textit{Azure Functions} betrachtet. Dazu zählen beispielsweise Sicherheit, Deployment oder Überwachung. Zudem befindet sich der ganze \textit{FaaS}-Bereich noch stark in Entwicklung und wird deshalb ständig um neue Möglichkeiten ergänzt. Die Zukunft wird zeigen, wie sich dieser sehr junge Bereich entwickeln wird.
+In dieser Arbeit wurden keineswegs alle Möglichkeiten von Azure Functions betrachtet. Dazu zählen beispielsweise Sicherheit, Deployment oder Überwachung. Zudem befindet sich der ganze FaaS-Bereich noch stark in Entwicklung und wird deshalb ständig um neue Möglichkeiten ergänzt. Die Zukunft wird zeigen, wie sich dieser sehr junge Bereich entwickeln wird.
 
 \section{Evolution der Anwendungsentwicklung}
 
@@ -455,24 +455,24 @@ Nachrichtenorientierte Systeme bedeuten immer einen gewissen Mehraufwand für di
 
 Ein weiterer Hemmschuh bei der Nachrichtenübertragung waren schwergewichtige, oft XML-basierte, Kodierungsprotokolle, wie \zB SOAP. Erst die Entwicklung von leichtgewichtigeren \bzw effizienteren Protokollen, in Kombination mit den um Größenordnungen schnelleren Netzwerkverbindungen, leiteten den Siegeszug von nachrichtenorientierten Systemen ein.
 
-Auch in der Speichertechnologie passierte durch die Ablösung von magnetischen Festplatten durch \textit{Solid-State}"=Festplatten ein weiterer essentieller Technologiefortschritt. Magnetische Festplatten sind ihren neuen Konkurrenten vor allem bei zufälligen Lesezugriffen deutlich unterlegen \cite{Regola:2012:CMV:2379436.2379437}. Diese schlechten Zugriffszeiten waren der Grund für das Design großer monolithischer Datenbanken. Geschäftslogikfunktionen mussten viele Operation in einer Transaktion durchführen, um die langsamen Zugriffszeiten zu kaschieren.
+Auch in der Speichertechnologie passierte durch die Ablösung von magnetischen Festplatten durch Solid-State"=Festplatten ein weiterer essentieller Technologiefortschritt. Magnetische Festplatten sind ihren neuen Konkurrenten vor allem bei zufälligen Lesezugriffen deutlich unterlegen~\cite{Regola:2012:CMV:2379436.2379437}. Diese schlechten Zugriffszeiten waren der Grund für das Design großer monolithischer Datenbanken. Geschäftslogikfunktionen mussten viele Operation in einer Transaktion durchführen, um die langsamen Zugriffszeiten zu kaschieren.
 
-Auf Basis der sehr schnellen \textit{Solid-State}"=Festplatten wurden eine Menge neuer \textit{NoSQL} Datenbanken entwickelt. Diese wiederum haben die Dezentralisierung und die in Abschnitt \ref{subsec:polyglot-persistance} beschriebene polyglotte Persistenz der bis dato hauptsächlich monolithischen Applikation vorangetrieben.
+Auf Basis der sehr schnellen Solid-State"=Festplatten wurden eine Menge neuer \textit{NoSQL} Datenbanken entwickelt. Diese wiederum haben die Dezentralisierung und die in Abschnitt~\ref{subsec:polyglot-persistance} beschriebene polyglotte Persistenz der bis dato hauptsächlich monolithischen Applikation vorangetrieben.
 
-Auch Funktionen in \textit{FaaS} machen intensiven Gebrauch von Nachrichtenübertragung und verschiedenen Datenspeichern. Im Grunde transformieren sie Daten, wann immer sie über eine Ereignis benachrichtigt werden.
+Auch Funktionen in FaaS machen intensiven Gebrauch von Nachrichtenübertragung und verschiedenen Datenspeichern. Im Grunde transformieren sie Daten, wann immer sie über eine Ereignis benachrichtigt werden.
 
 \subsection{Organisatorische Veränderungen}
 
 Abschnitt \ref{sec:business-capabilities} hat bereits beschrieben, dass die Implementierung einer Microservice"=Architektur mit großer Wahrscheinlichkeit eine organisatorische Umstrukturierung mit sich bringt. Projekt- oder technologiebezogene Strukturen sollten in produktbezogene umgewandelt werden. Um die Autonomie zu steigern und den Koordinationsaufwand zu senken, ist es empfehlenswert, große Teams in kleinere Einheiten zu zerteilen. Jedes dieser kleinen Teams ist für den gesamten Lebenszyklus eines oder mehrerer Dienste verantwortlich. Diese Struktur erlaubte eine viel agilere Entwicklung und erfordert weniger definierte Prozesse.
 
-Jedes Unternehmen das ein Informationssystem entwirft, wird unvermeidbar eine Architektur hervorbringen, die ein Abbild der Organisationsstruktur ist \cite{paper:conway:1968}. Diese Aussage ist als das Gesetz von Conway bekannt. Aus diesem Grund ist für eine erfolgreiche Umsetzung von Microservices auch die richtige Organisationsstruktur eine unabdingbare Voraussetzung.
+Jedes Unternehmen das ein Informationssystem entwirft, wird unvermeidbar eine Architektur hervorbringen, die ein Abbild der Organisationsstruktur ist~\cite{paper:conway:1968}. Diese Aussage ist als das Gesetz von \textit{Conway} bekannt. Aus diesem Grund ist für eine erfolgreiche Umsetzung von Microservices auch die richtige Organisationsstruktur eine unabdingbare Voraussetzung.
 
 \subsection{Von Microservices zu serverlosen Anwendungen}
 
-Wenn man Microservices auf die Spitze treibt, erfüllt jeder Service nur noch eine einzige Aufgabe. Aufgrund der großen Anzahl von Services in einer Microservice"=Architektur, erfordert dieser Ansatz eine extrem effiziente Bereitstellung von Services. Selbst automatisch erstellte virtuelle Server und Container sind dafür nicht ausreichend. Für diese Anforderung ist \textit{Function-as-a-Service} eine gute Wahl, denn Funktionen lassen sich in Bruchteilen einer Sekunde ausrollen.
+Wenn man Microservices auf die Spitze treibt, erfüllt jeder Service nur noch eine einzige Aufgabe. Aufgrund der großen Anzahl von Services in einer Microservice"=Architektur, erfordert dieser Ansatz eine extrem effiziente Bereitstellung von Services. Selbst automatisch erstellte virtuelle Server und Container sind dafür nicht ausreichend. Für diese Anforderung ist Function-as-a-Service eine gute Wahl, denn Funktionen lassen sich in Bruchteilen einer Sekunde ausrollen.
 
-Viele Services werden nur selten oder sehr unregelmäßig genutzt. In diesen Szenarien ist es schwierig, mit Containern oder virtuellen Maschinen die Kapazität zum richtigen Zeitpunkt bereitzustellen. Die Auslastung der Ressourcen ist in solchen Fällen meistens nicht optimal. \textit{Function-as-a-Service} ist eine gute Möglichkeit, um mit volatilen Lastaufkommen umzugehen. Anstatt Rechenkapazität dezidiert zu reservieren, werden Funktionen erst bei Bedarf ausgerollt.
+Viele Services werden nur selten oder sehr unregelmäßig genutzt. In diesen Szenarien ist es schwierig, mit Containern oder virtuellen Maschinen die Kapazität zum richtigen Zeitpunkt bereitzustellen. Die Auslastung der Ressourcen ist in solchen Fällen meistens nicht optimal. Function-as-a-Service ist eine gute Möglichkeit, um mit volatilen Lastaufkommen umzugehen. Anstatt Rechenkapazität dezidiert zu reservieren, werden Funktionen erst bei Bedarf ausgerollt.
 
-Funktionen enthalten beinahe ausschließlich Geschäftslogik. Es ist kaum Standard- oder Plattformquelltext notwendig. Damit gelingt es Entwicklern oft binnen weniger Tage, neue Funktionen zu entwickeln. Dabei verbinden sie einfach eine Funktion mit anderen Funktionen oder Services von Drittanbietern. Ein großer Vorteil von \textit{Function-as-a-Service} ist, dass die entwickelten Funktionen automatisch hoch skalierbar und hoch verfügbar sind.
+Funktionen enthalten beinahe ausschließlich Geschäftslogik. Es ist kaum Standard- oder Plattformquelltext notwendig. Damit gelingt es Entwicklern oft binnen weniger Tage, neue Funktionen zu entwickeln. Dabei verbinden sie einfach eine Funktion mit anderen Funktionen oder Services von Drittanbietern. Ein großer Vorteil von Function-as-a-Service ist, dass die entwickelten Funktionen automatisch hoch skalierbar und hoch verfügbar sind.
 
-Alle zuvor beschriebenen Eigenschaften machen \textit{FaaS} zu einer wertvollen Ergänzung der Microservice"=Architektur. Es gibt aber durchaus Szenarien, in denen es nicht gut geeignet ist, beispielsweise wenn die Last sehr groß und vorhersehbar ist.
+Alle zuvor beschriebenen Eigenschaften machen FaaS zu einer wertvollen Ergänzung der Microservice"=Architektur. Es gibt aber durchaus Szenarien, in denen es nicht gut geeignet ist, beispielsweise wenn die Last sehr groß und vorhersehbar ist.
