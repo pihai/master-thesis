@@ -13,14 +13,12 @@
 \definecolor{commentColor}{RGB}{0,128,0}
 \definecolor{stringColor}{RGB}{163,21,21}
 
-
-%\RequirePackage{listings}			% utf8-change
 \RequirePackage{listingsutf8} 	% utf8-change
-\lstset{
-%language=Java,%
+\makeatletter
+\lstdefinestyle{mystyle}{
 inputencoding=utf8,	% utf8-change
 extendedchars=true,	% utf8-change
-basicstyle=\ttfamily\footnotesize,%
+basicstyle=\ttfamily\lst@ifdisplaystyle\footnotesize\fi,%
 keywordstyle=\color{keywordColor},%\ttfamily,%\bfseries,
 identifierstyle=,%\sffamily, %\bfseries
 commentstyle=\color{commentColor}\normalfont\itshape,%
@@ -44,6 +42,9 @@ mathescape=false,	%no mathescape by default
 upquote=true,%
 keepspaces=true,%
 }
+\makeatother
+
+\lstset{style=mystyle}
 
 \RequirePackage[utf8]{inputenc}
 \lstset{literate=% to allow Umlauts etc. in listed code % utf8-change
