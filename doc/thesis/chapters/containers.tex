@@ -4,10 +4,11 @@ Dieses Kapitel beschreibt mit der Betriebssystemvirtualisierung in Containern ei
 
 Eine Microservices"=Architektur ist nicht nur aus Softwareentwicklungssicht herausfordernd, sondern auch aus Infrastruktursicht. Jeder Microservice muss unabhängig ausgerollt und skaliert werden können. Nur so kann diese Architektur auch die in Abschnitt \ref{sec:ms-advantages} beschriebenen Vorteile entfalten. Im Unterschied zu Hardwarevirtualisierung bietet dieser Ansatz wesentlich kürzere Bereitstellungszeiten und eine effektivere Nutzung von Ressourcen.
 
-Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externe Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Nun gibt es drei Möglichkeiten, die Infrastruktur über den gesamten Lebenszyklus eines Services zu verwalten. Am schlechtesten ist die benötigte Konfiguration manuell vorzunehmen. Dadurch ist es schwierig Änderungen nachzuvollziehen und zu testen. Besser ist es die Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend zu aktualisieren. Ein alternativer Ansatz ist, den Service mit seinen Abhängigkeiten und Konfigurationen in ein Betriebssystemabbild -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung, wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt und verteilt. Im folgenden Abschnitt wird dieser Ansatz noch näher präzisiert und anschließend mit Docker eine Technologie vorgestellt, die genau auf dieser Idee aufsetzt.
+Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externe Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Nun gibt es drei Möglichkeiten, die Infrastruktur über den gesamten Lebenszyklus eines Service zu verwalten. Am schlechtesten ist die benötigte Konfiguration manuell vorzunehmen. Dadurch ist es schwierig, Änderungen nachzuvollziehen und zu testen. Besser ist es, die Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend zu aktualisieren. Ein alternativer Ansatz ist, den Service mit seinen Abhängigkeiten und Konfigurationen in ein Betriebssystemabbild -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt und verteilt. Im folgenden Abschnitt wird dieser Ansatz noch näher präzisiert und anschließend mit Docker eine Technologie vorgestellt, die genau auf dieser Idee aufsetzt.
+
 \section{Unveränderbarer Server}
 
-Anstatt die Konfiguration eines Servers zu ändern, kann man ihn auch stoppen und einen neuen Server mit aktualisierter Konfiguration wieder starten. Was sich anfänglich sehr aufwändig und unsinnig anhört, ist heute aus gutem Grund gängige Praxis. Das Unternehmen Netflix beispielsweise, praktizierte diesen Ansatz bereits sehr früh \cite{NflxLegos}. Laut eigenen Angaben konnten sie dadurch die Reproduzierbarkeit und Stabilität ihres Softwareauslieferungsprozesses stark verbessern. Zurückzuführen ist das auf die Tatsache, dass die in der Testumgebung validierten Artefakte identisch zu den im Produktivsystem eingesetzten sind. Des weiteren gibt es keine Möglichkeit, wie eine Konfigurationsänderung unabsichtlich in ein Produktivsystem gelangen kann, ohne dass diese durch eine Reihe von Tests validiert wurde. Unter einem unveränderbaren Server versteht man also eine Ressource, die niemals verändert, sondern nur durch eine aktualisierte Version ersetzt wird \cite{ImmutableServer}.
+Anstatt die Konfiguration eines Servers zu ändern, kann man ihn auch stoppen und einen neuen Server mit aktualisierter Konfiguration wieder starten. Was sich anfänglich sehr aufwändig und unsinnig anhört, ist heute aus gutem Grund gängige Praxis. Das Unternehmen Netflix beispielsweise, praktizierte diesen Ansatz bereits sehr früh \cite{NflxLegos}. Laut eigenen Angaben konnten sie dadurch die Reproduzierbarkeit und Stabilität ihres Softwareauslieferungsprozesses stark verbessern. Zurückzuführen ist das auf die Tatsache, dass die in der Testumgebung validierten Artefakte identisch zu den im Produktivsystem eingesetzten sind. Des Weiteren gibt es keine Möglichkeit, wie eine Konfigurationsänderung unabsichtlich in ein Produktivsystem gelangen kann, ohne dass diese durch eine Reihe von Tests validiert wurde. Unter einem unveränderbaren Server versteht man also eine Ressource, die niemals verändert, sondern nur durch eine aktualisierte Version ersetzt wird \cite{ImmutableServer}.
 
 \section{Arten von Virtualisierung}
 
@@ -18,7 +19,7 @@ Nachfolgend sind nur diejenigen Arten beschrieben, die für den Kontext dieser A
 
 \subsubsection{Vollständige Virtualisierung}
 
-Bei der \textit{vollständigen Virtualisierung} ermöglicht der sogenannte Hypervisor den Gastbetriebssystemen den Zugriff auf die Hardware. Die Gastsysteme sind unveränderte Betriebssysteme die keine Kenntnis darüber haben, dass sie virtualisiert sind. Für jeden Gast wird eine vollständige Hardwareumgebung simuliert. Dieser Ansatz schützt die Gastsysteme gegenseitig sehr effektiv. Er ist aber auch sehr aufwändig, da jedes Gastsystem ein vollständiges Betriebssystem benötigt.
+Bei der \textit{vollständigen Virtualisierung} ermöglicht der sogenannte Hypervisor den Gastbetriebssystemen den Zugriff auf die Hardware. Die Gastsysteme sind unveränderte Betriebssysteme, die keine Kenntnis darüber haben, dass sie virtualisiert sind. Für jeden Gast wird eine vollständige Hardwareumgebung simuliert. Dieser Ansatz schützt die Gastsysteme gegenseitig sehr effektiv. Er ist aber auch sehr aufwändig, da jedes Gastsystem ein vollständiges Betriebssystem benötigt.
 
 \subsubsection{Paravirtualisierung}
 
@@ -26,7 +27,7 @@ Wenn das Gastsystem Kenntnis über die Virtualisierung hat, dann spricht man von
 
 \subsubsection{Prozessorunterstützte vollständige Virtualisierung}
 
-Für die \textit{prozessorunterstützte vollständige Virtualisierung} greift der Hypervisor auf spezielle Prozessorfunktionen zurück. Der Befehlssatz dieser Prozessoren ist für Virtualisierungsszenarien erweitert, um eine Geschwindigkeitssteigerung zu erzielen und die Aufgaben des Hypervisors zu erleichtern. Durch die damit erreichte Komplexitätsreduktion der Hypervisorimplementierung, sind diese viel einfacher und robuster zu implementieren.
+Für die \textit{prozessorunterstützte vollständige Virtualisierung} greift der Hypervisor auf spezielle Prozessorfunktionen zurück. Der Befehlssatz dieser Prozessoren ist für Virtualisierungsszenarien erweitert, um eine Geschwindigkeitssteigerung zu erzielen und die Aufgaben des Hypervisors zu erleichtern. Durch die damit erreichte Komplexitätsreduktion der Hypervisorimplementierung sind diese viel einfacher und robuster zu implementieren.
 
 \subsubsection{Betriebssystemvirtualisierung}
 
@@ -65,18 +66,18 @@ Der nächste Abschnitt beschreibt mit den zuvor definierten Begriffe den grunds�
 
 \subsection{Docker"=Architektur}
 
-Docker implementiert eine klassische Client"=Server"=Architektur. Der Serverteil wird als \textit{Docker"=Engine} oder \textit{Docker"=Deamon} bezeichnet. Er interagiert direkt mit dem Betriebssystem, das schlussendlich die tatsächliche Virtualisierung realisiert. Der Server bietet eine REST"=Schnittstelle an, über die Klienten unterschiedlichster Art mit ihm kommunizieren können. Danut können sie \zB Images erstellen, Container starten, stoppen oder löschen.
+Docker implementiert eine klassische Client"=Server"=Architektur. Der Serverteil wird als \textit{Docker"=Engine} oder \textit{Docker"=Deamon} bezeichnet. Er interagiert direkt mit dem Betriebssystem, das schlussendlich die tatsächliche Virtualisierung realisiert. Der Server bietet eine REST"=Schnittstelle an, über die Klienten unterschiedlichster Art mit ihm kommunizieren können, um \zB Images zu erstellen, Container zu starten oder zu stoppen.
 
 Um ein Image zu erstellen, sendet der Klient die Beschreibung in Form des "`Dockerfile"' und die benötigten Dateien an den Server. Dieser erstellt ein Image, das auf Basis der Beschreibung konfiguriert und mit allen benötigten Abhängigkeiten ausgestattet ist. Ausgehend von einem Image kann der Klient beliebig viele Container starten. In Abbildung \ref{fig:docker-arch} ist dieser Ablauf noch einmal visuell dargestellt.
 
 \begin{figure}[!hbt]%
 \centering
 \includegraphics[width=\columnwidth]{docker-arch.pdf}%
-\caption{Docker-Architektur}%
+\caption{Architektur von Docker}%
 \label{fig:docker-arch}%
 \end{figure}
 
-Die genaue technische Umsetzung der Virtualisierung ist für des Betriebssystem spezifisch und übersteigt den Rahmen dieser Arbeit. Der folgende Abschnitt beschreibt nur einen komprimierten Überblick über einige grundlegende Konzepte im Betriebssystem Linux.
+Die genaue technische Umsetzung der Virtualisierung ist für jedes Betriebssystem spezifisch und übersteigt den Rahmen dieser Arbeit. Der folgende Abschnitt beschreibt nur einen komprimierten Überblick über einige grundlegende Konzepte im Betriebssystem Linux.
 
 \subsection{Voraussetzungen für Betriebssystemvirtualisierung}
 \label{subsec:docker-tech}
@@ -87,21 +88,21 @@ Die nachfolgenden Abschnitte basieren auf \cite{Merkel:2014:DLL:2600239.2600241}
 
 \subsubsection{Namensräume}
 
-\textit{Namensräume} bezeichnen im Betriebssystem \textit{Linux} eine Technologie, mit der Betriebssystemressourcen gruppiert und somit voneinander isoliert werden können. Dazu zählen beispielsweise Prozesse, Netzwerkverbindungen, das Dateisystem, \usw Diese Technologie stellt somit die Isolation zwischen Containern und auch zum Wirtsystem sicher.
+\textit{Namensräume} bezeichnen im Betriebssystem \textit{Linux} eine Technologie, mit der Betriebssystemressourcen gruppiert und somit voneinander isoliert werden können. Dazu zählen beispielsweise Prozesse, Netzwerkverbindungen, das Dateisystem \usw Diese Technologie stellt somit die Isolation zwischen Containern und auch zum Wirtsystem sicher.
 
 \subsubsection{Kontrollgruppen}
 
-Wie Abschnitt \ref{sec:isolation-vs-efficiencys} schon dargestellt hat, ist eine faire Ressourcenaufteilung zwischen Containern sehr wichtig. Linux bietet dafür das Konzept der Kontrollgruppen. Damit kann der Ressourcenverbrauch von Containern überwacht und gegebenenfalls deren Verbrauch limitiert werden.
+Wie Abschnitt \ref{sec:isolation-vs-efficiencys} schon dargestellt hat, ist eine faire Ressourcenaufteilung zwischen Containern sehr wichtig. Linux bietet dafür das Konzept der Kontrollgruppen. Damit kann der Ressourcenverbrauch von Containern überwacht und gegebenenfalls limitiert werden.
 
 \subsubsection{Überlagerte Dateisysteme}
 
-Durch die Verwendung eines speziellen Dateisystems, kann Docker viele Daten zwischen Containern teilen und somit den Speicherplatz stark reduzieren. Die Grundidee ist, ein mehrschichtiges Dateisystem in eine einzige logische Sicht zu vereinen. Nur die oberste Schicht ist veränderbar. Alle anderen sind nicht beschreibbar und folglich unveränderbar. Eine Dateiänderung in einer höheren Schicht überdeckt die gleiche Datei einer niedrigeren Schicht.
+Durch die Verwendung eines speziellen Dateisystems kann Docker viele Daten zwischen Containern teilen und somit den Speicherplatz stark reduzieren. Die Grundidee ist, ein mehrschichtiges Dateisystem in eine einzige logische Sicht zu vereinen. Nur die oberste Schicht ist veränderbar. Alle anderen sind nicht beschreibbar und folglich unveränderbar. Eine Dateiänderung in einer höheren Schicht überdeckt die gleiche Datei einer niedrigeren Schicht.
 
 Für beliebig viele Containerinstanzen ist somit nur eine einzige Kopie ihres Images auf der Festplatte notwendig. Mit dieser Technik ist eine enorme Speicherersparnis möglich, ohne die Isolation zu kompromittieren. Ein Betriebssystemabbild einer virtuellen Maschine mit Hardwarevirtualisierung ist um ein vielfaches größer und muss mehrfach abgespeichert werden. Je nach Betriebssystem gibt es verschiedene Implementierungen von überlagerten Dateisystemen. Zwei der bekanntesten Implementierungen sind das \textit{Advanced Multi-Layered Unification File\-system} und das \textit{OverlayFS}.
 
 \subsection{Docker Beispiel}
 
-Programm~\ref{prog:dockerfile} zeigt ein Beispiel für ein "`Dockerfile"', dass ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren. Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung aus Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image und startet dieses anschließend.
+Programm~\ref{prog:dockerfile} zeigt ein Beispiel für ein "`Dockerfile"', das ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren. Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung aus Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image, das anschließend gestartet wird.
 
 
 \begin{program}[!hbt]
@@ -128,11 +129,11 @@ docker run -d --rm -p 5000:80 sample-image
 
 \section{Microsoft Windows Container}
 
-Lange Zeit waren Container dem Betriebssystem Linux vorbehalten. Erst seit 2016 gibt es ein gleichwertiges Äquivalent für Windows Betriebssysteme~\cite{WinSerCont}. Windows-Server-2016 ist das erste Windows Betriebssystem mit nativer Unterstützung für Betriebssystemvirtualisierung auf Basis von Docker. Auf vielen Servern kommt entweder das Betriebssystem Linux oder Windows zum Einsatz. Da Docker nun beide Systeme unterstützt, ist der potentielle Absatzmarkt sehr groß. Sowohl Linux- als auch Windows-Systeme halten sich an die selben Schnittstellen von Docker. Entwickler, die mit einem System vertraut sind, können ihr vorhandenes Wissen auch auf der anderen Plattform wiederverwenden.
+Lange Zeit waren Container dem Betriebssystem Linux vorbehalten. Erst seit 2016 gibt es ein gleichwertiges Äquivalent für Windows Betriebssysteme~\cite{WinSerCont}. Windows Server 2016 ist das erste Windows"=Betriebssystem mit nativer Unterstützung für Betriebssystemvirtualisierung auf Basis von Docker. Auf vielen Servern kommt entweder das Betriebssystem Linux oder Windows zum Einsatz. Da Docker nun beide Systeme unterstützt, ist der potentielle Absatzmarkt sehr groß. Sowohl Linux- als auch Windows-Systeme halten sich an die selben Schnittstellen von Docker. Entwickler, die mit einem System vertraut sind, können ihr vorhandenes Wissen auch auf der anderen Plattform wiederverwenden.
 
-In Linux sind Container, wie in Abschnitt~\ref{subsec:docker-tech} beschrieben, über Namensräume voneinander isoliert. Windows verwendet das selbe Konzept, jedoch gibt es eine weitere Variante, die eine strengere Isolierung ermöglicht. Bei den sogenannten Hyper-V-Containern läuft jeder Container in einer eigenen leichtgewichtigen und für Container optimierten virtuellen Hyper-V"=Maschine \cite{WinConHyperV}. Der Verwender kann somit sehr leicht zwischen Effizienz und Isolation wählen.
+In Linux sind Container, wie in Abschnitt~\ref{subsec:docker-tech} beschrieben, über Namensräume voneinander isoliert. Windows verwendet dasselbe Konzept, jedoch gibt es eine weitere Variante, die eine strengere Isolierung ermöglicht. Bei den sogenannten Hyper-V-Containern läuft jeder Container in einer eigenen leichtgewichtigen und für Container optimierten virtuellen Hyper-V"=Maschine \cite{WinConHyperV}. Der Verwender kann somit sehr leicht zwischen Effizienz und Isolation wählen.
 
-Jedes Image basiert auf einem anderen Image. Nur sogenannte Basis-Images besitzen kein Eltern-Image. Im Prinzip sind Basis"=Images leere und auf das Minimum reduzierte Standardbetriebssysteme. Aufgrund der vielen verschiedenen Distributionen gibt es für Linux"=Container sehr viele Basis-Images. Für Windows-Container hingegen gibt es nur zwei. Das sogenannte Windows"=Server"=Core"=Image ist im Prinzip eine vollständige Windows-Server-2016 Installation, jedoch ohne Benutzeroberfläche. Die vielen gebotenen Möglichkeiten wirken sich aber enorm auf die Größe des Images aus. Eine schlankere Alternative ist das Nano"=Server"=Image. Diese abgespeckte Variante wurde speziell für Container entwickelt. Tabelle~\ref{tab:docker-image-size} zeigt den Speicherverbrauch von einigen ausgewählten Images und unterstreicht dabei die Leichtgewichtigkeit von Containern. Aufgrund der Wiederverwendbarkeit durch die geschachtelten Dateisysteme, ist der Speicherbedarf aber nicht so problematisch wie bei virtuellen Maschinen.
+Jedes Image basiert auf einem anderen Image. Nur sogenannte Basis-Images besitzen kein Eltern-Image. Im Prinzip sind Basis"=Images leere und auf das Minimum reduzierte Standardbetriebssysteme. Aufgrund der vielen verschiedenen Distributionen gibt es für Linux"=Container sehr viele Basis-Images. Für Windows-Container hingegen gibt es nur zwei. Das sogenannte Windows"=Server"=Core"=Image ist im Prinzip eine vollständige Windows-Server-2016 Installation, jedoch ohne Benutzeroberfläche. Die vielen gebotenen Möglichkeiten wirken sich aber enorm auf die Größe des Images aus. Eine schlankere Alternative ist das Nano"=Server"=Image. Diese abgespeckte Variante wurde speziell für Container entwickelt. Tabelle~\ref{tab:docker-image-size} zeigt den Speicherverbrauch von einigen ausgewählten Images und unterstreicht dabei die Leichtgewichtigkeit von Containern. Aufgrund der Wiederverwendbarkeit durch die geschachtelten Dateisysteme ist der Speicherbedarf aber nicht so problematisch wie bei virtuellen Maschinen.
 
 \begin{table}[!hbt]
 \caption{Image-Größe von ausgewählten Basis-Images (März 2017)}
@@ -162,15 +163,15 @@ Windows Nano Server & Windows & 1 GB \\
 
 \section{Containerverwaltung}
 
-Einen Container auf nur einem Server zu betreiben ist eine triviale Aufgabe, aber hunderte Container auf einem Cluster mit mehreren Servern, ist ein ungleich komplexeres Unterfangen \cite{RussinovicContainers}. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel als die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden viele Werkzeuge für die Cluster- und Containerverwaltung entwickelt. Eine essentielle Funktion von diesen Werkzeugen ist es, mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als kohärente Plattform betrachtet werden. 
+Einen Container auf nur einem Server zu betreiben, ist eine triviale Aufgabe, aber hunderte Container auf einem Cluster mit mehreren Servern, ist ein ungleich komplexeres Unterfangen \cite{RussinovicContainers}. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel als die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden viele Werkzeuge für die Cluster- und Containerverwaltung entwickelt. Eine essentielle Funktion von diesen Werkzeugen ist es, mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des Weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als kohärente Plattform betrachtet werden. 
 
 Der Begriff Orchestrierung beschreibt in der Softwareentwicklung die Kombination mehrere Dienste zu einer Komposition. Auch bei Containern spricht man von Containerorchestrierung, wenn mehrere Container zu einer Einheit zusammengeschlossen werden, um ihren Lebenszyklus gemeinsam zu verwalten. Ein Orchestrierer wird von vielen anderen Komponenten, wie \zB einem Scheduler oder einem Ressourcenmonitor unterstützt. 
 
-Die Technologielandschaft rund um Containerverwaltung ist sehr breit und befindet sich noch stark im Aufbau. Eine umfassende Betrachtung dieses großen Bereichs würde das Ausmaß dieser Arbeit übersteigen. Dennoch ist es für eine Arbeit wie diese, die sich mit dem Thema Microservices auseinandersetzt, unumgänglich, diesen wichtigen Teilbereich zu erwähnen. Daher werden nachfolgend zumindest einige grundlegende Aspekte von Containerorchestrierung im Bezug auf Microservices dargestellt, die sich hauptsächlich auf \cite{ContainerOrcaWars} beziehen. 
+Die Technologielandschaft rund um Containerverwaltung ist sehr breit und befindet sich noch stark im Aufbau. Eine umfassende Betrachtung dieses großen Bereichs würde den Rahmen dieser Arbeit sprengen. Dennoch ist es für eine Arbeit wie diese, die sich mit dem Thema Microservices auseinandersetzt, unumgänglich, diesen wichtigen Teilbereich zu erwähnen. Daher werden nachfolgend zumindest einige grundlegende Aspekte von Containerorchestrierung im Bezug auf Microservices dargestellt, die sich hauptsächlich auf \cite{ContainerOrcaWars} beziehen. 
 
 \subsection{Funktionalität}
 
-Die Hauptaufgaben eines Containerorchestrierers sind Maschinenbelegungsplanung, Ressourcen- und Serviceverwaltung. All diese Funktionen ermöglichen eine Reihe nicht"=funktionaler Eigenschaften, wie Skalierbarkeit, Verfügbarkeit oder Portabilität von Containern. Die einzelnen Produkte am Markt unterscheiden sich vom Funktionsumfang und der Umsetzung der einzelnen Funktion.
+Die Hauptaufgaben eines Containerorchestrierers sind Maschinenbelegungsplanung, Ressourcen- und Serviceverwaltung. All diese Funktionen ermöglichen eine Reihe nicht"=funktionaler Eigenschaften, wie Skalierbarkeit, Verfügbarkeit oder Portabilität von Containern. Die am Markt verfügbaren Produkte unterscheiden sich vom Funktionsumfang und der Umsetzung der einzelnen Funktion.
 
 \subsubsection{Maschinenbelegungsplanung}
 
@@ -178,7 +179,7 @@ Ein Orchestrierer muss entscheiden, auf welchem Server eine oder mehrere Instanz
 
 \subsubsection{Ressourcenverwaltung}
 
-Alle Hardwareressourcen, die ein Container in Anspruch nehmen kann, müssen überwacht und limitiert werden. Grundsätzlich betrifft das den Prozessor und den Hauptspeicher, aber auch persistenten Speicher und Netzwerkressourcen.
+Alle Hardwareressourcen, die ein Container in Anspruch nehmen kann, müssen überwacht und limitiert werden. Grundsätzlich betrifft das den Prozessor und den Hauptspeicher, aber auch den persistenten Speicher und Netzwerkressourcen.
 
 \subsubsection{Serviceverwaltung}
 
@@ -186,12 +187,12 @@ Mehrere Container werden zu einer einzelnen Applikation zusammengefasst, um sie 
 
 \subsection{Verteilte Betriebssysteme}
 
-Ein Betriebssystem bietet Anwendungsprogrammen eine Schnittstelle zu den Systemressourcen eines Computers. Somit müssen sich Anwendungsprogramme nicht mit der tatsächlichen Interaktion mit einer konkreten Hardwarekomponente auseinandersetzen, sondern sie greifen auf die abstrakten Schnittstellen des Betriebssystems zurück. Auch Containerorchestrierungswerkzeuge können als eine Art Betriebssystem verstanden werden, jedoch in verteilter Form. Statt Anwendungsprogramme teilt ein Orchestrierungswerkzeug Container \bzw aus vielen Containern zusammengesetzte Anwendungen, auf einen, mit einer Containervirtualisierungssoftware ausgestatteten, Rechner zu. Der Kern dieses Systems ist die Containervirtualisierungssoftware, die auf jedem der verteilten Rechner läuft und natürlich die Orchestrierungssoftware, mit den im vorherigen Abschnitt beschriebenen Funktionen. Die verteilten Rechner und ihr tatsächliches Host"=Betriebssystem stellen die Systemressourcen dar. In vielen Fällen werden auch diese Systemressourcen als virtuelle Rechner zur Verfügung gestellt. In Abbildung~\ref{fig:container-distributed-os} ist die Analogie zwischen Betriebssystemen und Containerorchestrierungswerkzeugen noch einmal dargestellt.
+Ein Betriebssystem bietet Anwendungsprogrammen eine Schnittstelle zu den Systemressourcen eines Computers. Somit müssen sich Anwendungsprogramme nicht mit der tatsächlichen Interaktion mit einer konkreten Hardwarekomponente auseinandersetzen, sondern sie greifen auf die abstrakten Schnittstellen des Betriebssystems zurück. Auch Containerorchestrierungswerkzeuge können als eine Art Betriebssystem verstanden werden, jedoch in verteilter Form. Statt Anwendungsprogramme teilt ein Orchestrierungswerkzeug Container \bzw aus vielen Containern zusammengesetzte Anwendungen einem mit Containervirtualisierungssoftware ausgestatteten Rechner zu. Der Kern dieses Systems ist die Containervirtualisierungssoftware, die auf jedem der verteilten Rechner läuft und natürlich die Orchestrierungssoftware, mit den im vorherigen Abschnitt beschriebenen Funktionen. Die verteilten Rechner und ihr tatsächliches Host"=Betriebssystem stellen die Systemressourcen dar. In vielen Fällen werden auch diese Systemressourcen als virtuelle Rechner zur Verfügung gestellt. In Abbildung~\ref{fig:container-distributed-os} ist die Analogie zwischen Betriebssystemen und Containerorchestrierungswerkzeugen noch einmal dargestellt.
 
 \begin{figure}[!hbt]%
 \centering
 \includegraphics[width=.6\columnwidth]{container-distributed-os}%
-\caption{Vergleich eines Betriebssystems (links) und eines "`verteilten Betriebssystems"' durch Containerorchestrierung}%
+\caption{Vergleich eines Betriebssystems (links) und eines "`verteilten Betriebssystems"' durch Containerorchestrierung \cite{ContainerOrcaWars}}%
 \label{fig:container-distributed-os}%
 \end{figure}
 
@@ -199,14 +200,14 @@ Ein Betriebssystem bietet Anwendungsprogrammen eine Schnittstelle zu den Systemr
 
 Studien, wie \cite{ContainerMarketGrowth}, sehen Container mit einer geschätzten jährlichen Wachstumsrate von bis zu 40 Prozent bis 2020 als einen der größten Zukunftsmärkte im Bereich Cloud"=Computing. Aufgrund dieser Zahlen ist es auch nicht verwunderlich, dass in diesem Bereich sehr viel investiert wird und dementsprechend viele Produkte auf den Markt kommen. 
 
-Laut \cite{ContainerMarketReport} ist Docker mit 94 Prozent in 2016 das meist verwendete System für Containervirtualisierung. Jedoch bei der Containerorchestrierung sieht selbige Studie derzeit eine ausgeglichenere Marktaufteilung zwischen den Produkten \textit{Docker Swarm}, \textit{Kubernetes} und \textit{Apache Mesos}, wobei \textit{Kubernetes} die meisten Anteile dazugewinnen konnte.
+Laut \cite{ContainerMarketReport} war Docker 2016 mit 94 Prozent das meist verwendete System für Containervirtualisierung. Bei der Containerorchestrierung jedoch sieht selbige Studie derzeit eine ausgeglichenere Marktaufteilung zwischen den Produkten \textit{Docker Swarm}, \textit{Kubernetes} und \textit{Apache Mesos}, wobei \textit{Kubernetes} die meisten Anteile dazugewinnen konnte.
 
 \section{Zusammenfassung}
 
-In diesem Kapitel wurde Betriebssystemvirtualisierung, im speziellen mit Docker, als mögliche Plattform für Microservices vorgestellt. Ähnlich wie mit virtuellen Maschinen, ist es mit Docker möglich, eine Anwendung mit allen Abhängigkeiten zu verpacken, zu verteilen und zu betreiben. Jedoch ist Virtualisierung mit Containern viel effizienter und benötigt weniger Speicherplatz als Hardwarevirtualisierung.
+In diesem Kapitel wurde Betriebssystemvirtualisierung, im Speziellen mit Docker, als mögliche Plattform für Microservices vorgestellt. Ähnlich wie mit virtuellen Maschinen, ist es mit Docker möglich, eine Anwendung mit allen Abhängigkeiten zu verpacken, zu verteilen und zu betreiben. Jedoch ist Virtualisierung mit Containern viel effizienter und benötigt weniger Speicherplatz als Hardwarevirtualisierung.
 
-Es wird immer seltener, dass die Software und die Konfiguration einer Server"=Infrastruktur laufend aktualisiert wird. Stattdessen werden diese langlebigen Server durch eine unveränderbare Infrastruktur ersetzt. Das heißt, anstatt einen Server zu aktualisieren, wird er durch einen neuen ersetzt. Unter einem Server ist in diesem Kontext meistens virtualisierter Server gemeint. Virtualisierungsplattformen wie Docker haben diesen Ansatz extrem effizient und robust gemacht.
+Es wird immer seltener, dass die Software und die Konfiguration einer Server"=Infrastruktur laufend aktualisiert wird. Stattdessen werden diese langlebigen Server durch eine unveränderbare Infrastruktur ersetzt. Das heißt, anstatt einen Server zu aktualisieren, wird er durch einen neuen ersetzt. Unter einem Server ist in diesem Kontext meistens ein virtualisierter Server gemeint. Virtualisierungsplattformen wie Docker haben diesen Ansatz extrem effizient und robust gemacht.
 
 Container alleine decken aber längst nicht alle Anforderungen an eine Infrastruktur für Microservices ab. Schnell sind Funktionen für die Skalierung, Verteilung, Aktualisierung oder die Überwachung von Containern notwendig. Für diese Aufgabe gibt es eine Menge von Containerorchestrierungswerkzeugen, die als eine Art verteiltes Betriebssystem über der Betriebssystemvirtualisierung agieren.
 
-Unumstritten sind Container eines der zukunftsträchtigsten Technologiefelder der letzten Jahre, getrieben durch die DevOps"=Kultur und die Microservice"=Architektur. Vor allem im Bereich von Cloud"=Computing haben sie sehr großes Potenzial. Die Zukunft wird zeigen, ob und wie sich Container zwischen allen bestehenden Plattform-as-a-Service Angeboten platzieren können. 
+Unumstritten sind Container eines der zukunftsträchtigsten Technologiefelder der letzten Jahre, getrieben durch die DevOps"=Kultur und die Microservice"=Architektur. Vor allem im Bereich von Cloud"=Computing haben sie sehr großes Potenzial. Die Zukunft wird zeigen, ob und wie sich Container rund um bestehenden Plattform-as-a-Service-Angeboten platzieren können. 
