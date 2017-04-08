@@ -1,0 +1,18 @@
+http://blog.plataformatec.com.br/2015/06/elixir-in-times-of-microservices/
+generally not start with microservices 
+microservices are way of scaling and distributing work
+microservices are used to structure big projects (can be done via actors too)
+actor-model programms are by default distributed
+processes can be seen as nanoservers
+parts of the process tree can be refactored in it's own application (elixir umbrella application)
+a communication protocol and serialization mechanism between microservices are needed (REST/JSON, but this is very heavy weight)
+as always, start in a monolithic style, refactor into microservices if needed, with actors structured programms already offer a good project structure
+
+https://medium.com/@guitsaru/monolith-first-in-elixir-with-umbrella-projects-9dfebb550a5c
+Umbrella applications -> benefits of microservices and monolith
+  application ~ microservices
+
+https://www.youtube.com/watch?v=jqKbO4whCjk
+Hot-Code Reloading vs. Immutable Deployments (Container ...):
+- you need both
+- if you have only one system you net code reloading

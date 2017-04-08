@@ -1,0 +1,6 @@
+- ERTS is the Erlang Runtime System
+- Like Java erlang code needs some kind of emulator (virtual machine) because it is compiled to object-code rather than machine code
+- The OTP (Open Telecom Platform) consists of the ERTS, some standard libraries and some conventions
+- The erlang shell (erl) can compile, load and run erlang programs/modules/functions
+- `c(Module)` is a shortcut for `compile:file(File, Options)` if the module name matches the file name and the code should be loaded immediatelly
+- At startup the ERTS (erl) runs a boot file which is the binary form of a boot script. But nobody writes a boot script by hand, because it can be generated based on the rel file

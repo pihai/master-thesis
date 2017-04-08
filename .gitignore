@@ -333,3 +333,4 @@ $RECYCLE.BIN/
 *.tps
 *.vscodeLog
 *.secrets
+*.beam
