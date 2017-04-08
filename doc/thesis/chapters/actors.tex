@@ -1,0 +1,305 @@
+\chapter{Aktoren}
+
+\section{Aktorenmodell}
+
+\subsection{SAL}
+
+\section{Erlang}
+
+Die Arbeiten an der Programmiersprache Erlang begann \citeauthor{Armstrong:1997:DE:258948.258967} 1985 mit dem Ziel die Entwicklung hoch verfügbarer und verteilter Telekommunikationsanwendungen zu erleichtern \cite{Armstrong:1997:DE:258948.258967}. In den Fokus seiner Bemühungen stellte er die Vereinfachung von nebenläufiger Programmierung. Die Begründung dahinter ist, dass auch die reale Welt, die mit Software nachgebildet wird, inhärent nebenläufig ist. In jedem Augenblick passieren eine Unmenge an gleichzeitigen Ereignissen, die wir asynchron verarbeiten. Sequentielle Abläufe sind hier eher die Ausnahme. Trotzdem versuchen viele Programmiersprachen diese Tatsache zu ignorieren und stellen die sequentielle Hintereinanderausführung von Aktivitäten in den Vordergrund.
+
+Um den Fokus auf die Nebenläufigkeit zu unterstreichen und Erlang von anderen Sprachen zu unterscheiden, bezeichnet Armstrong in \cite[19]{armstrong03} den Stil von Erlang als \textit{Nebenläufigkeitsorientierte Programmierung}. Weitere wesentliche Einflussfaktor auf die Sprache sind die funktionale und teilweise die logische Programmierung, angelehnt an die Sprache Prolog.
+
+Obwohl Erlang und das Aktorenmodell ein wenig in Vergessenheit geraten sind, erleben beiden derzeit wieder einen neuen Aufschwung. Das Interesse stieg vor allem wieder, nachdem die Kommunikationsplattform WhatsApp bekanntgab, dass sie mit ihren in Erlang entwickelten Plattform bis zu siebzig Millionen Nachrichten pro Sekunde verarbeiten \cite{ErlangWhatsApp}.
+
+Based on ....
+
+\subsection{Einführung in die Sprache Erlang}
+
+Dieser Abschnitt dient als Einführung in die Syntax und Konzepte von Erlang, damit auch Leser ohne Vorkenntnisse in Erlang den Beispielen in diesem Kapitel folgen können. Die Sprache Erlang an sich ist sehr einfach, weil das Typsystem sehr minimalistisch ist und auch sonstige Konzepte wie \zB Objektorientierung nicht vorhanden sind.
+
+\subsubsection{Typsystem}
+
+Die Sprache Erlang lässt sich als dynamisch und stark typisiert charakterisieren. Das sehr einfache Typsystem umfasst acht primitive und mit Tupel \bzw Listen zwei zusammengesetzte Datentypen, die nachfolgend noch erläutert werden.
+
+In \cite{Marlow:1997:PSS:258948.258962} wurde versucht Erlang um ein statisches Typsystem zu erweitern. Obwohl dieser Ansatz teilweise erfolgreich war, wurde er nicht weiter verfolgt, weil nicht alle Teile der Sprache typisiert werden konnten \cite[14]{Armstrong:2007:HE:1238844.1238850}. Um dennoch viele Programmierfehler frühzeitig zu erkennen, wurde ein Werkzeug für leichtgewichtige statische Code-Analyse mit dem Namen \textit{Dialyzer} entwickelt \cite{ErlangWarStory}. Im Gegensatz zum dem in \cite{Marlow:1997:PSS:258948.258962} verfolgten Ansatz benötigt der Dializer keine zusätzlichen Typ"=Annotationen und erkennt dennoch die meisten Fehler die auch ein statisches Typsystem erkennen würde.
+
+\subsubsection{Variablen}
+
+Wie in vielen funktionalen Sprachen sind Variablen unveränderbar. \Dah es kann nur einmal ein Wert zugewiesen werden. In Erlang spricht man häufiger vom "`Binden"' einer Variable an einen Wert. Per Konvention beginnen alle Variablennamen in mit einem Großbuchstaben. Programm \ref{prog:erlang-vars} zeigt einige Beispiele für die Verwendung von Variablen.
+
+\begin{program}[!hbt]
+\caption{Verwendung von Variablen in Erlang}
+\label{prog:erlang-vars}
+\begin{ErlangCode}
+Var1 = 1 + 2.
+Var1 = Var1. % succeeds because left and right hand side are equal
+Var2 = Var1 + 1. % succeeds and Var2 = 4.
+Var1 = Var1 + 1. % fails because left and right side don't unify
+\end{ErlangCode}
+\end{program}
+
+\subsubsection{Atome}
+
+Atome bezeichnen in Erlang ein Konzept, dass man auch als Literale oder Konstanten bezeichnen könnte. Während Variablennamen immer mit einem Großbuchstaben beginnen, müssen Atome mit einem Kleinbuchstaben beginnen, damit sie unterscheidbar sind. In Programm \ref{prog:erlang-atom} ist die Definition eines Atoms gezeigt.
+
+\begin{program}[!hbt]
+\caption{Verwendung eines Atoms in Erlang}
+\label{prog:erlang-atom}
+\begin{ErlangCode}
+Var3 = myatom.
+\end{ErlangCode}
+\end{program}
+
+\subsubsection{Tupel und Listen}
+
+Ein Tupel ist eine endliche Folge mit fixer Größe, die mehrere Elemente zu einem einzigen zusammenfasst. Die Anzahl der Elemente in einem Tupel ist endlich und nicht veränderbar. Neben Tupel besitzt Erlang auch einen Datentyp für Listen, die für eine beliebige Anzahl von Elementen geeignet ist. Im Gegensatz zu anderen Programmiersprachen müssen die Typen der Listenelemente nicht homogen sein. Tupel und Listen scheinen äußerlich sehr ähnliche Fähigkeiten zu haben. Generell gilt aber, dass Tupel für Datenstrukturen und Listen für Sequenzen von Elementen geeignet sind. Programm \ref{prog:erlang-lists} zeigt einige Beispiele wie Listen deklariert werden können.
+
+\begin{program}[!hbt]
+\caption{Verwendung von Listen in Erlang}
+\label{prog:erlang-lists}
+\begin{ErlangCode}
+Person1 = { alice, "Fake Street 42", 1234 }.
+Person2 = { bob, "Main Avenue 1", 5678 }.
+Person1 = { person, alice, "Fake Street 42", 1234 }. % mimics a class
+List1 = [ 1, two, "three" ].
+List2 = [ 1 | [2 | [ 3 | [] ] ] ].
+List3 = [ Person1, Person2 ].
+\end{ErlangCode}
+\end{program}
+
+\subsubsection{Module und Funktionen}
+
+Module sind Dateien die mehrere logisch zusammengehörende Funktionen zu einer Einheit gruppieren. Damit ist es möglich, den Quelltext eines Programms besser zu strukturieren und Namenskonflikte aufzulösen. Nur Funktionen die explizit exportiert werden, sind von außerhalb aufrufbar. Ansonsten ist die Funktion nur innerhalb des definierenden Moduls sichtbar.
+
+Eine Funktion besteht aus mehreren Funktionsanweisungen, die wiederum aus mehreren Ausdrücken bestehen können. Der Kopf einer Funktionsanweisung definiert einen Muster, das bei der Aktivierung einer Funktion mit den tatsächlichen Funktionsparametern verglichen wird. Diejenige Funktionsanweisung deren Muster als erstes mit den Funktionsparametern übereinstimmt, wird schlussendlich ausgeführt. In anderen funktionalen Sprachen, so wie auch in Erlang, wird der Mustervergleich -- engl. Pattern"=Matching -- oft für Fallunterscheidungen verwendet. Erlang unterstützt noch weitere Formen von Mustervergleichen, von denen einige im Laufe dieses Kapitels noch verwendet werden. In Programm \ref{prog:erlang-module} ist Deklaration eines Moduls und einer Funktion gezeigt. Die Funktion \lstinline{area} besteht aus vier Funktionsanweisungen mit unterschiedlichen Mustern im Kopf der Anweisung.
+
+\begin{program}[!hbt]
+\caption{Deklaration eines Moduls in Erlang}
+\label{prog:erlang-module}
+\begin{ErlangCode}
+-module(shape).
+-export([area/1]).
+
+area({square, Width}) -> Width * Width;
+area({rectangle, Width, Height}) -> Width * Height;
+area({circle, Radius}) -> math:pi() * Radius * Radius;
+area(_) -> erlang:error(unknown_shape).
+\end{ErlangCode}
+\end{program}
+
+\subsection{Prozesse}
+
+Einer der zentralen Bestandteile von Erlang sind Prozesse. Dabei handelt es sich nicht um Betriebssystemprozesse, sondern leichtgewichtige Prozesse in der Erlang"=Laufzeitumgebung. Die Laufzeitumgebung ist eine abstrakte virtuelle Maschine, die viele Aufgaben eines Betriebssystem imitiert. Dazu zählen das Prozess"=Scheduling, der Nachrichtenaustausch, automatische Speicherbereinigung \usw
+
+Mit der Funktion \lstinline{spawn} wird in Erlang ein neuer Prozess gestartet. Dabei muss als Argument eine Funktion, oder eine Funktionsbeschreibung der auszuführenden Funktion übergeben werden. Nachdem ein Prozess gestartet ist, kann er Nachrichten von anderen Prozessen empfangen. Der Nachrichtenaustausch zwischen Prozessen erfolgt asynchron. Jeder Prozess besitzt eine eigene Warteschlange in der Nachrichten bis zur eigentlichen Verarbeitung zwischengespeichert werden.
+
+Es gibt in Erlang keinen gemeinsamen Speicher auf den mehrere Prozesse zugreifen können. Benötigt ein Prozess Daten eines anderen, muss er diese als Nachricht gesendet bekommen. Daraus ergibt sich ein sehr saubere Programmiermodell, in dem ganz genau klar ist wie der Datenfluss aussieht. Bei geteilten Daten die von mehreren Stellen verändert werden, ist es immer schwierig nachzuvollziehen wie eine Änderung zustande kam.
+
+Das Senden einer Nachricht schlägt niemals fehl, selbst wenn der Empfänger nicht existiert. Ein synchroner Nachrichtenaustausch kann nur mit Hilfe von Bestätigungsnachrichten nachgebildet werden. Dabei ist es aber wichtig adäquate Zeitbeschränkungen zu verwenden, sodass Fehler, wie \zB einen abgestürzten Empfänger, erkannt werden können.
+
+In Programm \ref{prog:erlang-processes} sind einige wichtige Konstrukte im Zusammenhang mit Erlang"=Prozessen demonstriert. Die linke Spalte zeigt die Implementierung eines einfachen Prozesses, der Zahlen addieren und multiplizieren, sowie das Zwischenergebnis auf dem Bildschirm ausgeben kann. In Zeile acht bis dreizehn in der linken Spalte wird ein Mustervergleich mit den empfangen Nachrichten durchgeführt. Je nach Nachricht wird eine andere Aktion ausgeführt. Der Zustand des Prozesses -- die Zwischensumme -- ist ein Parameter der Funktion \lstinline{loop}. Nach diesem einfachen Schema sind eigentlich alle Prozesse in Erlang aufgebaut. Da ein Prozess keine globalen Daten verändern kann, muss er seinen Zustand immer als Parameter in den nächsten Rekursionsschritt mitnehmen.
+
+Auf der rechten Seite in Programm \ref{prog:erlang-processes} ist die Interaktion mit dem gerade erläuterten Prozess demonstriert. Der beschriebene Quelltext wird ebenfalls in einem Prozess ausgeführt, dessen Erzeugung aber weggelassen wurde. In Zeile vier wird der Variable \lstinline{Pid} die eindeutige Prozess"=Identifikationsnummer des gestarteten Prozesses zugewiesen. Mit dieser Nummer können Nachrichten an den Prozess adressiert werden. Wie Zeile sieben zeigt, kann auch ein Namen für einen gestarten Prozess vergeben werden. Mit dem Operator \lstinline{!} werden Nachrichten an einen Prozess gesendet. Nachrichten können von jedem beliebigen Datentyp sein. Es ist jedoch zu beachten, dass Nachrichten beim Senden kopiert werden müssen, da sie möglicherweise über das Netzwerk an einen anderen Rechner transportiert werden.
+
+\begin{program}[!hbt]
+\caption{Kommunikation zwischen Prozessen in Erlang}
+\label{prog:erlang-processes}
+\noindent\begin{minipage}[t]{.52\textwidth}
+\lstset{showlines=true}
+\begin{ErlangCode}
+-module(calculator).
+-export([init/0, loop/1]).
+
+init() ->
+  spawn(fun () -> loop(0) end).
+
+loop(Total) ->
+  receive
+    { add,  X } -> loop(Total + X);
+    { mult, X } -> loop(Total * X);
+		{ divi, X } -> loop(Total / X);
+    result      -> io:write(Total),
+									 loop(Total);
+    stop    		-> ok
+  end.
+\end{ErlangCode}
+
+\end{minipage}\hfill
+\begin{minipage}[t]{.44\textwidth}
+\lstset{showlines=true}
+\begin{ErlangCode}
+c(calculator). % compile
+% start the process
+Pid = calculator:init().
+% send messages by process id
+Pid ! { add, 6 }.
+% register a name
+register(calc_server, Pid).
+% send messages by name
+calc_server ! { mult, 7 }.
+Pid ! result. % prints 42
+calc_server ! stop.
+% next message won't arrive,
+% but sending succeeds
+calc_server ! result.
+
+\end{ErlangCode}
+
+\end{minipage}
+\end{program}
+
+\subsection{Supervision}
+
+Erlang ist für besonders fehlertolerante Software bekannt. Das liegt zum einen an der Organisation der Programme in  Prozesse die voneinander isoliert sind und zu anderen an den vielen Möglichkeiten zur Prozessüberwachung. Anstelle eines defensiven Programmierstil ist es in Erlang üblich Prozesse einfach abstürzen zu lassen, wenn sie ihre Arbeit nicht ordnungsgemäß ausführen konnten. Es ist die Aufgabe eines anderen Prozesses zu entscheiden wie mit einem Fehler umgegangen werden soll. Grundsätzlich werden Prozesse in zwei Kategorien eingeteilt:
+
+\begin{itemize}
+	\item \textit{Arbeiterprozesse} erledigen die eigentliche Arbeit und beinhalten kaum Fehlerbehandlungslogik.
+	\item \textit{Supervisorprozesse} habe die Aufgabe Arbeiterprozesse zu überwachen und im Fehlerfall zu entscheiden was danach geschieht.
+\end{itemize}
+
+Mehrere Prozesse können zu einer Einheit verbunden werden, sodass wenn ein ein Absturz eines Prozesses, auch die anderen Prozesse beendet. Die Funktion \lstinline{link} erzeugt die beschriebene symmetrische Verbindung zwischen zwei Prozessen. Meistens wird aber die Funktion \lstinline{spawn_link} verwendet, die beiden Schritte atomar durchführt. Ansonsten könnte es zu einer Race"=Condition zwischen dem Starten und dem Verknüpfen kommen.
+
+Nach dem Beenden eines Prozesses wird eine spezielle Nachricht an alle verbunden Prozesse gesendet, die danach automatisch Beendet werden. Es gibt aber auch spezielle System"=Prozesse die eine Terminierungsnachricht wie eine gewöhnliche Nachricht empfangen und verarbeiten können. Um einen Prozess zu einem System"=Prozess zu befördern, muss lediglich die Eigenschaft \lstinline{trap_exit} gesetzt werden. System"=Prozesse übernehmen üblicherweise die Aufgaben eines Supervisors, da sie entscheiden können was mit den Arbeiterprozessen nach einem erwarteten oder unerwarteten Beenden geschehen soll.
+
+In Programm \ref{prog:erlang-supervision} wird der in Programm \ref{prog:erlang-processes} implementierte Prozess um einen Supervisorprozess erweitert. Immer wenn der Arbeiterprozess abstürzt, \zB bei einer Division durch Null, empfänger der Supervisor eine Terminierungsnachricht und startet daraufhin den Arbeiterprozess neu. In der Realität ist die Fehlerbehandlung die der Supervisor durchführt natürlich viel aufwändiger.
+
+\begin{program}[!hbt]
+\caption{Prozessüberwachung in Erlang}
+\label{prog:erlang-supervision}
+\noindent\begin{minipage}[t]{.52\textwidth}
+\lstset{showlines=true}
+\begin{ErlangCode}
+-module(sup).
+-export([start/4, init/4]).
+
+start(Name, M, F, A) ->
+  spawn(?MODULE,init,[Name,M,F,A]).
+
+init(Name, Mod, Fun, Args) ->
+  process_flag(trap_exit, true),
+  loop(Name, Mod, Fun, Args).
+
+loop(N, M, F, A) ->
+  register(N,Pid=spawn_link(M,F,A)),
+  receive
+    { 'EXIT', Pid, normal } -> ok;
+    { 'EXIT', Pid, Reason } -> 
+      loop(Name, M, F, A);
+    { 'EXIT', From, _ } -> 
+			exit(shutdown)
+  end.
+\end{ErlangCode}
+
+\end{minipage}\hfill
+\begin{minipage}[t]{.44\textwidth}
+\lstset{showlines=true}
+\begin{ErlangCode}
+c(calculator), c(sup).
+sup:start(
+  calc_server, 
+  calculator, loop, [0]
+).
+
+% find the id for a 
+% registered name
+whereis(calc_server).
+% some id like <0.84.0>
+calc_server ! {add, 1}.
+calc_server ! { divi, 0 }.
+% worker crashed
+
+whereis(calc_server). 
+% process was restarted and
+% got a new id, but it can
+% still addressed by name
+calc_result ! result.
+\end{ErlangCode}
+
+\end{minipage}
+\end{program}
+
+Die in Programm \ref{prog:erlang-supervision} gezeigte Supervisor Implementierung ist zwar sehr einfach, für echte Szenarien ist sie aber sicherlich zu primitiv. Es kann lediglich ein einziger Prozess überwacht und dieser wird einfach endlos oft neu gestartet. Es gibt bereits eine ausgereifte Supervisor Implementierung in der Erlang Standardbibliothek.
+
+Ein Verhalten -- engl. Behavior -- in Erlang ist zu vergleichen mit einer abstrakten Klasse in Objektorientierten Sprachen. Es definiert welche Funktionen ein Modul implementieren muss, damit es mit der Implementierung des Verhaltens kompatibel ist. Das Supervisor-Verhalten erfordert lediglich eine Funktion mit dem Namen \lstinline{init}, die eine Supervisorbeschreibung wie in Programm~\ref{prog:erlang-supervision-behavior} gezeigt zurückgibt.
+
+\begin{program}[!hbt]
+\caption{Struktur einer Supervisorbeschreibung in Erlang}
+\label{prog:erlang-supervision-behavior}
+\begin{ErlangCode}
+{ ok, 
+  { {RestartStrategy, MaxRestart, MaxTime},
+	  [ {ChildId, StartFunc, Restart, Shutdown, Type, Modules} ]
+	}
+}.
+\end{ErlangCode}
+\end{program}
+
+Es gibt verschiedene Strategien wie ein Supervisor seine überwachten Prozesse neu starten kann, wenn einer davon terminiert. Tabelle~\ref{tab:erlang-restart-strategy} gibt Aufschluss über die verschiedenen Arten.
+
+Eine weitere wichtige Einstellung ist die Eigenschaft \lstinline{Restart} in der Spezifikation der Kindprozesse. Diese kann entweder den Wert \lstinline{permanent}, \lstinline{temporary} oder \lstinline{transient} annehmen. Permanente Prozesse werden immer neu gestartet, temporäre werden nie neu gestartet und transiente Prozesse werden nur neu gestartet, wenn sie nicht normal terminieren.
+
+\begin{table}[!hbt]
+\caption{Strategien einen Supervisor in Erlang neu zu starten}
+\label{tab:erlang-restart-strategy}
+\centering
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\emph{Strategie} & \emph{Erklärung} \\
+\hline
+\lstinline$one_for_one$ & Nur der beendete Prozess wird neu gestartet. \\
+\hline
+\lstinline$one_for_all$ & Die restlichen Prozesse werden zuerst beendet und anschließend neu gestartet. \\
+\hline
+\lstinline$rest_for_one$ & Nur Prozesse die nach dem beendeten Prozess in der Startreihenfolge kommen werden gestoppt und neu gestartet. \\
+\hline
+\lstinline$simple_one_for_one$ & Diese Strategie kann nur eine Art von Prozess überwachen, davon aber beliebig viele dynamisch hinzugefügt Instanzen. Das kann in mannchen Fällen effizienter sein als die \lstinline$one_for_one$-Strategie. \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Remote error handling because another computer crashes the other has to deal with the error
+
+\subsection{Verteilte Prozesse}
+
+Neben der Fehlertoleranz ist die Verteilung von Prozessen auf mehrere Knoten eine weitere Stärke von Erlang.
+
+- selber oder mehrere rechner
+- dns name
+- cookie
+- spawn + node name
+- is alive
+
+\subsection{Hot Code Loading}
+
+\subsection{Endliche Automaten}
+
+\subsection{Erlang Actors}
+
+Immer von Prozessen gesprochen, eig aber aktoren
+
+\section{Elixir}
+
+\section{Virtuelle Aktoren}
+
+\section{Orleans}
+
+\section{Aktorenmodell und Microservices}
+
+- Don't start with a monolith
+- Actormodel provides good modularization concepts
+- No independent deployment? Hot Code Swapping? Most of the time unnecessary complexity. Only for really important components. Upgrade one node after the other
+- More efficient communication (no REST/JSON) ...
+- Understandable (state diagrams)
+
+\iffalse
+
+Basic Structure:
+- Actor Model Basics
+- Erlang
+- Elixir
+- Virtual Actor Pattern
+- Orleans
+
+\fi
