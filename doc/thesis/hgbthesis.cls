@@ -486,6 +486,9 @@ acknowledged. I further declare that this or similar work has not been submitted
 \usepackage{hgblistings}
 \usepackage{hgbbib}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
 %%-------------------------------------------------------------
 
 \usepackage{pgfplots}
@@ -494,4 +497,3 @@ acknowledged. I further declare that this or similar work has not been submitted
 \pdfsuppresswarningpagegroup=1 % see http://tex.stackexchange.com/a/78020
 
 \endinput
-
