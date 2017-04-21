@@ -1,0 +1,5 @@
+﻿<ClientConfiguration xmlns="urn:orleans">
+  <SystemStore SystemStoreType="AzureTable"
+               DeploymentId="x"
+               DataConnectionString="UseDevelopmentStorage=true"/>
+</ClientConfiguration>

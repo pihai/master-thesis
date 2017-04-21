@@ -5,6 +5,7 @@ In diesem Kapitel wird mit Aktoren ein Modell für nebenläufige Programmierung 
 Am Beginn dieses Kapitel werden die theoretischen Grundlagen des Aktorenmodells eingeführt. Anschließend wird mit der Sprache Erlang eine der ersten populären Implementierungen des Aktorenmodells präsentiert. Darauf aufbauend wird mit dem virtuellen Aktorenmodell eine mögliche Vereinfachung des Programmiermodells vorgestellt und diskutiert. Zum Abschluss dieses Kapitels wird noch die Beziehung des Aktorenmodells zur Microservice"=Architektur und anderen Technologien analysiert.
 
 \section{Aktorenmodell}
+\label{sec:actor-model}
 
 Die ersten theoretischen Überlegungen des Aktorenmodells stellten \citeauthor{Hewitt:1973:UMA:1624775.1624804} bereits 1973 in \cite{Hewitt:1973:UMA:1624775.1624804} an. Hewitt beschreibt einen Aktor als fundamentale Recheneinheit die eine Möglichkeit benötigt \textit{Berechnungen} durchzuführen, einen \textit{Speicher} für Daten und die Fähigkeit zur \textit{Kommunikation} mit anderen Aktoren. Diese allgemeine Definition wird durch folgende drei Axiome ergänzt, die ein Aktor erfüllen muss:
 
@@ -181,6 +182,7 @@ Auch wenn Erlang die Entwicklung von hoch verfügbaren und skalierbaren Anwendun
 In den nachfolgenden Abschnitten werden mit Supervision und endlichen Automaten zwei wichtige Teilbereiche von Erlang erläutert. Für beide beinhaltet die OTP"=Bibliothek bereits generische Implementierungen. 
 
 \subsection{Supervision}
+\label{subsec:erlang-supervision}
 
 Das Konzept der Supervision ist einer der Gründe, warum 
 Erlang für besonders fehlertolerante Software bekannt ist. Ein weiterer Grund ist die Organisation der Programme in voneinander isolierte Prozesse, in denen jeder seine eigne Fehlerdomäne bildet. Wenn ein Prozess einen Fehler verursacht, sind andere Prozesse davon nicht direkt beeinflusst. Anstelle eines defensiven Programmierstils ist es in Erlang üblich Prozesse einfach abstürzen zu lassen, wenn sie ihre Arbeit nicht ordnungsgemäß ausführen konnten~\cite[104]{armstrong03}. Es ist die Aufgabe eines anderen Prozesses zu entscheiden wie mit einem Fehler umgegangen werden soll. Grundsätzlich werden Prozesse in zwei Kategorien eingeteilt, die immer paarweise auftreten:
@@ -461,7 +463,182 @@ Die Entwicklung von Elixir hat gezeigt, dass die vor sehr langer Zeit in Erlang 
 
 \section{Virtuelle Aktoren}
 
+Das Aktorenmodell ist eine wesentliche Erleichterung für die Entwicklung verteilter, skalierbarer und fehlertolerante Systeme. Nichts desto trotz bietet es nur einen relativ niedrigen Abstraktionsgrad, sodass der Programmierer noch viele komplexe Aufgabe der verteilten Programmierung selbst lösen muss. Aus diesem Grund haben \citeauthor{virtualActors} in \cite{virtualActors} versucht das Aktorenmodell zu vereinfachen, indem sie immer wiederkehrende Aufgabe Standardlösungen festzulegen. Dazu zählt beispielsweise die automatische Zuteilung von Aktoren an vorhandene Ressourcen, die dauerhafte Speicherung des Zustands von Aktoren, aber auch eine robuste Fehlerbehandlung. Das Resultat dieser Forschungsarbeit war ein Programmiermodell, dass sehr stark an die objektorientierten Programmierung angelehnt ist, aber nicht auf einen Rechner beschränkt ist, sondern über Rechnergrenzen hinweg funktioniert. Viele Entwickler sind bereits mit den Grundlagen der Objektorientierung vertraut. Die Zielgruppe des virtuellen Aktorenmodells ist daher sehr groß und die Lernkurve relativ flach. Andere Technologien, wie beispielsweise Erlang, erfordern ein weitaus tieferes Verständnis für verteilte Programmierung. Ein erklärtes Ziel von Orleans ist die Steigerung der Produktivität der Entwickler, oft aber zu lasten der Flexibilität und Performanz des klassischen Aktorenmodells.
+
+Eine Analogie zu virtuellen Aktoren ist der virtuelle Arbeitsspeicher in einem Rechner. Das Betriebssystem stellt den Programmen einen virtuellen Adressraum zur Verfügung, in dem sie Daten ablegen und lesen können. Die Speicherverwaltungseinheit, meistens eine separate Hardwarekomponente, wandelt die virtuellen auf physische Speicheradressen um. Selbst wenn die Daten gerade auf einen sekundären Speicher ausgelagert sind und zuerst geladen werden müssen, ändert sich für den Verwender am Zugriff nichts. Auch virtuelle Aktoren besitzen eine ähnliche Indirektion. Ein Laufzeitsystem bildet virtuelle Aktoren auf tatsächliche physische Instanzen ab. Durch diese Indirektion kann das Laufzeitsystem komplexe Aufgaben wie die Verteilung, die Wiederherstellung oder Deaktivierung von Aktoren für den Verwender transparent übernehmen.
+
+Im Prinzip gelten alle Eigenschaften von Aktoren, so wie in Abschnitt~\ref{sec:actor-model} definiert, auch für Aktoren im Sinne des virtuellen Aktorenmodells. \Dah Aktoren kapseln Verhalten und Zustand in einer isolierten Einheiten, die Aufgrund des nicht vorhandenen geteilten Speicherbereichs nur per Nachrichtenaustausch interagieren können. In einem Punkt aber entsprechen virtuelle Aktoren nicht der ursprünglichen Definition. Es ist nämlich nicht möglich, dass ein Aktor andere Aktoren erzeugt. Die nachfolgenden Abschnitte beschreiben die grundlegenden Charakteristiken von virtuellen Aktoren.
+
+\subsection{Ewige Existenz}
+
+Es ist nicht notwendig einen Aktor zu starten oder zu stoppen, weil angenommen wird, dass Aktoren ewig existieren. Somit besitzen Aktoren auch keinen expliziten Lebenszyklus. Diese Eigenschaft ist nur möglich durch die bereits erwähnte Indirektion zwischen virtuellen Aktoren und physischen Instanziierungen.
+
+\subsection{Automatische Aktivierung und Deaktivierung}
+
+Natürlich ist es technisch nicht praktikabel alle theoretisch möglichen Aktoren gleichzeitig auszuführen oder im Arbeitsspeicher zu halten. Deshalb werden virtuelle Aktoren erst dann geladen, wenn sie benötigt werden. Man spricht hier von einer \textit{Aktivierung} eines Aktors, die \zB durch den Erhalt einer Nachricht ausgelöst wird. Nach längerer Inaktivität kann die Laufzeitumgebung die Aktivierung des Aktors auch beenden, damit mehr Speicher für andere Aktivierungen zur Verfügung steht. Die nächste Nachricht führt wieder zu einer neuerlichen Aktivierung, möglicherweise sogar auf einem anderen physischen Rechner. Auch bei einem Fehlerfall sorgt dieser Mechanismus dafür, dass ein Aktor nach einem Absturz automatisch neu gestartet wird. Daher ist kein, wie wie in Abschnitt~\ref{subsec:erlang-supervision} beschriebener Supervisorbaum notwendig, weil Aktoren ohnehin bei Bedarf neu gestartet werden.
+
+\subsection{Ortstransparenz}
+
+Aus Sicht des Entwicklers ist nur die von ihm vergebene eindeutige Identität des Aktors relevant. Es ist die Aufgabe des Laufzeitsystems die Identität auf die tatsächliche physische Adresse der Aktivierung eines Aktors abzubilden. Dieser Schritt ist für den Verwender aber völlig transparent. Daher spricht man von der Ortstransparenz -- \textit{engl. Location Transparency} -- von Aktoren.
+
+\subsection{Automatische Skalierbarkeit}
+
+Normalerweise existiert maximal eine Aktivierung eines Aktors zu selben Zeit. Wenn der Aktor aber keinen Zustand besitzt, der vor gleichzeitigen Zugriff geschützt werden muss, können auch mehrere Aktivierungen gleichzeitig existieren. Diese Art von Aktoren nennt man \textsl{zustandslose Arbeiter}. Die Laufzeitumgebung kann aufgrund der vorhandenen Last entscheiden, wie viele Aktivierungen notwendig sind.
+
 \section{Orleans}
+
+Neben dem abstrakten virtuellen Aktorenmodell wurde in \cite{virtualActors} gleichzeitig eine Implementierung mit dem Namen \textit{Orleans} vorgestellt. Hierbei handelt es sich um ein auf der .NET"=Plattform entwickeltes Framework. Im Gegensatz zu dem funktionalen Ansatz in Erlang, verfolgt Orleans ein objektorientiertes Programmiermodell. Die nachfolgenden Abschnitte geben einen Einblick in die Funktionsweise und die Verwendung von Orleans. Zusätzlich werden besonders signifikante Unterschiede zu der in Abschnitt~\ref{sec:erlang} betrachteten Technologie Erlang hervorgehoben. Neben den grundlegenden Konstrukten werden mit der Fehlerbehandlung, Persistenz, Clusterverwaltung und Verteilung auch noch fortgeschrittene Konzepte erläutert.
+
+\subsection{Einführung in das Programmiermodell von Orleans}
+
+Wie bereits erwähnt, verfolgt Orleans eine objektorientierte Interpretation des Aktorenmodells, sodass der Einstieg für Personen mit einem dementsprechenden Hintergrund einfach ist. 
+Im Grunde besitzt jeder Aktor eine Spezifikation in Form einer .NET"=Schnittstelle und eine eindeutige Identifikation. Mithilfe dieser Schnittstelle können Klient statisch typisiert auf Aktoren zugreifen. Damit werden viele Programmierfehler bereits zur Übersetzungszeit gefunden.
+
+\subsubsection{Adressen}
+
+Anders als eine Referenz zu einem Objekt, muss die Identität eines Aktors auch über Rechnergrenzen hinweg eine Bedeutung haben. Der Aufrufer eines Aktors kann darüber Entscheid, ob eine Zahl, ein Global"=Unique"=Identifier (GUID) oder ein Zeichenkette als Identität dienen soll. Des weiteren gibt es auch zusammengesetzte Typen, die aus einem Verbund der drei genannten primitiven Typen bestehen.
+
+Dieses Modell weicht stark von dem in Abschnitt~\ref{subsec:erlang-processes} gezeigten Modell in Erlang ab. Dort wird ein Aktor durch eine Identifikationsnummer adressiert, die von der Erlang"=Laufzeitumgebung generiert ist. Diese Adresse enthält sogar die Information auf welchem Rechner sich der Aktor befindet. Es ist zwar möglich diesen Adressen ein Atom, also einen Namen zuzuweisen, dieser hat jedoch rechnerübergreifend keine Bedeutung.
+
+\subsubsection{Schnittstelle eines Aktors}
+
+Aktoren werden in Orleans als \textit{Grain} bezeichnet. In dieser Arbeit wird aber weiterhin vorwiegend der Begriff Aktor verwendet, damit der Vergleich mit verwandten Technologien leichter fällt. Sie sind durch eine Schnittstellenbeschreibung definiert, die sowohl von den Klienten als auch der Laufzeitumgebung bekannt ist. Bei dieser Schnittstelle handelt es sich um eine gewöhnliche .NET"=Schnittstelle. Diese muss von einer in Orleans vorgegebenen Schnittstelle ableiten, die den konkreten Identitätstyp festlegt und die Schnittstelle als Aktor kennzeichnet. In Programm ist die Deklaration eines fiktiven Aktors gezeigt, der Messwerte eines Sensors speichert und deren Mittelwert berechnen kann.
+
+\begin{program}[!hbt]
+\caption{Definition der Schnittstelle eines Aktors in Orleans}
+\label{prog:orleans-interface}
+\begin{CsCode}
+public interface ISensor : IGrainWithGuidKey {
+	Task AddMeasure(double value);
+	Task<double> GetAverage();
+}
+\end{CsCode}
+\end{program}
+
+Jede Methode in der Schnittstellenbeschreibung eines Aktors muss ein Resultat vom Typ \lstinline{Task} zurückgeben. Dieser Typ ist in der .NET"=Plattform die Implementierung des in \cite{Baker:1977:IGC:800228.806932} beschriebenen Konzepts einer \textit{Future}. Diese ist im Grunde das Versprechen ein zukünftiges Ergebnis zurückzuliefern, sobald es zur Verfügung steht. Eine Future ist also ein Platzhalter für ein zukünftiges Ergebnis. Ohne diesen Mechanismus müssten alle Methodenaufrufe in Orleans synchron sein. In einem verteilten nachrichtenorientierten System würde das zu dramatisch schlechten Skalierbarkeitseigenschaften führen. Jeder Aufruf der auf eine Nachricht wartet, würde aktiv Rechnerressourcen blockieren, ohne irgendeine nützliche Funktion durchzuführen.
+
+Mit einer Future können auch Operationen verbunden werden, die automatisch nach der Fertigstellung der assoziierten Berechnung aufgerufen werden. Diese Art der Programmierung ist unter dem Namen \textit{Continuation"=Passing Style} bekannt. Leider führ dieser Stil schnell zu unleserlichen Programmen, weil der Programmfluss keinen klaren Faden folgt. Eine leserlichere Alternative bieten die beiden Schlüsselwort \lstinline{async} und \lstinline{await} in der Sprache C\#. Hier ist es möglich asynchrone Aufrufe scheinbar wie synchrone Aufrufe zu behandeln, ohne den Prozessor dafür zu blockieren. Im Hintergrund erzeugt der Compiler von C\# den dafür benötigten Quelltext in Form einer Zustandsmaschine. Die genaue Funktionsweise dieser Sprachfunktion ist für den Kontext dieser Arbeit nicht relevant. Auch Leser die mit dieser Technik nicht vertraut sind, sollten keine Probleme haben den Beispielen in den nächsten Abschnitten zu folgen.
+
+\subsubsection{Implementierung der Schnittstelle eines Aktors}
+
+Neben der Schnittstellenbeschreibung benötigt jeder Aktor natürlich auf eine entsprechende Implementierung. Diese Klasse muss zusätzlich vom Basistyp \lstinline{Grain} abgeleitet sein. Der Zustand des Aktors ist in Form von Klasseneigenschaften temporär gespeichert werden. In Erlang hingegen wird der Zustand als Parameter des nächsten Funktionsaufrufs übergeben. Erlang verfolgt hier eher den funktionalen Ansatz, in dem keine Daten geändert werden.
+
+In Programm~\ref{prog:orleans-actor-impl} ist die Implementierung der in Programm~\ref{prog:orleans-interface} beschriebenen Schnittstelle gezeigt. In diesem Beispiel bringt die Verwendung einer asynchronen Schnittstelle keine wirklichen Vorteile, da innerhalb der Methode keine asynchronen Aufrufe erfolgen. Sie ist aber für das Programmiermodell von Orleans eine Voraussetzung.
+
+\begin{program}[!hbt]
+\caption{Implementierung eines Aktors in Orleans}
+\label{prog:orleans-actor-impl}
+\begin{CsCode}
+public class Sensor : Grain, ISensor {
+	private List<double> _measures = new List<double>();
+	public async Task AddMeasure(double value) => _measures.Add(value);
+	public async Task<double> GetAverage() => _measures.Average();
+}
+\end{CsCode}
+\end{program}
+
+\subsubsection{Bereitstellung}
+
+Ein Programm, dass Aktoren ausführt und Klienten zur Verfügung stellt, heißt in Orleans \textit{Silo}. Es gibt verschiedenen Möglichkeiten einen Silo zu betreiben. Silos können in einer bestehenden .NET"=Applikation integriert werden. Einfacher ist es jedoch, die in Orleans enthaltene Host"=Applikation zu verwenden. 
+
+Es empfiehl sich, die Definition der Schnittstelle und die Implementierung der Aktoren in unterschiedliche .NET"=Bibliotheken zu trennen. Klienten benötigen nämlich nur die Schnittstelle und nicht die Implementierung. Die von Orleans bereitgestellte Host"=Applikation durchsucht alle vorhandenen .NET"=Bibliotheken nach ausführbaren Aktoren. Sobald die Applikation erfolgreich gestartet wurde, stehen die geladenen Aktortypen den Klienten zur Verfügung. In Abbildung~\ref{fig:orleans-arch} ist die Architektur der gerade beschriebenen Bereitstellungsvariante noch einmal dargestellt. Es ist natürlich auch noch eine funktionale Aufteilung der Aktoren in mehrere Bibliotheken möglich.
+
+\begin{figure}[!hbt]%
+\includegraphics[width=\columnwidth]{orleans-hosting.pdf}%
+\caption{Architektur von Anwendungen in Orleans}%
+\label{fig:orleans-arch}%
+\end{figure}
+
+\subsubsection{Verwendung von Aktoren}
+
+Der erste Schritt um mit einem Aktor interagieren zu können ist per Identität eine Referenz anzufordern. Die Hilfsfunktion \lstinline{GetGrain} gibt als Resultat eine Stellvertreterobjekt für den angeforderten Aktor zurück, dass die Schnittstelle des Aktors implementiert. Es ist nicht erforderlich den Aktor explizit zu Starten oder die tatsächliche physische Adresse herauszufinden. Diese Aufgaben sind Teil der Orleans"=Laufzeitumgebung. In Programm~\ref{prog:orleans-actor-client} ist die Kommunikation mit einem Aktor dargestellt.
+
+\begin{program}[!hbt]
+\caption{Verwendung eines Aktors in Orleans}
+\label{prog:orleans-actor-client}
+\begin{CsCode}
+var sensorId = Guid.Parse("eeb48102-c52f-4929-b7b3-da7cce96503f");
+var sensor = GrainClient.GrainFactory.GetGrain<ISensor>(sensorId);
+for(var i = 0; i < 10; i++)
+  await sensor.AddMeasure(random.NextDouble());
+Console.WriteLine($"Avg: {/+\textcolor{keywordColor}{await} sensor.GetAverage()+/}");
+\end{CsCode}
+\end{program}
+
+%the dollar sign in the code above breaks the texniccenter syntax coloring. This invisible dollar escapes from math mode
+\iffalse $ \fi
+
+Das vom Klienten verwendete Stellvertreterobjekt wird automatisch von Orleans generiert. Standardmäßig wird der Stellvertreter schon zur Übersetzungszeit erstellt und als Teil der Schnittstellen"=Bibliothek gespeichert. Es wäre aber auch Möglich den Stellvertreter erst zur Laufzeit zu erzeugen.
+
+\subsection{Persistente Aktoren}
+
+Wenn der Zustand eines Aktors nur in Form von Klasseneigenschaften gespeichert ist, wie in Programm~\ref{prog:orleans-actor-impl} gezeigt, so ist dieser nur für die Dauer einer Aktivierung persistent. Sobald der Aktor wegen längerer Inaktivität deaktiviert wird, oder es zu einem Absturz kommt, geht der Zustand verloren. Für manche Daten, vor allem jene die sehr leicht zu berechnen sind, kann diese Form der Speicherung ausreichend sein. Häufig ist es aber auch von Vorteil den Zustand eines Aktors dauerhaft zu persistieren. Man kann natürlich den Zustand selbst in einen persistenten Datenspeicher sicher und immer wieder laden. Das ist aber nicht notwendig, denn Orleans enthält bereits eine Lösung für diese immer wiederkehrende Anforderung. Um den Zustand eines Aktors zu persistieren, sind folgende Schritte erforderlich:
+
+\begin{itemize}
+	\item Der Aktor muss von der Klasse \lstinline{Grain<T>} ableiten sein, wobei der Typparameter \lstinline{T} ein Platzhalter für den tatsächlichen Typs des Zustandes ist. Dieser kann entweder ein primitiver Typ sein, oder eine beliebige Klasse.
+	\item In der Konfiguration des Aktorsystems muss ein entsprechender Speichermechanismus registriert sein. Es gibt verschiedene bestehende Implementierungen wie \zB Azure Table Storage oder SQL"=Datenbanken. Alternativ ist es auch möglich eine eigene Implementierung zu entwickeln.
+	\item Außerdem muss der Aktor mit dem Attribut \lstinline{StorageProvider} annotieren sein, sodass dieser weiß, welcher vorher konfigurierte Speicher verwendet werden soll.
+\end{itemize}
+
+In Programm~\ref{prog:orleans-persistent-actor} ist ein Aktor gezeigt, der seinen Zustand persistent speichert. In diesem Fall ist der Zustand in der Klasseneigenschaft \lstinline{State} lediglich eine natürliche Zahl. Änderungen werden erst nach einem Aufruf der Funktion \lstinline{WriteStateAsync} in den persistenten Speicher geschrieben. Ansonsten würde sich der Zustand nur für die aktuelle Aktivierung ändern.
+
+\begin{program}[!hbt]
+\caption{Implementierung eines persistenten Aktors in Orleans}
+\label{prog:orleans-persistent-actor}
+\begin{CsCode}
+[StorageProvider(ProviderName="<provider-name>")]
+public class PersistentCounter : Grain<int>, IPersistentCounter   {
+	public async Task<int> GetCount() => State;
+	public async Task Increment() {
+		State++;
+		await WriteStateAsync();
+	}
+}
+\end{CsCode}
+\end{program}
+
+\subsection{Clustering}
+
+Ein Cluster besteht aus einer Menge von Silos, die zu einer Einheit verbunden sind. In diesem Kontext ist mit einem Silo eine Instanz der Orleans"=Laufzeitumgebung gemeint, von denen auch mehrere auf einem einzigen physischen Rechner existieren können. Jeder Silo muss wissen welche anderen Silos ebenfalls Mitglieder des Clusters sind. Die Anzahl der Silos bestimmt nämlich wie der  Wertebereich der Identitäten der Aktoren auf die Silos aufgeteilt ist. Sie müssen sozusagen eine Konsens über die Liste von Mitgliedern finden, damit alle Silos ein global einheitliche Sichtweise haben. Eine Lösung für diese in verteilten Systemen häufig auftretende Problemstellung ist die Verwendung des Paxos"=Algorithmus~\cite{Lamport:1998:PP:279227.279229}. Eine Einschränkung dieses Algorithmus ist jedoch, dass für die Entscheidungsfindung eine Mehrheit der Mitglieder, ein sogenanntes Quorum, notwendig ist. Orleans hingegen setzt auf ein eigens entwickeltes Protokoll, das die Liste der Mitglieder in einer externen tabellenartigen Datenstruktur speichert. Für diese Datenstruktur eignen sich verschiedene Speichersysteme wie \zB  Azure Table Storage oder eine SQL"=Datenbank.
+
+In der Mitgliederliste hat jeder Silo einen eigenen Eintrag, der verschiedene Informationen enthält, wie \zB den aktuellen Zustand. Diese Datenstruktur erfüllt zwei wichtige Aufgaben. Zum einen wissen damit alle Silos welche Teilnehmer der Cluster enthält und zum anderen benötigen auch Klient diese Informationen um sich mit dem Cluster zu verbinden. Die nachfolgende Auflistung gibt einen Überblick über die Funktionsweise des in Orleans umgesetzten Protokolls~\cite{Bernstein2014}:
+
+\begin{itemize}
+	\item Jeder Silo trägt sich nach dem Starten in die Mitgliederliste ein.
+	\item Die Silos im Cluster überwachen sich gegenseitig durch das periodische Senden von Kontrollnachrichten. Die Identität jedes Aktors wird mit Hilfe eines konsistenten Hashverfahren auf einen zyklischen Wertebereich abgebildet. Damit sind die Silos geordnet und jeder kann eine gewissen Anzahl von zu überwachenden Nachfolgern auswählen.
+	\item Wenn mehrere Überwachungsanfragen von Silo $S$ an Silo $T$ fehlschlagen, vermerkt $S$ diesen verdächtigen Vorfall in der Mitgliedertabelle bei Silo $T$.
+	\item Übersteigt die Anzahl von verdächtigen Vorfällen innerhalb einer gewissen Periode einen Grenzwert, so deklariert Silo $S$ Silo $T$ als nicht mehr Verfügbar. Anschließend sendet $S$ eine Aufforderung an alle Silos die Mitgliederliste neu zu laden. Wenn alle Silos ihre Mitgliederliste aktualisiert haben, ist Silo $T$ nicht mehr Teil des Clusters.
+\end{itemize}
+
+Die Konfiguration eines Clusters ist durch das dynamische Mitgliederprotokoll in Orleans sehr einfach. Ein Silo benötigt einen TCP"=Port für die Kommunikation mit anderen Silos und einen weiteren für die Verbindung zu Klienten. Sowohl bei allen Silos als auch bei den Klienten muss der selbe Speicher für die externe Mitgliederliste definiert sein. Wenn alle Einstellungen korrent konfiguriert sind, können neue Silos einfach zur Laufzeit hinzugefügt oder entfernt werden.
+
+\subsection{Lastverteilung in einem Cluster}
+
+Verwender von Orleans haben nur begrenzten Einfluss auf die Verteilung der Aktivierungen von Aktoren auf die Silos eines Cluster. Ein Grundgedanke von Orleans ist es derartige Entscheidungen in der Laufzeitumgebung zu treffen, um den Verwender zu entlasten. Anstelle Aktoren direkt und mit einem deterministischen Verfahren Silos zuzuordnen, speichert Orleans den Ort einer Aktivierung in einem auf allen Silos verteilten Verzeichnis~\cite[5]{virtualActors}. Durch diese zusätzliche Indirektion hat die Laufzeitumgebung von Orleans mehr Freiheiten die Aktoren zu platzieren und dynamisch umzuverteilen. Wenn ein Klient mit einem Aktor interagieren will, sind dafür zwei Schritte notwendig. Er sendet stellt seine Anfrage an einen beliebigen Knoten im Cluster. Dieser muss zuerst denjenigen Silo auffinden, der die Partition des verteilten Verzeichnisses für den angeforderten Aktor zuständig ist. Dort befindet sich die Information, auf welchem Silo möglicherweise bereits eine Aktivierung läuft. Wenn noch keine Aktivierung vorhanden ist, muss diese erst erzeugt werden. Der zweite Schritt bestehen darin, den Klienten auf den Silo der tatsächlichen Aktivierung weiterzuleiten.
+
+Das Verzeichnis ist als eine verteilte Hashtabelle implementiert, in der jeder Knoten einen anderen Teilbereich des gesamten Wertebereichs verwaltet~\cite{Stoica:2001:CSP:383059.383071}. Sowohl die Identität eines Aktors, aber auch die Identität eines Silos werden mit Hilfe eines konsistenten Hashverfahrens auf den selben zirkulären Wertebereich abgebildet. Durch die Gleichverteilung der Hashfunktion ergibt sich automatisch eine gleichmäßige Verteilung der Identitäten der Aktoren auf alle Silos eines Clusters. Der Vorteil dieses Verfahrens gegenüber klassischer Hashverfahren liegt darin, dass sich bei einer Änderung in der Mitgliederliste im Durchschnitt die Zuordnung von nur $K/n$ Aktoren ändert, wobei $K$ die Größe des Wertebereichs ist und $n$ die Anzahl der Silos. Bei der Zuweisung mit einem normalen Hashverfahren würde sich praktisch die gesamte Zuordnung verändern.
+
+Ein Eintrag in diesem verteilten Verzeichnis beinhaltet die Identität des Aktors und die Adresse des Silos auf dem eine Aktivierung eines Aktor bereits existiert. Wenn noch keine Aktivierung existiert muss eine neue Aktivierung zuerst erzeugt werden. Standardmäßig wird eine Aktivierung auf einem zufällig ausgewählten Silos gestartet. Es gibt aber auch noch weitere Strategien, wie \zB auf dem Silo mit den wenigstens Aktivierungen. In Abbildung ~\ref{fig:orleans-acor-placement} ist noch einmal verdeutlicht, wie Aktoren in Orleans in einem Cluster verteilt werden.
+
+\begin{figure}[!hbt]%
+\includegraphics[width=\columnwidth]{orleans-actor-placement.pdf}%
+\caption{Bla}%
+\label{fig:orleans-acor-placement}%
+\end{figure}
+
+Die zusätzliche Indirektion durch das verteilte Verzeichnis macht das Auffinden des Ortes einer Aktivierung zu einer aufwändigen Operation. Aus diesem Grund hält jeder Silo erfolgreich aufgelöste Aktivierungen in einem Zwischenspeicher.
+
+\subsection{Fehlerbehandlung}
+
+Ein Aspekt in dem Orleans wesentlich vom traditionellen Aktorenmodell abweicht, ist die Behandlung von Fehlern. Wie der Abschnitt über Erlang gezeigt hat, ist eine Konsequenz des asynchronen Nachrichtenaustauschs, dass Fehler nicht vom Aufrufer behandelt werden können. Stattdessen muss jemand anderer den an einem möglicherweise entfernten Ort aufgetretenen Fehler behandeln. Dazu ist mit dem Supervisorbaum definiert, welcher Aktoren sich um die Fehler von anderen Aktoren kümmern. Der Supervisor bekommt einfach eine Fehlernachricht und muss über das weitere Vorgehen entscheiden.
+
+Mit dem Programmiermodell von Orleans ist es dem Aufrufer möglich Fehler selbst zu behandeln. Tritt ein Fehler bei einem Funktionsaufruf auf, wird dieser zum Klienten gesendet und dort wieder als gewöhnliche .NET"=Ausnahme geworfen. Die dafür benötigte Logik ist in den von Orleans automatisch generierten Stellvertreterobjekten implementiert. Es ist nicht notwendig Aktoren neu zu starten, weil sie ohnehin beim nächsten Aufruf automatisch neu gestartet werden.
+
+Standardmäßig wird in Orleans eine Nachricht höchstens einmal zugestellt. Der Aufrufer einer Methode bekommt entweder im Erfolgsfall eine Ergebnis zurück, oder wenn die Nachricht verloren ging, eine Zeitüberschreitung die sich als .NET"=Ausnahme manifestiert. Im Fehlerfall ist der Anwender selbst gefordert die Anfrage zu wiederholen. Alternativ kann auch eine automatische Wiederholung von nicht beantworteten Anfragen eingestellt werden. Damit ist es aber möglich, dass die selbe Nachricht mehrfach zugestellt wird. In diesem Fall müssen die aufgerufenen Methoden idempotent sein oder selbst eine mehrfache Zustellung erkennen und ignorieren.
+
+Es ist normalerweise garantiert, dass nur eine Aktivierung eines Aktors zu selben Zeit existiert. Es gibt aber einen Ausnahmefall in dem diese Garantie nicht gilt. Wenn nach einem Ausfall eines Silos zwei Silos noch nicht die selbe Sichtweise auf die Mitgliederliste haben, kann es sein dass beide die Aktivierung eines Aktors anfordern. In diesem Fall existieren zwei Aktivierungen des selben Aktors gleichzeitig. Sobald die Silos die selbe Sichtweise auf die Mitgliederliste haben, wird eine der Aktivierungen terminiert, sodass schlussendlich nur noch eine übrig bleibt. Diese Art der Konsistenz wird als \textit{Eventual Consistency} bezeichnet, weil schlussendlich eine konsistenter Zustand erreicht wird. In Orleans wird also die Verfügbarkeit der Konsistenz vorgezogen. Bei persistenten Aktoren kann das beschriebene Phänomen leicht zu unerwarteten Inkonsistenzen kommen. Wenn beide Aktivierungen den Zustand zur selben Zeit aus dem externen Speicher laden und wieder speichern, geht eine Änderung verloren.
+
+\pagebreak
 
 \section{Aktorenmodell und Microservices}
 
@@ -479,5 +656,8 @@ Basic Structure:
 - Elixir
 - Virtual Actor Pattern
 - Orleans
+- Conclusion
+  - Different Names: Actors, Processes, Grains ... same principles
+	- Different Programming models: function vs oo
 
 \fi

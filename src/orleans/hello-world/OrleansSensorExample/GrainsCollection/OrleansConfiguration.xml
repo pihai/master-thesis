@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OrleansConfiguration xmlns="urn:orleans">
+  <Globals>
+    <SystemStore SystemStoreType="AzureTable"
+             DeploymentId="x"
+             DataConnectionString="UseDevelopmentStorage=true"/>
+    <StorageProviders>
+      <Provider 
+        Type="Orleans.Storage.AzureTableStorage" 
+        Name="LocalAzureStorageEmulator"
+        DataConnectionString="UseDevelopmentStorage=true" />
+    </StorageProviders>
+    <Application>
+      <GrainType Type="GrainsCollection.DeactivationTest">
+        <Deactivation AgeLimit="1m"/>
+      </GrainType>
+    </Application>
+    <!--<SeedNode Address="localhost" Port="11110" />-->
+    <!--<Liveness LivenessType ="MembershipTableGrain" />-->
+  </Globals>
+
+  <Defaults>
+    <Networking Address="localhost" Port="11110" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+  </Defaults>
+  <Override Node="Node0">
+    <Networking Address="localhost" Port="11110" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+  </Override>
+  <Override Node="Node1">
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30001" />
+  </Override>
+  <Override Node="Node2">
+    <Networking Address="localhost" Port="11112" />
+    <ProxyingGateway Address="localhost" Port="30002" />
+  </Override>
+  <Override Node="Node3">
+    <Networking Address="localhost" Port="11113" />
+    <ProxyingGateway Address="localhost" Port="30003" />
+  </Override>
+  <Override Node="Node4">
+    <Networking Address="localhost" Port="11114" />
+    <ProxyingGateway Address="localhost" Port="30004" />
+  </Override>
+</OrleansConfiguration>
