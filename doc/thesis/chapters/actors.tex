@@ -1,10 +1,10 @@
-\chapter{Aktoren}
+\chapter{Aktorenmodell}
 
 In diesem Kapitel wird mit Aktoren ein Modell für nebenläufige Programmierung vorgestellt, das ausschließlich auf asynchronen Nachrichtenaustausch basiert. Dieses Modell eignet sich vor allem für Systeme, in denen es eine große Anzahl von gleichzeitigen Aufgaben gibt. Zu diesen Szenarien zählen Systeme mit vielen Benutzern, gleichermaßen wie dem Internet der Dinge, das viele  Geräte miteinander vernetzt.
 
 Am Beginn dieses Kapitels werden die theoretischen Grundlagen des Aktorenmodells erläutert. Anschließend wird mit der Sprache Erlang eine der ersten populären Implementierungen des Aktorenmodells präsentiert. Darauf aufbauend wird mit dem virtuellen Aktorenmodell eine mögliche Vereinfachung des Programmiermodells vorgestellt und diskutiert. Zum Abschluss dieses Kapitels wird noch die Beziehung des Aktorenmodells zur Microservice"=Architektur und anderen Technologien analysiert.
 
-\section{Aktorenmodell}
+\section{Grundlagen des Aktorenmodells}
 \label{sec:actor-model}
 
 Die ersten theoretischen Überlegungen über das Aktorenmodells stellten \citeauthor{Hewitt:1973:UMA:1624775.1624804} bereits 1973 in \cite{Hewitt:1973:UMA:1624775.1624804} an. Hewitt beschreibt einen Aktor als fundamentale Recheneinheit, mit der Fähigkeit  \textit{Berechnungen} durchzuführen, Daten zu \textit{speichern} und mit anderen Aktoren zu \textit{kommunizieren}. Diese allgemeine Definition wird durch folgende drei Axiome ergänzt, die ein Aktor erfüllen muss:
@@ -644,32 +644,22 @@ Es ist normalerweise garantiert, dass nur eine Aktivierung eines Aktors zur selb
 
 Bis hier her ist es möglicherweise nicht ganz offensichtlich, wie das Aktorenmodell zu den anderen in dieser Arbeit behandelten Themen in Verbindung steht. Daher ist das Ziel dieses Abschnitts, verschiedene mögliche Sichtweisen auf die Beziehung zwischen dem Aktorenmodell und der Microservice"=Architektur darzustellen.
 
-Zuerst ist es aber hilfreich, die Gemeinsamkeiten zwischen diesen beiden Ansätzen herauszuarbeiten. Zunächst handelt es sich bei beiden um ein verteiltes System für die Realisierung von möglichst skalierbaren und robusten Anwendungen. Sie haben ebenfalls beide ein Konzept Software in abgeschlossene Komponenten zu zerlegen. In der Microservice"=Architektur sind das Dienste und im Aktorenmodell Aktoren. Ein Ziel dieser Zerlegung ist die Verantwortlichkeiten der Anwendung besser zu trennen, um so eine zu starke Abhängigkeit zwischen einzelnen Komponenten zu vermeiden. Ohne eine saubere Trennung entsteht eine stark verwobene Architektur, bei der jede Änderung große Auswirkungen auf den Rest des Systems hat. 
+Zuerst ist es aber hilfreich, die Gemeinsamkeiten zwischen diesen beiden Ansätzen herauszuarbeiten. Zunächst handelt es sich bei beiden um ein verteiltes System für die Realisierung von möglichst skalierbaren und robusten Anwendungen. Sie haben ebenfalls beide ein Konzept, Software in abgeschlossene Komponenten zu zerlegen. In der Microservice"=Architektur sind das Dienste und im Aktorenmodell Aktoren. Ein Ziel dieser Zerlegung ist, die Verantwortlichkeiten der Anwendung besser zu trennen, damit die Abhängigkeit zwischen Komponenten gering ist. Ohne eine saubere Trennung entsteht eine stark verwobene Architektur, bei der jede Änderung nicht vorhersehbare Auswirkungen auf den Rest des Systems bedeutet. 
 
 Beide Ansätze zeichnen sich durch gute Skalierbarkeit aus. Sie setzen auf eigenständige Komponenten, die nur per Nachrichtenaustausch miteinander interagieren. Dadurch können sie sehr leicht auf mehrere Rechner verteilt werden. Es gibt bestimmt noch weitere Gemeinsamkeiten, aber die gerade beschriebenen sind sicherlich eine der größten. 
 
-In Abschnitt~\ref{subsubsec:microservices-disadvantages} wurde bereits erläutert, dass viele Experten davon abraten neue Anwendung mit einer Microservice"=Architektur zu starten. Dafür ist nämlich eine großes Domänenwissen notwendig, das am Anfang noch nicht vorhanden ist. Daher kann es von Vorteil sein neue Projekte zuerst auf Basis des Aktorenmodells zu beginnen und erst bei Bedarf eigenständige Dienste herauszulösen. Dieses als evolutionäre Architektur bekannte Vorgehen ist im Bereich von Microservices gängige Praxis. 
+In Abschnitt~\ref{subsubsec:microservices-disadvantages} wurde bereits erläutert, dass viele Experten davon abraten, neue Anwendungen mit einer Microservice"=Architektur zu beginnen. Dafür ist nämlich ein großes Domänenwissen notwendig, das am Anfang noch nicht vorhanden ist. Daher kann es von Vorteil sein, neue Projekte zuerst auf Basis des Aktorenmodells zu beginnen und erst bei Bedarf eigenständige Dienste herauszulösen. Dieses als evolutionäre Architektur bekannte Vorgehen ist im Bereich von Microservices gängige Praxis. 
 
 Bei vielen Microservices fällt die Wahl für ein Kommunikationsprotokoll auf eine Kombination aus HTTP und REST. Es mag aber durchaus Gründe für eine andere Wahl geben. Mit Aktoren ist es nicht notwendig, ein Kommunikationsprotokoll festzulegen. Die Kommunikationsfähigkeit von Aktoren ist eine inhärente Eigenschaft des Aktorenmodells. Es ist sogar naheliegend, dass die für Aktoren eingesetzten binären Protokolle effizienter sind als HTTP und REST.
 
-Wenn man einen Aktor als Service -- oder eher als Nanoservice -- bezeichnet, könnte man das Aktorenmodell als Implementierung der Microservice"=Architektur sehen. Ein Aktor erfüllt nämlich alle in Abschnitt~\ref{sec:ms-characteristics} beschriebenen Charakteristiken eines Microservice. Beginnend bei der Modularisierung, über die Größe, den Nachrichtenaustausch bis hin zu flexiblen Möglichkeiten Aktoren auszurollen. Genau so gut kann das Aktorenmodell ein möglicher Bestandteil der Microservice"=Architektur sein, in der es nur für vereinzelte Dienste zum Einsatz kommt.
+Wenn man einen Aktor als Service -- oder eher als Nanoservice -- bezeichnet, könnte man das Aktorenmodell als Implementierung der Microservice"=Architektur sehen. Ein Aktor erfüllt nämlich alle in Abschnitt~\ref{sec:ms-characteristics} beschriebenen Charakteristiken eines Microservices. Beginnend bei der Modularisierung, über die Größe, den Nachrichtenaustausch bis hin zu flexiblen Möglichkeiten, Aktoren auszurollen. Genau so gut kann das Aktorenmodell ein möglicher Bestandteil der Microservice"=Architektur sein, in der es nur für vereinzelte Dienste zum Einsatz kommt.
 
 \section{Zusammenfassung}
 
-In diesem Kapitel wurde das Aktorenmodell, hauptsächlich anhand der Technologien Erlang und Orleans, ausführlich erläutert. Ein Aktor ist eine fundamentale Recheneinheit, die Befehle ausführt, Daten speichert und mit anderen Aktoren kommunizieren. In Erlang wurde ein Aktor als \textit{Prozess} und in Orleans als \textit{Grain} bezeichnet. Es ist aber in beiden Fällen das selbe Konzept gemeint.
+In diesem Kapitel wurde das Aktorenmodell, hauptsächlich anhand der Technologien Erlang und Orleans, ausführlich erläutert. Ein Aktor ist eine fundamentale Recheneinheit, die Befehle ausführt, Daten speichert und mit anderen Aktoren kommuniziert. In Erlang wurde ein Aktor als \textit{Prozess} und in Orleans als \textit{Grain} bezeichnet. Es ist aber in beiden Fällen dasselbe Konzept.
 
-Erlang ist eine funktionale Programmiersprache mit einem Prozessmodell, das genau dem Aktorenmodell entspricht. Jeder Prozess ist eine eigenständige isolierte Berechnungseinheit, die nur per asynchronen Nachrichtenaustausch mit anderen Prozessen kommuniziert. Diese Programmiermodell fördert die Skalierbarkeit, weil Prozesse auf beliebige viele Rechner verteilbar sind. Außerdem ist es sehr robust, weil sich ein Fehler nur auf einen Prozess auswirkt. Es ist aber notwendig, dass sich Prozesse gegenseitig überwachen und im Fehlerfall entsprechende Handlungen setzten. In vielen Fälle äußert sich diese Behandlung in einem Neustart des fehlgeschlagenen Prozesses.
+Erlang ist eine funktionale Programmiersprache, mit einem Prozessmodell, das dem Aktorenmodell entspricht. Jeder Prozess ist eine leichtgewichtige und eigenständige Berechnungseinheit, die nur per asynchrone Nachrichten mit anderen Prozessen kommuniziert. Dieses Programmiermodell fördert die Skalierbarkeit, weil Prozesse auf beliebig viele Rechner verteilbar sind. Außerdem ist es sehr robust, weil sich ein Fehler nur auf einen Prozess auswirkt. Es ist aber notwendig, dass sich Prozesse gegenseitig überwachen und im Fehlerfall entsprechende Handlungen setzen. In vielen Fällen ist diese Behandlung einfach ein Neustart des fehlgeschlagenen Prozesses.
 
-Mit dem in auf der .NET"=Plattform entwickelten Framework Orleans, wurde versucht das Aktorenmodell zu vereinfachen. Dazu hat man viele Entscheidungen die normalerweise ein Programmierer während der Entwicklung eines verteilten Systems zu treffen hat, bereits in der Laufzeitumgebung von Orleans festzulegen. Das Programmiermodell von Orleans hat viele Gemeinsamkeiten mit der objektorientierten Programmierung. Es ist aber von Grund auf für verteilte Systeme konzipiert. Diese stark vereinfachte Programmiermodell versucht die Produktivität der Entwickler zu maximieren. Der Preis dafür ist aber eine geringere Flexibilität als beispielsweise Erang.
+Mit dem auf der .NET"=Plattform entwickelten Framework Orleans wurde versucht das Aktorenmodell zu vereinfachen. Dazu hat man viele Entscheidungen, die normalerweise ein Programmierer während der Entwicklung eines verteilten Systems trifft, bereits in der Laufzeitumgebung von Orleans festgelegt. Das Programmiermodell von Orleans hat viele Gemeinsamkeiten mit der objektorientierten Programmierung. Es ist aber von Grund auf für verteilte Systeme konzipiert. Dieses stark vereinfachte Programmiermodell versucht, die Produktivität der Entwickler zu maximieren. Der Preis dafür ist aber eine geringere Flexibilität als beispielsweise bei Erlang.
 
-Das Aktorenmodell kann sowohl als Bestandteil oder auch als konkrete Implementierung der Microservice"=Architektur verstanden werden.
-
-
-
-\iffalse
-
-- Conclusion
-  - Different Names: Actors, Processes, Grains ... same principles
-	- Different Programming models: function vs oo
-
-\fi
+Das Aktorenmodell kann sowohl als Bestandteil aber auch als konkrete Implementierung der Microservice"=Architektur verstanden werden.
