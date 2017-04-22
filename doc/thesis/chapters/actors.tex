@@ -1,6 +1,6 @@
 \chapter{Aktorenmodell}
 
-In diesem Kapitel wird mit Aktoren ein Modell für nebenläufige Programmierung vorgestellt, das ausschließlich auf asynchronen Nachrichtenaustausch basiert. Dieses Modell eignet sich vor allem für Systeme, in denen es eine große Anzahl von gleichzeitigen Aufgaben gibt. Zu diesen Szenarien zählen Systeme mit vielen Benutzern, gleichermaßen wie dem Internet der Dinge, das viele  Geräte miteinander vernetzt.
+In diesem Kapitel wird mit Aktoren ein Modell für nebenläufige Programmierung vorgestellt, das ausschließlich auf dem Austausch von asynchronen Nachrichten basiert. Dieses Modell eignet sich vor allem für Systeme, in denen es eine große Anzahl von gleichzeitigen Aufgaben gibt. Zu diesen Szenarien zählen Systeme mit vielen Benutzern, gleichermaßen wie dem Internet der Dinge, das viele  Geräte miteinander vernetzt.
 
 Am Beginn dieses Kapitels werden die theoretischen Grundlagen des Aktorenmodells erläutert. Anschließend wird mit der Sprache Erlang eine der ersten populären Implementierungen des Aktorenmodells präsentiert. Darauf aufbauend wird mit dem virtuellen Aktorenmodell eine mögliche Vereinfachung des Programmiermodells vorgestellt und diskutiert. Zum Abschluss dieses Kapitels wird noch die Beziehung des Aktorenmodells zur Microservice"=Architektur und anderen Technologien analysiert.
 
@@ -194,7 +194,7 @@ Erlang für besonders fehlertolerante Software bekannt ist. Ein weiterer Grund i
 
 Mehrere Prozesse können zu einer Einheit verbunden werden, sodass ein Absturz eines Prozesses auch die anderen Prozesse beendet. Die Funktion \lstinline{link} erzeugt die beschriebene symmetrische Verbindung zwischen zwei Prozessen. Meistens wird aber die Funktion \lstinline{spawn_link} verwendet, die das Starten und Verbinden in einem atomaren Schritt durchführt. Ansonsten könnte es zu einer kritischen Wettlaufsituation kommen, in der ein Prozess terminiert, bevor er verbunden wurde.
 
-Nach dem Beenden eines Prozesses wird eine spezielle Nachricht an alle verbundenen Prozesse gesendet, die sich daraufhin selbst beenden. Es gibt aber spezielle System"=Prozesse, die eine Terminierungsnachricht wie eine gewöhnliche Nachricht empfangen und verarbeiten können. Um einen Prozess zu einem System"=Prozess zu befördern, muss lediglich die Eigenschaft \lstinline{trap_exit} gesetzt werden. System"=Prozesse übernehmen üblicherweise die Aufgaben eines Supervisors, weil sie entscheiden können, was mit einem Arbeiterprozess der sich erwarteten oder unerwarteten beendet hat, geschehen soll.
+Nach dem Beenden eines Prozesses wird eine spezielle Nachricht an alle verbundenen Prozesse gesendet, die sich daraufhin selbst beenden. Es gibt aber spezielle System"=Prozesse, die eine Terminierungsnachricht wie eine gewöhnliche Nachricht empfangen und verarbeiten können. Um einen Prozess zu einem System"=Prozess zu befördern, muss nur die Eigenschaft \lstinline{trap_exit} gesetzt werden. System"=Prozesse übernehmen üblicherweise die Aufgaben eines Supervisors, weil sie entscheiden können, was mit einem Arbeiterprozess der sich erwarteten oder unerwarteten beendet hat, geschehen soll.
 
 In Programm~\ref{prog:erlang-supervision} wird der in Programm~\ref{prog:erlang-processes} implementierte Prozess um einen Supervisor erweitert. Immer wenn der Arbeiterprozess abstürzt, \zB bei einer Division durch Null, bekommt der Supervisor eine Terminierungsnachricht. Anschließend startet dieser den Arbeiterprozess neu. Diese extrem simplifizierte Fehlerbehandlungsstrategie ist für ein reelles Szenario selbstverständlich nicht ausreichend. Er versucht unendlich oft, den Prozess sofort neu zu starten. Außerdem kann dieser Supervisor nur einen einzigen Arbeiterprozess überwachen. Im Laufe dieses Abschnitts wird noch gezeigt, welche intelligenteren Strategien die OTP"=Bibliothek bietet.
 
@@ -296,7 +296,7 @@ Neben der Fehlertoleranz ist die verteilte Programmierung eine weitere Stärke v
 
 Alle bisher behandelten Konzepte, wie dem Erstellen von Prozessen, dem Senden von Nachrichten oder das Verbinden von Prozessen, bleiben auch in einem verteilten System unverändert. Was aber noch fehlt, ist Knoten zu verbinden und deren Zustand zu überwachen.
 
-Jeder Knoten ist durch einen eindeutigen Namen identifiziert, der nach dem Format \lstinline{name@host} aufgebaut ist. Diese eindeutige Kennung ist ein Atom, dass aus zwei Teilen besteht. Der erste Teil ist ein frei definierbarer Name, der den Zweck hat, mehrere Knoten auf dem selben Rechner zu unterscheiden. Der zweite Teil ist der DNS"=Name des Rechners. Es kann entweder der Host"=Name oder ein voll qualifizierter Domänenname verwendet werden. Es können sich nur Knoten verbinden, die dasselbe sogenannte \lstinline{Cookie} kennen. Ein Cookie ist mit einem gemeinsamen Geheimnis -- \textit{engl. Shared Secret} -- zu vergleichen und verhindert unerlaubten Zugriff auf den Cluster.
+Jeder Knoten ist durch einen eindeutigen Namen identifiziert, der nach dem Format \lstinline{name@host} aufgebaut ist. Diese eindeutige Kennung ist ein Atom, dass aus zwei Teilen besteht. Der erste Teil ist ein frei definierbarer Name, der den Zweck hat, mehrere Knoten auf dem selben Rechner zu unterscheiden. Der zweite Teil ist der DNS"=Name des Rechners. Es kann entweder der Host"=Name oder ein voll qualifizierter Domänenname verwendet werden. Es können sich nur Knoten verbinden, die dasselbe sogenannte \lstinline{Cookie} kennen. Ein Cookie ist mit einem gemeinsamen Geheimnis -- \textit{engl. Shared Secret} -- zu vergleichen und verhindert unerlaubten Zugriff.
 
 Um einen Prozess auf einem anderen Knoten zu starten, kann der Funktion \lstinline{spawn}, die bereits aus Abschnitt~\ref{subsec:erlang-processes} bekannt ist, einfach als erstes Argument die eindeutige Kennung des Ziel"=Knotens übergeben werden. Es ist kein expliziter Verbindungsaufbau oder eine Registrierung des Knotens notwendig. Alle verbundenen Knoten werden automatisch im ganzen Cluster propagiert, sodass neue Knoten sofort Kenntnis über die gesamte Topologie haben. Semantisch ist es für ein Erlang"=Programm irrelevant, ob ein Prozess in der selben oder in einer entfernten Laufzeitumgebung ausgeführt wird.
 
@@ -393,7 +393,7 @@ Neben einer Menge von Verhaltensdefinitionen lässt sich ein Aktor auch als nich
 
 \newtheorem{nfstheorem}{Definition}[section]
 
-\begin{nfstheorem}[{{\cite[87]{hopcroft2003}}}]
+\begin{nfstheorem}[{{\cite[85]{hopcroft2003}}}]
 \label{def:nfs}
 
 Ein nichtdeterministischer endlicher Automat ist definiert als 5-Tupel (Q, $\Sigma$, $\delta$, q0, F), wobei
@@ -401,7 +401,7 @@ Ein nichtdeterministischer endlicher Automat ist definiert als 5-Tupel (Q, $\Sig
 \begin{itemize}
 	\item Q eine endliche Menge von Zuständen,
 	\item $\Sigma$ eine endliche Menge von Eingabesymbolen,
-	\item $\delta : Q \times \Sigma \rightarrow \mathcal{P}(Q)$ mit $\mathcal{P} := \{ X | X \subseteq Q \}$ die Übergangsfunktion,
+	\item $\delta : Q \times \Sigma \rightarrow \mathcal{P}(Q)$ mit $\mathcal{P} := \{ X \mid X \subseteq Q \}$ die Übergangsfunktion,
 	\item $q0 \in Q$ der Startzustand und
 	\item $F \subseteq Q$ eine Menge akzeptierender Zustände ist.
 \end{itemize}
@@ -656,7 +656,7 @@ Wenn man einen Aktor als Service -- oder eher als Nanoservice -- bezeichnet, kö
 
 \section{Zusammenfassung}
 
-In diesem Kapitel wurde das Aktorenmodell, hauptsächlich anhand der Technologien Erlang und Orleans, ausführlich erläutert. Ein Aktor ist eine fundamentale Recheneinheit, die Befehle ausführt, Daten speichert und mit anderen Aktoren kommuniziert. In Erlang wurde ein Aktor als \textit{Prozess} und in Orleans als \textit{Grain} bezeichnet. Es ist aber in beiden Fällen dasselbe Konzept.
+In diesem Kapitel wurde das Aktorenmodell, hauptsächlich anhand von \mbox{Erlang} und Orleans, ausführlich erläutert. Ein Aktor ist eine fundamentale Recheneinheit, die Befehle ausführt, Daten speichert und mit anderen Aktoren kommuniziert. In Erlang wurde ein Aktor als \textit{Prozess} und in Orleans als \textit{Grain} bezeichnet. Es ist aber in beiden Fällen dasselbe Konzept.
 
 Erlang ist eine funktionale Programmiersprache, mit einem Prozessmodell, das dem Aktorenmodell entspricht. Jeder Prozess ist eine leichtgewichtige und eigenständige Berechnungseinheit, die nur per asynchrone Nachrichten mit anderen Prozessen kommuniziert. Dieses Programmiermodell fördert die Skalierbarkeit, weil Prozesse auf beliebig viele Rechner verteilbar sind. Außerdem ist es sehr robust, weil sich ein Fehler nur auf einen Prozess auswirkt. Es ist aber notwendig, dass sich Prozesse gegenseitig überwachen und im Fehlerfall entsprechende Handlungen setzen. In vielen Fällen ist diese Behandlung einfach ein Neustart des fehlgeschlagenen Prozesses.
 
