@@ -471,7 +471,7 @@ Eine Analogie zu virtuellen Aktoren ist der virtuelle Arbeitsspeicher in einem R
 
 Im Prinzip gelten alle Eigenschaften von Aktoren, so wie in Abschnitt~\ref{sec:actor-model} definiert, auch für Aktoren im Sinne des virtuellen Aktorenmodells. \Dah Aktoren kapseln Verhalten und Zustand in einer isolierten Einheit, die aufgrund des nicht vorhandenen geteilten Speicherbereichs nur per Nachrichtenaustausch interagieren können. In einem Punkt aber entsprechen virtuelle Aktoren nicht der ursprünglichen Definition. Es ist nämlich nicht möglich, dass ein Aktor andere Aktoren erzeugt. Die nachfolgenden Abschnitte beschreiben die grundlegenden Charakteristiken von virtuellen Aktoren.
 
-\subsection{Ewige Existenz}
+\subsection{Permanente Existenz}
 
 Es wird angenommen, dass jede mögliche Instanz eines Aktorentyps ständig existiert. Darum ist es auch nicht erforderlich Aktoren explizit zu starten oder zu stoppen, weil sie keinen expliziten Lebenszyklus haben. Diese Eigenschaft ist nur durch die bereits erwähnte Indirektion zwischen virtuellen Aktoren und physischen Instanziierungen möglich.
 
@@ -640,16 +640,31 @@ Standardmäßig wird in Orleans eine Nachricht höchstens einmal zugestellt. Der
 
 Es ist normalerweise garantiert, dass nur eine Aktivierung eines Aktors zur selben Zeit existiert. Es gibt aber einen Ausnahmefall in dem diese Garantie nicht gilt. Wenn nach einem Ausfall eines Silos zwei Silos noch nicht die selbe Sichtweise auf die Mitgliederliste haben, kann es sein, dass beide die Aktivierung eines Aktors anfordern. In diesem Fall existieren zwei Aktivierungen des selben Aktors gleichzeitig. Sobald die Silos die selbe Sichtweise auf die Mitgliederliste haben, wird eine der Aktivierungen terminiert, sodass schlussendlich nur noch eine übrig bleibt. Diese Art der Konsistenz wird als \textit{Eventual Consistency} bezeichnet, weil schlussendlich ein konsistenter Zustand erreicht wird. In Orleans wird also die Verfügbarkeit der Konsistenz vorgezogen. Bei persistenten Aktoren kann das beschriebene Phänomen leicht zu unerwarteten Inkonsistenzen führen. Wenn beide Aktivierungen den selben Zustand aus dem externen Speicher laden und wieder speichern, geht eine der beiden Änderungen verloren.
 
-\pagebreak
-
 \section{Aktorenmodell und Microservices}
 
-- Don't start with a microservices
-- Actormodel provides good modularization concepts
-- Process Tree already enforces clean architecture and communication patterns
-- No independent deployment? Hot Code Swapping? Most of the time unnecessary complexity. Only for really important components. Upgrade one node after the other
-- More efficient communication (no REST/JSON) ...
-- Understandable (state diagrams)
+Bis hier her ist es möglicherweise nicht ganz offensichtlich, wie das Aktorenmodell zu den anderen in dieser Arbeit behandelten Themen in Verbindung steht. Daher ist das Ziel dieses Abschnitts, verschiedene mögliche Sichtweisen auf die Beziehung zwischen dem Aktorenmodell und der Microservice"=Architektur darzustellen.
+
+Zuerst ist es aber hilfreich, die Gemeinsamkeiten zwischen diesen beiden Ansätzen herauszuarbeiten. Zunächst handelt es sich bei beiden um ein verteiltes System für die Realisierung von möglichst skalierbaren und robusten Anwendungen. Sie haben ebenfalls beide ein Konzept Software in abgeschlossene Komponenten zu zerlegen. In der Microservice"=Architektur sind das Dienste und im Aktorenmodell Aktoren. Ein Ziel dieser Zerlegung ist die Verantwortlichkeiten der Anwendung besser zu trennen, um so eine zu starke Abhängigkeit zwischen einzelnen Komponenten zu vermeiden. Ohne eine saubere Trennung entsteht eine stark verwobene Architektur, bei der jede Änderung große Auswirkungen auf den Rest des Systems hat. 
+
+Beide Ansätze zeichnen sich durch gute Skalierbarkeit aus. Sie setzen auf eigenständige Komponenten, die nur per Nachrichtenaustausch miteinander interagieren. Dadurch können sie sehr leicht auf mehrere Rechner verteilt werden. Es gibt bestimmt noch weitere Gemeinsamkeiten, aber die gerade beschriebenen sind sicherlich eine der größten. 
+
+In Abschnitt~\ref{subsubsec:microservices-disadvantages} wurde bereits erläutert, dass viele Experten davon abraten neue Anwendung mit einer Microservice"=Architektur zu starten. Dafür ist nämlich eine großes Domänenwissen notwendig, das am Anfang noch nicht vorhanden ist. Daher kann es von Vorteil sein neue Projekte zuerst auf Basis des Aktorenmodells zu beginnen und erst bei Bedarf eigenständige Dienste herauszulösen. Dieses als evolutionäre Architektur bekannte Vorgehen ist im Bereich von Microservices gängige Praxis. 
+
+Bei vielen Microservices fällt die Wahl für ein Kommunikationsprotokoll auf eine Kombination aus HTTP und REST. Es mag aber durchaus Gründe für eine andere Wahl geben. Mit Aktoren ist es nicht notwendig, ein Kommunikationsprotokoll festzulegen. Die Kommunikationsfähigkeit von Aktoren ist eine inhärente Eigenschaft des Aktorenmodells. Es ist sogar naheliegend, dass die für Aktoren eingesetzten binären Protokolle effizienter sind als HTTP und REST.
+
+Wenn man einen Aktor als Service -- oder eher als Nanoservice -- bezeichnet, könnte man das Aktorenmodell als Implementierung der Microservice"=Architektur sehen. Ein Aktor erfüllt nämlich alle in Abschnitt~\ref{sec:ms-characteristics} beschriebenen Charakteristiken eines Microservice. Beginnend bei der Modularisierung, über die Größe, den Nachrichtenaustausch bis hin zu flexiblen Möglichkeiten Aktoren auszurollen. Genau so gut kann das Aktorenmodell ein möglicher Bestandteil der Microservice"=Architektur sein, in der es nur für vereinzelte Dienste zum Einsatz kommt.
+
+\section{Zusammenfassung}
+
+In diesem Kapitel wurde das Aktorenmodell, hauptsächlich anhand der Technologien Erlang und Orleans, ausführlich erläutert. Ein Aktor ist eine fundamentale Recheneinheit, die Befehle ausführt, Daten speichert und mit anderen Aktoren kommunizieren. In Erlang wurde ein Aktor als \textit{Prozess} und in Orleans als \textit{Grain} bezeichnet. Es ist aber in beiden Fällen das selbe Konzept gemeint.
+
+Erlang ist eine funktionale Programmiersprache mit einem Prozessmodell, das genau dem Aktorenmodell entspricht. Jeder Prozess ist eine eigenständige isolierte Berechnungseinheit, die nur per asynchronen Nachrichtenaustausch mit anderen Prozessen kommuniziert. Diese Programmiermodell fördert die Skalierbarkeit, weil Prozesse auf beliebige viele Rechner verteilbar sind. Außerdem ist es sehr robust, weil sich ein Fehler nur auf einen Prozess auswirkt. Es ist aber notwendig, dass sich Prozesse gegenseitig überwachen und im Fehlerfall entsprechende Handlungen setzten. In vielen Fälle äußert sich diese Behandlung in einem Neustart des fehlgeschlagenen Prozesses.
+
+Mit dem in auf der .NET"=Plattform entwickelten Framework Orleans, wurde versucht das Aktorenmodell zu vereinfachen. Dazu hat man viele Entscheidungen die normalerweise ein Programmierer während der Entwicklung eines verteilten Systems zu treffen hat, bereits in der Laufzeitumgebung von Orleans festzulegen. Das Programmiermodell von Orleans hat viele Gemeinsamkeiten mit der objektorientierten Programmierung. Es ist aber von Grund auf für verteilte Systeme konzipiert. Diese stark vereinfachte Programmiermodell versucht die Produktivität der Entwickler zu maximieren. Der Preis dafür ist aber eine geringere Flexibilität als beispielsweise Erang.
+
+Das Aktorenmodell kann sowohl als Bestandteil oder auch als konkrete Implementierung der Microservice"=Architektur verstanden werden.
+
+
 
 \iffalse
 
