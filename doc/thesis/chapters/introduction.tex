@@ -1,6 +1,6 @@
 \chapter{Einleitung}
 
-In diesem Kapitel wird der grundsätzliche Aufbau dieser Arbeit beschrieben. Das Ziel das diese Arbeit verfolgt ist die Anwendbarkeit von verschiedenen Konzepten für Microservice"=Architekturen zu untersuchen und dabei die Unterschiede \bzw Gemeinsamkeiten herauszuarbeiten. Im folgenden Abschnitt wird dafür zuerst die Bedeutung von Microservices hervorgehoben.
+In diesem Kapitel wird der grundlegende Aufbau dieser Arbeit beschrieben. Das in dieser Arbeit verfolgte Ziel ist die Anwendbarkeit von verschiedenen Konzepten für Microservice"=Architekturen zu untersuchen und dabei die Unterschiede \bzw Gemeinsamkeiten herauszuarbeiten. Der folgende Abschnitt beginnt mit einer Einführung über die Bedeutung von Microservices.
 
 \section{Motivation}
 
@@ -8,14 +8,14 @@ Moderne Anwendungen, vor allem im Web-Umfeld, unterliegen heutzutage immer grö�
 
 Statt der Entwicklung einer einzigen monolithischen Applikation hat sich in den letzten Jahren immer stärker das Architekturmuster Microservices etabliert. Dabei geht es um die Zerlegung eines komplexen Softwaresystems in unabhängige kleine Dienste. Diese sind voneinander isoliert und können nur über ein Netzwerk miteinander kommunizieren. Jeder Dienst soll dabei nur so groß sein, dass er genau eine Geschäftskompetenz des Unternehmens realisiert. An der Entwicklung sollen nur wenige Entwickler beteiligt sein. Durch diese Zerlegung wird ein viel effizienterer Entwicklungsprozess ermöglicht. Zusätzlich können bestimmte Teile des Systems unabhängig voneinander aktualisiert, ausgerollt und skaliert werden.
 
-Für den Bedarf der Microservice"=Architektur sind verschiedene Entwicklungen verantwortlich. Zunächst hat das Internet über die globale Vernetzung einen riesigen Absatzmark für Software geschaffen. Anwendungen mit Millionen von Benutzern sind keine Seltenheit mehr. Auf technischer Seite sind wir mit einer Stagnation der Prozessorgeschwindigkeit konfrontiert. Prozessoren werden nicht mehr schneller, sondern nur die Anzahl steigt. \Dah es sind verteilte Architekturen notwendig, die mehr, anstatt schnellerer Prozessoren ausnützen können. Gleichzeitig trägt auch der Konkurrenzkampf zwischen Unternehmen dazu bei, dass Entwicklungsprozesse agiler sowie die Einführungszeit neuer Produkte und Funktionen geringer werden. All diese Entwicklungen haben die Architektur heutiger Softwaresysteme wesentlich geprägt und \zB auch der Microservice"=Architektur zu großer Verbreitung verholfen.
+Für den Bedarf der Microservice"=Architektur sind verschiedene Entwicklungen verantwortlich. Zunächst hat das Internet über die globale Vernetzung einen riesigen Absatzmark für Software geschaffen. Anwendungen mit Millionen von Benutzern sind keine Seltenheit mehr. Auf technischer Seite sind wir mit einer Stagnation der Prozessorgeschwindigkeit konfrontiert. Prozessoren werden nicht mehr schneller, sondern nur die Anzahl steigt. \Dah es sind verteilte Architekturen notwendig, die mehr, anstatt schnellerer Prozessoren ausnützen können. Gleichzeitig trägt auch der Konkurrenzkampf zwischen Unternehmen dazu bei, dass Entwicklungsprozesse agiler sowie die Einführungszeit neuer Produkte und Funktionen geringer werden. All diese Entwicklungen haben die Architektur heutiger Softwaresysteme wesentlich geprägt. Ein Resultat daraus ist die weit verbreitete Microservice"=Architektur, die der integrale Bestandteil dieser Arbeit ist.
 
 \section{Gliederung und Struktur}
 
 In dieser Arbeit werden verschiedene Konzepte und ihre Entstehungsgeschichte beschrieben. Sie gliedert sich in folgende Kapitel:
 
 \begin{itemize}
-	\item Kapitel~\ref{chap:microservices} gibt eine Einführung in die Microservice"=Architektur, grenzt es zur monolithischen Softwarearchitektur ab und beschreibt mögliche Vorteile.
+	\item Kapitel~\ref{chap:microservices} gibt eine Einführung in die Microservice"=Architektur, grenzt sie zur monolithischen Softwarearchitektur ab und beschreibt mögliche Vorteile.
 	\item Kapitel~\ref{chap:containers} beschreibt mit Containervirtualisierung eine leichtgewichtige Möglichkeit, Microservices sehr effizient bereitzustellen, ohne die Nachteile von klassischer Hypervisorvirtualisierung.
 	\item Kapitel~\ref{chap:serverless} behandelt mit serverloser Programmierung einen noch leichtgewichtigeren Ansatz, ereignisgesteuerte Funktionen zur Verfügung zu stellen. 
 	\item Kapitel~\ref{chap:actormodel} widmet sich mit Aktoren einem Modell für verteilte Programmierung, das viele Gemeinsamkeiten und Berührungspunkte mit der Microservice"=Architektur hat.
@@ -23,7 +23,7 @@ In dieser Arbeit werden verschiedene Konzepte und ihre Entstehungsgeschichte bes
 
 \section{Rahmen und Anwendungsbereiche}
 
-In dieser Arbeit werden hauptsächlich Konzepte und Technologien betrachtet, die sich für die Implementierung von verteilbaren, skalierbaren und robusten Softwaresystemen eignen. Obwohl die Anforderungen an Software ständig steigen, benötigt nicht jedes System automatisch die genannten Eigenschaften. Wie im Laufe dieser Arbeit noch deutlich wird, sind viele Konzepte, gerade für kleine Systeme, teilweise sogar kontraproduktiv. Erst ab einer gewissen Komplexität können diese Konzepte ihren hohen Aufwand rechtfertigen. Es sollte daher immer genau abgewogen werden, ob sich die Verwendung eines bestimmten Ansatzes rentiert.
+In dieser Arbeit werden hauptsächlich Konzepte und Technologien betrachtet, die sich für die Implementierung von verteilbaren, skalierbaren und robusten Softwaresystemen eignen. Obwohl die Anforderungen an Software ständig steigen, benötigt nicht jedes System automatisch die genannten Eigenschaften in vollem Ausmaß. Wie im Laufe dieser Arbeit noch deutlich wird, sind viele Konzepte, gerade für kleine Systeme, teilweise sogar kontraproduktiv. Erst ab einer gewissen Komplexität können diese Konzepte ihren hohen Aufwand rechtfertigen. Es sollte daher immer genau abgewogen werden, ob sich die Verwendung eines bestimmten Ansatzes rentiert.
 
 Die Microservice"=Architektur ist ein relativ abstraktes Modell, das nachträglich aus bestehenden Praktiken und Technologien geprägt wurde. Aus diesem Grund ist das Technologieumfeld um diese Architektur sehr breit, heterogen und schnelllebig. Diese Arbeit kann daher nur einen ausgewählten, aber dennoch repräsentativen Teil des gesamten Themenbereichs bearbeiten.
 
@@ -31,6 +31,6 @@ Das Kapitel über Containervirtualisierung konzentriert sich hauptsächlich auf 
 
 Als Stellvertreter für eine Fülle von serverlosen Plattformen steht in dieser Arbeit mit Azure Functions eine Technologie von Microsoft. Es geht aber keinesfalls um die Technologie selbst, sondern um die Grundidee einer serverlosen, ereignisgesteuerten Plattform, die verschiedene Standarddienste miteinander verbindet.
 
-Den überwiegend aktuelleren Konzepten dieser Arbeit steht mit dem Aktorenmodell ein schon etwas älteres Konzept gegenüber. Daher ist es auch nicht verwunderlich, dass es hier die meisten unterschiedlichen Implementierungen gibt. Anhand von Erlang, die wohl bekannteste und eine der ersten Implementierungen, werden die Grundlagen des Aktorenmodells erläutert. Darauf aufbauend folgen mit Elixir und Orleans zwei neuere Varianten.
+Den überwiegend aktuelleren Konzepten dieser Arbeit steht mit dem Aktorenmodell ein schon etwas älteres Konzept gegenüber. Daher ist es auch nicht verwunderlich, dass es hier die meisten unterschiedlichen Implementierungen gibt. Anhand von Erlang, die wohl bekannteste und eine der ersten Implementierungen, werden die Grundlagen des Aktorenmodells erläutert. Darauf aufbauend folgen mit Orleans und Elixir zwei neuere Varianten.
 
 Die in dieser Arbeit verwendeten Technologien sind also nur Stellvertreter für eine Menge von möglichen Alternativen. Es geht viel mehr um die Beziehung zwischen den dahinterliegenden Konzepten zu skalierbaren und robusten Softwaresystemen.
