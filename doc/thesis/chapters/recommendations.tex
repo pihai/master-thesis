@@ -1,0 +1,80 @@
+\chapter{Empfehlungen und Ausblick}
+
+Das Ziel dieses Kapitels ist die bisher betrachteten Konzepte zu reflektieren und Empfehlungen für geeignete Anwendungsgebiete zu geben. In vielen Bereichen stehen diese Konzepte in Konkurrenz zueinander und in anderen wiederum ergänzen sie sich. Für qualifizierte Technologieentscheidungen sind daher Empfehlungen wie die folgenden sehr wertvoll. Genau so wichtig ist es zu erkennen, für welche Szenarien eine Technologie unvorteilhaft ist.
+
+\section{Microservices}
+
+Das Kapitel über Microservices hat sich eingehend der Frage gewidmet, welche Vorteile die Microservices"=Architektur gegenüber einer monolithischen Architektur bietet. Hierbei ist auch klar geworden, dass sich die Vorteile wie entkoppelte Deployments, ein effizienterer Entwicklungsprozess oder der heterogene Technologieeinsatz nur für Projekte von bestimmter Komplexität lohnen. Für kleinere und neuartige Projekte ist die Microservice"=Architektur nur bedingt geeignet. Vielmehr ist hier der Weg der evolutionären Softwarearchitektur zu empfehlen. Dabei wird eine bestehende -- \zB monolithische -- Anwendung sukzessive in eine Microservice"=Architektur umgewandelt. Bis zu einer bestimmten Größe \bzw Komplexität ist die Entwicklung einer monolithischen Anwendung effizienter als eine in Microservices zerlegte Anwendung. Änderungen und neue Funktionen lassen sich in einer monolithischen Architektur viel schneller umsetzen.
+
+Nichtsdestotrotz ist die Microservice"=Architektur derzeit der führende Ansatz für die Entwicklung skalierbarer und robuster Anwendungen. Dabei skaliert dieser Ansatz nicht nur auf technischer sondern auch auf organisatorischer Ebene. Die Verteilung der Verantwortlichkeiten ermöglicht auch bei einer großen Anzahl von Entwicklern noch immer einen reibungslosen Entwicklungsprozess. Aber erst effiziente Bereitstellungsmethoden wie PaaS, Container \ua, sowie leichtgewichtige Kommunikationsprotokolle haben den Erfolg von Microservices eingeleitet.
+
+\section{Container-Technologien}
+
+In den letzten Jahren hat sich die Virtualisierung mit Containern stark weiterentwickelt. Getrieben wurden diese Entwicklungen hauptsächlich von Cloud"=Anbietern, die ein großes Interesse an der Reduzierung ihrer Infrastrukturkosten hatten. Nur mehr für sicherheitskritische Szenarien ist der Einsatz von virtuellen oder gar physischen Maschinen notwendig.
+
+Aus Entwicklersicht hat ein Container alle Funktionen, die auch eine klassische virtuelle Maschine bietet. Ein Service in einem Container kann daher auf alle Technologien zurückgreifen, die das Container"=Betriebssystem unterstützt. Die Vorteile von heterogenen Technologieeinsatz wurden bereits ausführlich erläutert.
+
+Sowohl Microservices, als auch Container, haben die Philosophie, dass sie nur eine Aufgabe erfüllen. Jeder Microservice sollte daher ein eigener Container sein. Die Verwaltung von Anwendungen mit vielen Containern kann aber sehr aufwändig werden. An dieser Stelle ist es meisten notwendig auf einen Container"=Orchestrierer zurückzugreifen. Dieser verteilt Container automatisch auf eine Menge von Maschinen. Außerdem gehört automatische Skalierung, Fehlerüberwachung und die Verwaltung des Lebenszyklus eines Containers zu den Vorzügen dieser Systeme.
+
+\section{Serverlose Softwarearchitektur}
+
+Function-as-a-Service wirkt wie der nächste logische Schritte in der Evolution von verwalteter Infrastruktur. Verwender sind vollständig von Aufgaben bezüglich Provisionierung und Skalierung von Infrastruktur freigestellt. Es handelt sich bei FaaS um eine produktive aber relativ unflexible Möglichkeit Funktionalität bereitzustellen. In vielen Szenarien ist aber große Flexibilität gar nicht notwendig. Hier kann FaaS vorteilhaft sein.
+
+In vielen PaaS"=Technologien erfolgt die Kostenabrechnung anhand der Zeit, in denen Ressourcen zur Verfügung standen. Oft werden die Ressourcen aber gar nicht oder nur teilweise genutzt. Bei FaaS erfolgt die Verrechnung nur nach tatsächlich konsumierter Leistung. Gerade am Beginn von neuen Projekten kann dieses verbrauchsbezogene Verrechnungsmodell Kosten einsparen. Bei vorhersehbaren oder speziellen Lastaufkommen können aber optimierte alternative Lösungen die Kosten von FaaS unterbieten.
+
+Die Zeit zwischen der Entwicklung von Funktionen und der tatsächlichen Verfügbarkeit für den Endbenutzer ist bei FaaS herausragend. Entwickler konzentrieren sich nämlich hauptsächlich auf Geschäftslogik und kaum mehr um Infrastrukturaufgaben. Mit nur wenigen Schritten sind die entwickelten Funktionen global, fehlertolerant und skalierbar bereitgestellt.
+
+Durch das ereignisgesteuerte Programmiermodell von FaaS, entsteht meistens eine recht lose gekoppelte Architektur. Damit ist es relativ unproblematisch neue Funktionen hinzuzufügen \bzw bestehende zu ersetzen. Die Ereignisse kommen hauptsächlich aus anderen verwalteten Diensten, wie \zB von Datenbanken, Warteschlangen oder Zeitgebern. Auch die Ein"= und Ausgaben haben oft mit verwalteten Diensten zu tun. \Dah FaaS fokussiert sich auf die Integration von verwalteten Diensten und setzt somit auf bestehende Standardkomponenten auf. In Systemen wo solche Komponenten bereits stark eingesetzt werden, kann FaaS die notwendige Integrationslogik vereinfachen.
+
+Für Anwendungen mit sehr geringen Latenzzeiten scheint FaaS derzeit noch kein geeigneter Ansatz zu sein. Wie in dieser Arbeit gezeigt wurde, wirken sich Kaltstarts signifikant auf die Latenzzeit aus. Außerdem sind viele Ereignisse mit einer Pull"=Strategie implementiert, die natürlich höhere Latenzzeiten als eine Push"=Strategie aufweist.
+
+\section{Aktorenmodell}
+
+Beim Aktorenmodell handelt es sich um ein formales Modell für nebenläufige Berechnungen. Dieser Ansatz eignet sich vor allem für Szenarien in denen es eine große Anzahl von eigenständigen Objekten gibt. Jedes dieser Objekte verarbeitet eingehende Nachrichten ausschließlich sequentiell und stellt somit eine koordinierte Verarbeitung sicher. Es lassen sich viele Softwaresysteme auf intuitive Weise als ein System aus Aktoren darstellen. Beispielsweise können Benutzer, Geräte, Sensoren, Warenkörbe eines Onlineshops \usw als Aktoren modelliert werden.
+
+Wenn geringe Latenzzeiten für eine Anwendung essentiell sind, kann das Aktorenmodell eine gute Wahl sein. Denn obwohl jeder Aktor seine Nachrichten in einer Warteschlange zwischenspeichert, geschieht die Abarbeitung meistens sehr zeitnah. Es ist ohnehin selten, dass ein Aktor sehr viele Nachrichten verarbeitet. Die Skalierbarkeit des Aktorenmodells resultiert aus den vielen Aktoren die parallel ihre Nachrichten sequentiell abarbeiten.
+
+Aktoren teilen viele Gemeinsamkeiten mit Microservices. Beide sind relativ kleine Einheiten, die möglichst nur eine einzige Anforderung erfüllen. Sie agieren mit ihrer Umwelt nur über definierte Nachrichten. Aufgrund der Ähnlichkeit beider Ansätze ist es relativ einfach aus einem Aktorensystem einzelne Microservices herauszulösen. Im Sinne der evolutionären Softwarearchitektur sollte dies nur bei einem triftigen Grund erfolgen.
+
+Im Kapitel über das Aktorenmodell wurden verschiedene Implementierungen betrachtet. Es gibt aber auch noch weitere in dieser Arbeit nicht behandeltet Varianten. Welche davon für eine Anwendung geeigneter ist, lässt sich nicht so einfach beantworten. Aber wie der Vergleich zwischen Erlang und Orleans gezeigt hat, unterscheiden sich diese Varianten doch sehr wesentlich. Erlang bietet die größten Eingriffsmöglichkeiten, erfordert daher aber auch viel Implementierungsaufwand. Im Gegensatz dazu ist der Einstieg in Technologien wie Orleans etwas leichter. Es kann aber der Zeitpunkt kommen, an dem Orleans zu viele Entscheidungen für den Entwickler getroffen hat und die Flexibilität von Erlang wünschenswert wäre. Ebenfalls nicht zu vernachlässigen ist, dass Orleans auf der weit verbreiteten .NET"=Plattform aufsetzt. So können bestehende .NET"=Bibliotheken einfach in Orleans wiederverwendet werden.
+
+Das Aktorenmodell lässt sich mit unterschiedlichen Programmierparadigmen implementieren. Die funktionale Programmiersprache Erlang verfolgt natürlicherweise einen funktionalen Ansatz. Im Gegensatz dazu hat Orleans mit der Objektorientierung ein Paradigma herangezogen, das vielen Entwicklern vertraut ist. Oft wirkt der funktionale Ansatz natürlicher. Beispielsweise sind die verschiedenen Zustände eines Aktors sehr intuitiv als Funktionen modelliert. Mit Hilfe von Mustervergleichen kann auch die Nachrichtenselektion prägnant formuliert werden. In einer objektorientierten Variante ist es nicht sofort ersichtlich in welchem Zustand sich ein Aktor befindet. Außerdem muss jede Methode eines Aktors den aktuellen Zustand überprüfen, was unweigerlich zu sehr langen Quelltext führt. Aber diese beiden Ansätze unterscheiden sich nur äußerlich, funktional sind sie isomorph.
+
+Viele Applikationen verwenden eine relationale Datenbank als externes Speichermedium. Mit persistenten Aktoren, so wie in Orleans, können Aktoren ihren Zustand automatisch mit einem externen Speicher synchronisieren. Es ist also nicht notwendig, die Daten noch separat in eine Datenbank zu speichern. Damit ist es auch nicht notwendig, eine Abbildung der objektorientierten Daten auf ein häufig relationales Datenmodell abzubilden.
+
+Das Aktorenmodell war lange Zeit etwas in Vergessenheit geraten, obwohl schon von Beginn an brauchbare Implementierungen wie \zB Erlang existierten. Für skalierbare und robuste Anwendungen ist ein verteiltes Programmiermodell unumgänglich. Mit steigendem Fokus auf verteilte Programmierung stieg auch das Interesse an Aktorensystemen wieder. Festzumachen ist diese Erkenntnis an den vielen neuen Implementierungen die in den letzten Jahren erschienen sind. In Zukunft könnte das Aktorenmodell also mehr Bedeutung denn je bekommen.
+
+\iffalse
+
+- MS
+  - Not use from the beginning
+	- Evouationary architecture
+	- Refactoring in mololith or OO cheaper
+	- Needs to be versioned governed and made fault tolerant
+	- for large scale projects seems quite good
+- Containers
+  - Huge step up from VM
+	- Efficient technology which is necessary to power the cloud (VM ish storage and latency is not acceptable)
+	- Easily to test, immutable deployments
+	- Ranging from Linux to Windows
+	- Container orchestration powerfull an complex
+	- in a state of flux
+- Serverless
+  - Next step in managed infrastructure
+	- No servers at all
+	- Littles time to market
+	- Reactive event based programming model
+	- Usually high latency (poll storage/queues/cold start)
+	- All about gluing std components together
+	- Danger of vendor locking, but functions should be small anyway
+  - Should yield immediatly business value
+- Actors
+  - Old model for concurrency which again gained attention (orleans/akka/elixir)
+	- Suited for Low lateny applications with lot of concurrent actions (users/devices/processed)
+	- Can be an alternative or an extension to microservices
+	- Would start with actor model and refactor actors as individual services if needed -> easy because they are already nicely modeld (message passing)
+	- Looked at different levels of flexibility (erlang/elixir vs orleans)
+	- Maybe get feed wet with orleans if one has an OO background, but consider erlang/elixir/akka if more control is needed
+	- OO vs Functional
+
+\fi
