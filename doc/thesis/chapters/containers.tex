@@ -5,7 +5,7 @@ Dieses Kapitel beschreibt mit der Betriebssystemvirtualisierung in Containern ei
 
 Eine Microservice"=Architektur ist nicht nur aus Softwareentwicklungssicht herausfordernd, sondern auch aus Infrastruktursicht. Jeder Microservice muss unabhängig ausgerollt und skaliert werden können. Nur so kann diese Architektur auch die in Abschnitt \ref{sec:ms-advantages} beschriebenen Vorteile entfalten. Im Unterschied zu Hardwarevirtualisierung bietet dieser Ansatz wesentlich kürzere Bereitstellungszeiten und eine effektivere Nutzung von Ressourcen.
 
-Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externe Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Nun gibt es drei Möglichkeiten, die Infrastruktur über den gesamten Lebenszyklus eines Service zu verwalten. Am schlechtesten ist die benötigte Konfiguration manuell vorzunehmen. Dadurch ist es schwierig, Änderungen nachzuvollziehen und zu testen. Besser ist es, die Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend zu aktualisieren. Ein alternativer Ansatz ist, den Service mit seinen Abhängigkeiten und Konfigurationen in ein Betriebssystemabbild -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt und verteilt. Im folgenden Abschnitt wird dieser Ansatz noch näher präzisiert und anschließend mit Docker eine Technologie vorgestellt, die genau auf dieser Idee aufsetzt.
+Jeder Service hat bestimmte Voraussetzungen an seine Infrastrukturumgebung. Dazu zählen externe Bibliotheken, Konfigurationen und meistens eine Laufzeitumgebung, wie \zB Java, .NET oder Python. Nun gibt es drei Möglichkeiten, die Infrastruktur über den gesamten Lebenszyklus eines Service zu verwalten. Am schlechtesten ist die benötigte Konfiguration manuell vorzunehmen. Dadurch ist es schwierig, Änderungen nachzuvollziehen und zu testen. Besser ist es, die Abhängigkeiten auf einem Server mit \textit{Infrastructure-as-Code} zu installieren und laufend zu aktualisieren. Ein alternativer Ansatz ist, den Service mit seinen Abhängigkeiten und Konfigurationen in ein Betriebssystemabbild -- \textit{engl. Image} -- zu verpacken \cite[113]{newman2015building}. Anstelle einer ausführbaren Anwendung wird einfach ein vollständiges Abbild eines virtuellen Servers erstellt und verteilt. Im folgenden Abschnitt wird dieser Ansatz noch näher präzisiert und anschließend mit \mbox{Docker} eine Technologie vorgestellt, die genau auf dieser Idee aufsetzt.
 
 \section{Unveränderbarer Server}
 \label{sec:immutable-server}
@@ -46,13 +46,13 @@ Virtualisierung ist immer ein Kompromiss zwischen Effizienz und Isolation. Jede 
 	\item \textit{Sicherheitsisolation} beschränkt den Zugriff auf Ressourcen wie dem Dateisystem, dem virtuellen Speicheradressraum oder dem Netzwerk.
 \end{itemize}
 
-Hypervisor- oder gleichbedeutend auch Hardwarevirtualisierung bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist eine strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden.
+Hypervisor- oder gleichbedeutend Hardwarevirtualisierung bietet bessere Isolation als Betriebssystemvirtualisierung, ist aber wesentlich ineffizienter. In vielen Szenarien, wie einer Microservice"=Architektur, ist strenge Isolation nicht notwendig, sondern kann gegen Effizienz eingetauscht werden.
 
 \section{Docker}
 
 Die zur Zeit bekannteste Betriebssystemvirtualisierungssoftware ist Docker. Im Gegensatz zur Hardwarevirtualisierung wird auf die Emulation einer Hardwareumgebung verzichtet und stattdessen auf der Betriebssystemebene virtualisiert. Durch den Verzicht auf diese Indirektionsschicht ist dieser Ansatz wesentlich effizienter.
 
-Im Gegensatz zu anderen Virtualisierungstechniken steht bei \mbox{Docker} die Auslieferung von Software im Vordergrund. Ähnlich wie eine Paketverwaltungssoftware kann Docker eine zentral Stelle für die Verteilung von Software sein. Zusammengefasst erleichtert Docker den Bezug, die Installation, den Betrieb und die Aktualisierung von Software. Alle diese Möglichkeiten sind wertvolle Hilfsmittel bei der Realisierung einer Microservice"=Architektur.
+Im Gegensatz zu anderen Virtualisierungstechniken steht bei \mbox{Docker} die Auslieferung von Software im Vordergrund. Ähnlich wie eine Paketverwaltungssystem kann Docker eine zentrale Stelle für die Verteilung von Software sein. Zusammengefasst erleichtert Docker den Bezug, die Installation, den Betrieb und die Aktualisierung von Software. Alle diese Möglichkeiten sind wertvolle Hilfsmittel bei der Realisierung einer Microservice"=Architektur.
 
 \subsection{Begriffserklärung}
 
@@ -61,10 +61,10 @@ Im Umfeld von Betriebssystemvirtualisierung und Docker gibt es einige wichtige B
 \begin{itemize}
 	\item Ein \textit{Image} ist die Vorlage für einen Container.
 	\item Das \textit{Dockerfile} ist eine textuelle Beschreibung eines Images. Aufgrund dieser Beschreibung wird schlussendlich das Image erstellt.
-	\item Ein \textit{Container} ist eine Laufzeitinstanz eines Images. Es kann beliebig viele Container"=Instanzen von einem Image geben. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container- oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für einen Container"=Prozess, als hätte er ein vollständiges Betriebssystem zur Verfügung.
+	\item Ein \textit{Container} ist eine Laufzeitinstanz eines Images. Es kann beliebig viele Container"=Instanzen von einem Image geben. Auf Prozessebene besteht ein Container aus einem oder mehreren Prozessen, die von anderen Container- oder Host"=Prozessen isoliert sind. Durch die Isolation wirkt es für die Prozesse eines Containers so, als hätten sie das Betriebssystem exklusiv zur Verfügung.
 \end{itemize}
 
-Der nächste Abschnitt beschreibt mit den zuvor definierten Begriffe den grundsätzlichen Aufbau von Docker. Darüber hinaus werden signifikante Unterschiede zu Hardwarevirtualisierung hervorgehoben.
+Der nächste Abschnitt beschreibt mit den zuvor definierten Begriffen den grundsätzlichen Aufbau von Docker. Darüber hinaus werden signifikante Unterschiede zu Hardwarevirtualisierung hervorgehoben.
 
 \subsection{Docker"=Architektur}
 
@@ -104,8 +104,7 @@ Für beliebig viele Containerinstanzen ist somit nur eine einzige Kopie ihres Im
 
 \subsection{Docker Beispiel}
 
-Programm~\ref{prog:dockerfile} zeigt ein Beispiel für ein "`Dockerfile"', das ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren. Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung aus Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image, das anschließend gestartet wird.
-
+Programm~\ref{prog:dockerfile} zeigt ein Beispiel für ein "`Dockerfile"', das ein Image mit einem Web"=Service erstellt. Im Basis"=Image ist bereits .NET Core -- eine Abhängigkeit des Web"=Services -- vorinstalliert. Im Prinzip erhält die Beschreibung alle notwendigen Schritte, um den Web"=Service auf einem leeren System zu installieren und zu konfigurieren. Die in Programm~\ref{prog:dockercommands} angeführten Kommandozeilenbefehle, erzeugen aus der Imagebeschreibung in Programm~\ref{prog:dockerfile} zuerst ein ausführbares Image, das anschließend gestartet wird.
 
 \begin{program}[!hbt]
 \caption{Beispiel für ein Dockerfile}
@@ -165,7 +164,7 @@ Windows Nano Server & Windows & 1 GB \\
 
 \section{Containerverwaltung}
 
-Einen Container auf nur einem Server zu betreiben, ist eine triviale Aufgabe, aber hunderte Container auf einem Cluster mit mehreren Servern, ist ein ungleich komplexeres Unterfangen \cite{RussinovicContainers}. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel als die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden viele Werkzeuge für die Cluster- und Containerverwaltung entwickelt. Eine essentielle Funktion von diesen Werkzeugen ist es, mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des Weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als kohärente Plattform betrachtet werden. 
+Einen Container auf nur einem Server zu betreiben, ist eine triviale Aufgabe. Jedoch hunderte Container in einem Cluster mit mehreren Servern zu verwalten, ist ein ungleich komplexeres Unterfangen \cite{RussinovicContainers}. Aber dieses Szenario ist in einer Microservice"=Architektur eher die Regel eine die Ausnahme. Um diese Herausforderungen zu bewältigen, wurden viele Werkzeuge für die Cluster- und Containerverwaltung entwickelt. Eine essentielle Funktion von diesen Werkzeugen ist es, mehrere Container zu einer logischen Einheit zusammenzuschließen, sodass diese auch als Einheit verwaltet werden können. Des Weiteren bieten diese Werkzeuge eine Abstraktion der tatsächlichen Infrastruktur. So können mehrere Server zu einem Cluster verbunden und dieser als kohärente Plattform betrachtet werden. 
 
 Der Begriff Orchestrierung beschreibt in der Softwareentwicklung die Kombination mehrere Dienste zu einer Komposition. Auch bei Containern spricht man von Containerorchestrierung, wenn mehrere Container zu einer Einheit zusammengeschlossen werden, um ihren Lebenszyklus gemeinsam zu verwalten. Ein Orchestrierer wird von vielen anderen Komponenten, wie \zB einem Scheduler oder einem Ressourcenmonitor unterstützt. 
 
@@ -185,7 +184,7 @@ Alle Hardwareressourcen, die ein Container in Anspruch nehmen kann, müssen übe
 
 \subsubsection{Serviceverwaltung}
 
-Mehrere Container werden zu einer einzelnen Applikation zusammengefasst, um sie gemeinsam zu verwalten. Im Zuge dessen müssen auch Abhängigkeiten zwischen Containern berücksichtigt werden, um beispielsweise eine sinnvolle Startreihenfolge festzulegen. Damit schlussendlich eine Anwendung auch skalierbar und hoch verfügbar ist, sind Lastverteilungsmechanismen notwendig, die auch vom Orchestrierer verwaltet werden.
+Mehrere Container werden zu einer einzigen Applikation zusammengefasst, um sie gemeinsam zu verwalten. Im Zuge dessen müssen auch Abhängigkeiten zwischen Containern berücksichtigt werden, um beispielsweise eine sinnvolle Startreihenfolge festzulegen. Damit schlussendlich eine Anwendung auch skalierbar und hoch verfügbar ist, sind Lastverteilungsmechanismen notwendig, die auch vom Orchestrierer verwaltet werden.
 
 \subsection{Verteilte Betriebssysteme}
 
