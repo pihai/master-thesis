@@ -442,7 +442,10 @@ acknowledged. I further declare that this or similar work has not been submitted
 %------------ Struktur der Frontseiten -------------------
 
 \renewcommand{\@matitelseiten}{
-\@matitel
+\begin{titlepage}
+	\includepdf[pages={1}]{front/title.pdf}
+\end{titlepage}
+%\@matitel
 %\@copyrightseite
 \@erklaerungsseite
 }
@@ -496,4 +499,8 @@ acknowledged. I further declare that this or similar work has not been submitted
 
 \pdfsuppresswarningpagegroup=1 % see http://tex.stackexchange.com/a/78020
 
+\usepackage{pdfpages}
+
 \endinput
+
+
